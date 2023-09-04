@@ -52,26 +52,33 @@ class UserController extends Controller
     {
         // Validate the form data
         $request->validate([
-            'name' => 'required|string|max:255',
+            'surname' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'middle_name' => ['nullable', 'string', 'max:255'],
             'email' => 'required|string|email|max:255|unique:users,email,' . Auth::id(),
             'address' => 'nullable|string|max:255',
             'gender' => 'nullable|in:male,female,other',
             'date_of_birth' => 'nullable|date',
             'department' => 'nullable|string|max:255',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Get the authenticated user
         $user = Auth::user();
 
-        // Update the user's information
-        $user->update([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'address' => $request->input('address'),
-            'gender' => $request->input('gender'),
-            'date_of_birth' => $request->input('date_of_birth'),
-            'department' => $request->input('department'),
-        ]);
+        // Get the authenticated user
+        if ($request->hasFile('profile_picture')) {
+            // Delete the old profile picture if it exists.
+            if ($user->profile_picture) {
+                Storage::disk('public')->delete($user->profile_picture);
+            }
+
+            // Store the new profile picture.
+            $imagePath = $request->file('profile_picture')->store('profile_pictures', 'public');
+            $user->profile_picture = $imagePath; // Update the user's profile_picture field.
+        }
+
+        // Update other user information.
+        $user->update($request->except('profile_picture'));
 
         return redirect()->route('users.index')->with('success', 'Profile information updated successfully.');
     }

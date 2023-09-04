@@ -1,15 +1,18 @@
 <div class="flex items-center justify-between flex-shrink-0 px-3">
     <!-- Profile Link -->
-    <a href="{{ route('profile-show')}}" class="inline-flex items-center gap-2">
+    <a href="{{ route('profile-show') }}" class="inline-flex flex-col items-center gap-4">
         <!-- Profile Picture -->
-        @if (Auth::user()->profile_picture)
-                            <div class="mb-4">
-                                <img src="{{ Storage::url(Auth::user()->profile_picture) }}" alt="{{ Auth::user()->name }} Profile Picture"
-                                    class="w-32 h-32 object-cover rounded-full">
-                            </div>
-                        @else
-                            <div class="text-gray-400 mb-4">No Profile Picture</div>
-                        @endif
+        <div class="w-32 h-32 rounded-full overflow-hidden">
+            @if (Auth::user()->profile_picture)
+                <img src="{{ Storage::url(Auth::user()->profile_picture) }}" alt="{{ Auth::user()->name }} Profile Picture"
+                    class="w-full h-full object-cover" />
+            @else
+                <img src="{{ asset('images/default-profile.jpeg') }}" alt="Default Profile Picture"
+                    class="w-full h-full object-cover" />
+            @endif
+        </div>
+        <!-- User's Name -->
+        <h1 class="text-xl font-semibold mt-2">{{ Auth::user()->surname }}, {{ Auth::user()->first_name }}</h1>
     </a>
 
     <!-- Toggle Button -->

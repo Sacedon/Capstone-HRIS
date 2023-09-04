@@ -18,8 +18,16 @@
                         @else
                             <div class="text-gray-400 mb-4">No Profile Picture</div>
                         @endif
-                        <div class="text-gray-600">Name</div>
-                        <div class="text-lg font-semibold">{{ $user->name }}</div>
+                        <div class="text-gray-600">Surname</div>
+                        <div class="text-lg font-semibold">{{ $user->surname }}</div>
+                    </div>
+                    <div>
+                        <div class="text-gray-600">Middle Name</div>
+                        <div class="text-lg font-semibold">{{ $user->middle_name }}</div>
+                    </div>
+                    <div>
+                        <div class="text-gray-600">First Name</div>
+                        <div class="text-lg font-semibold">{{ $user->first_name }}</div>
                     </div>
                     <div>
                         <div class="text-gray-600">Email</div>

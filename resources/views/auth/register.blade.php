@@ -7,12 +7,9 @@
             @csrf
 
             <div class="grid gap-6">
-                <!-- Name -->
+                <!-- SurName -->
                 <div class="space-y-2">
-                    <x-form.label
-                        for="name"
-                        :value="__('Name')"
-                    />
+                    <x-form.label for="surname" :value="__('Surname')" />
 
                     <x-form.input-with-icon-wrapper>
                         <x-slot name="icon">
@@ -21,17 +18,61 @@
 
                         <x-form.input
                             withicon
-                            id="name"
+                            id="surname"
                             class="block w-full"
                             type="text"
-                            name="name"
-                            :value="old('name')"
+                            name="surname"
+                            :value="old('surname')"
                             required
-                            autofocus
-                            placeholder="{{ __('Name') }}"
+                            placeholder="{{ __('Surname') }}"
                         />
                     </x-form.input-with-icon-wrapper>
                 </div>
+
+                <div class="grid gap-6">
+                    <!-- First Name -->
+<div class="space-y-2">
+    <x-form.label for="first_name" :value="__('First Name')" />
+
+    <x-form.input-with-icon-wrapper>
+        <x-slot name="icon">
+            <x-heroicon-o-user aria-hidden="true" class="w-5 h-5" />
+        </x-slot>
+
+        <x-form.input
+            withicon
+            id="first_name"
+            class="block w-full"
+            type="text"
+            name="first_name"
+            :value="old('first_name')"
+            required
+            placeholder="{{ __('First Name') }}"
+        />
+    </x-form.input-with-icon-wrapper>
+</div>
+
+                    <div class="grid gap-6">
+                        <!-- Middle Name -->
+<div class="space-y-2">
+    <x-form.label for="middle_name" :value="__('Middle Name')" />
+
+    <x-form.input-with-icon-wrapper>
+        <x-slot name="icon">
+            <x-heroicon-o-user aria-hidden="true" class="w-5 h-5" />
+        </x-slot>
+
+        <x-form.input
+            withicon
+            id="middle_name"
+            class="block w-full"
+            type="text"
+            name="middle_name"
+            :value="old('middle_name')"
+            placeholder="{{ __('Middle Name') }}"
+        />
+    </x-form.input-with-icon-wrapper>
+</div>
 
                 <!-- Email Address -->
                 <div class="space-y-2">

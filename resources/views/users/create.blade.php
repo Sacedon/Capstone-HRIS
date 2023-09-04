@@ -11,10 +11,21 @@
                 <form method="post" action="{{ route('users.store') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-4">
-                        <label for="name" class="block text-sm font-medium text-gray-700">Name:</label>
-                        <input type="text" id="name" name="name" value="{{ old('name') }}" required
+                        <label for="first_name" class="block text-sm font-medium text-gray-700">First Name:</label>
+                        <input type="text" id="first_name" name="first_name" value="{{ old('first_name') }}" required
                             class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                     </div>
+                    <div class="mb-4">
+                        <label for="surname" class="block text-sm font-medium text-gray-700">Surname:</label>
+                        <input type="text" id="surname" name="surname" value="{{ old('surname') }}" required
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
+                    <div class="mb-4">
+                        <label for="middle_name" class="block text-sm font-medium text-gray-700">Middle Name:</label>
+                        <input type="text" id="middle_name" name="middle_name" value="{{ old('middle_name') }}" required
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
+
                     <div class="mb-4">
                         <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
                         <input type="email" id="email" name="email" value="{{ old('email') }}" required

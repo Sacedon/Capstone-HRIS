@@ -34,7 +34,9 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'surname' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'middle_name' => ['nullable', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => 'required|string|min:8|confirmed',
             'role' => 'required|string|in:user,admin',
@@ -50,7 +52,9 @@ class RegisteredUserController extends Controller
             : null;
 
         $user = User::create([
-            'name' => $request->name,
+            'surname' => $data['surname'],
+            'first_name' => $data['first_name'],
+            'middle_name' => $data['middle_name'],
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'role' => $request->role,
@@ -92,7 +96,9 @@ public function update(Request $request, User $user)
 {
     // Validate form data, including profile_picture field.
     $request->validate([
-        'name' => 'required|string|max:255',
+        'surname' => ['required', 'string', 'max:255'],
+        'first_name' => ['required', 'string', 'max:255'],
+        'middle_name' => ['nullable', 'string', 'max:255'],
         'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
         'role' => 'required|string|in:user,admin',
         'address' => 'nullable|string|max:255',
