@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LeaveRequestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,19 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::resource('leave-requests', LeaveRequestController::class);
+    Route::post('/leave-requests/{leaveRequest}/accept', [LeaveRequestController::class, 'accept'])
+    ->name('leave-requests.accept');
+    Route::delete('/leave-requests/{leaveRequest}', [LeaveRequestController::class, 'destroy'])
+        ->name('leave-requests.destroy');
+    Route::post('/leave-requests/{leaveRequest}/reject', [LeaveRequestController::class, 'reject'])->name('leave-requests.reject');
+
+
+
+
+});
 
 
 

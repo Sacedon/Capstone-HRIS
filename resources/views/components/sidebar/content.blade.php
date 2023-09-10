@@ -13,6 +13,16 @@
             <x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
     </x-sidebar.link>
+    <x-sidebar.link
+        title="Request Leave"
+        href="{{ route('leave-requests.create') }}"
+        :isActive="request()->routeIs('leave-requests.create')"
+    >
+        <x-slot name="icon">
+            <x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+        </x-slot>
+    </x-sidebar.link>
+
 
     <x-sidebar.dropdown
         title="Manage Users"
@@ -37,6 +47,21 @@
             href="{{ route('buttons.text-icon') }}"
             :active="request()->routeIs('buttons.text-icon')"
         />
+    </x-sidebar.dropdown>
+    <x-sidebar.dropdown
+        title="Leave Management"
+        :active="Str::startsWith(request()->route()->uri(), 'index')"
+    >
+        <x-slot name="icon">
+            <x-heroicon-o-view-grid class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+        </x-slot>
+
+        <x-sidebar.sublink
+            title="Leave"
+            href="{{ route('leave-requests.index') }}"
+            :active="request()->routeIs('leave-requests.index.*')"
+        />
+
     </x-sidebar.dropdown>
 
 
