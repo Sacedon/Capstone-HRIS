@@ -8,6 +8,27 @@
     <div class="container mx-auto py-6">
         <h2 class="text-3xl font-semibold text-gray-800 mb-6">Leave Requests</h2>
 
+        <div class="mb-4 relative">
+            <select id="filterDropdown" class="block appearance-none bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                <option value="{{ route('leave-requests.index') }}">Select Status</option>
+                <option value="{{ route('leave-requests.index') }}">All Requests</option>
+                <option value="{{ route('leave-requests.filtered', 'accepted') }}">Accepted</option>
+                <option value="{{ route('leave-requests.filtered', 'rejected') }}">Rejected</option>
+                <option value="{{ route('leave-requests.filtered', 'pending') }}">Pending</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.293a1 1 0 011.414 0L12 13.586l1.293-1.293a1 1 0 111.414 1.414l-2 2a1 1 0 01-1.414 0l-2-2a1 1 0 010-1.414 1 1 0 011.414 0z"/></svg>
+            </div>
+        </div>
+
+        <script>
+            document.getElementById('filterDropdown').addEventListener('change', function() {
+                var selectedOption = this.value;
+                window.location = selectedOption;
+            });
+        </script>
+
+
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 bg-white border-b border-gray-200">
                 <div class="overflow-x-auto">

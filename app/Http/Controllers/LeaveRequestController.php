@@ -85,4 +85,14 @@ public function destroy(LeaveRequest $leaveRequest)
 
         return redirect()->route('leave-requests.index')->with('success', 'Leave request deleted successfully.');
     }
+
+    public function filtered($status)
+{
+    // Retrieve leave requests based on the status
+    $leaveRequests = LeaveRequest::where('status', $status)->get();
+
+    // Return the view with filtered leave requests
+    return view('leave_requests.index', compact('leaveRequests'));
+}
+
 }

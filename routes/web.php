@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/leave-requests/{leaveRequest}', [LeaveRequestController::class, 'destroy'])
         ->name('leave-requests.destroy');
     Route::post('/leave-requests/{leaveRequest}/reject', [LeaveRequestController::class, 'reject'])->name('leave-requests.reject');
+    Route::get('leave-requests/filtered/{status}', [LeaveRequestController::class, 'filtered'])->name('leave-requests.filtered');
 
 
 
