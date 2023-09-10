@@ -67,6 +67,72 @@
                             class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                     </div>
                     <div class="mb-4">
+                        <label for="civil_status" class="block text-sm font-medium text-gray-700">Civil Status:</label>
+                        <select id="civil_status" name="civil_status"
+                            class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="single" {{ old('civil_status', $user->civil_status) === 'single' ? 'selected' : '' }}>Single</option>
+                            <option value="married" {{ old('civil_status', $user->civil_status) === 'married' ? 'selected' : '' }}>Married</option>
+                            <option value="divorced" {{ old('civil_status', $user->civil_status) === 'divorced' ? 'selected' : '' }}>Divorced</option>
+                            <option value="widowed" {{ old('civil_status', $user->civil_status) === 'widowed' ? 'selected' : '' }}>Widowed</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="height" class="block text-sm font-medium text-gray-700">Height (m):</label>
+                        <input type="number" id="height" name="height"
+                        step="0.01"
+                            value="{{ old('height', $user->height) }}"
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
+                    <div class="mb-4">
+                        <label for="weight" class="block text-sm font-medium text-gray-700">Weight (kg):</label>
+                        <input type="number" id="weight" name="weight"
+                            value="{{ old('weight', $user->weight) }}"
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
+                    <div class="mb-4">
+                        <label for="blood_type" class="block text-sm font-medium text-gray-700">Blood Type:</label>
+                        <input type="text" id="blood_type" name="blood_type"
+                            value="{{ old('blood_type', $user->blood_type) }}"
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
+                    <div class="mb-4">
+                        <label for="sss_id_no" class="block text-sm font-medium text-gray-700">SSS ID NO:</label>
+                        <input type="text" id="sss_id_no" name="sss_id_no"
+                            value="{{ old('sss_id_no', $user->sss_id_no) }}"
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
+                    <div class="mb-4">
+                        <label for="pag_ibig_id_no" class="block text-sm font-medium text-gray-700">PAG-IBIG ID NO:</label>
+                        <input type="text" id="pag_ibig_id_no" name="pag_ibig_id_no"
+                            value="{{ old('pag_ibig_id_no', $user->pag_ibig_id_no) }}"
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
+                    <div class="mb-4">
+                        <label for="philhealth_no" class="block text-sm font-medium text-gray-700">PHILHEALTH NO:</label>
+                        <input type="text" id="philhealth_no" name="philhealth_no"
+                            value="{{ old('philhealth_no', $user->philhealth_no) }}"
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
+                    <div class="mb-4">
+                        <label for="tin_no" class="block text-sm font-medium text-gray-700">TIN NO:</label>
+                        <input type="text" id="tin_no" name="tin_no"
+                            value="{{ old('tin_no', $user->tin_no) }}"
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
+                    <div class="mb-4">
+                        <label for="mdc_id" class="block text-sm font-medium text-gray-700">MDC-ID No:</label>
+                        <input type="text" id="mdc_id" name="mdc_id"
+                            value="{{ old('mdc_id', $user->mdc_id) }}"
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
+                    <div class="mb-4">
+                        <label for="place_of_birth" class="block text-sm font-medium text-gray-700">Place of Birth:</label>
+                        <input type="text" id="place_of_birth" name="place_of_birth"
+                            value="{{ old('place_of_birth', $user->place_of_birth) }}"
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
+
+                    <div class="mb-4">
                         <label for="profile_picture" class="block text-sm font-medium text-gray-700">Profile Picture</label>
                         <input type="file" id="profile_picture" name="profile_picture" accept="image/*">
                     </div>

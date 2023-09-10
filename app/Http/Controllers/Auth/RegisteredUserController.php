@@ -34,6 +34,7 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
+            'username' => ['required', 'string', 'max:255', 'unique:users'],
             'surname' => ['required', 'string', 'max:255'],
             'first_name' => ['required', 'string', 'max:255'],
             'middle_name' => ['nullable', 'string', 'max:255'],
@@ -45,6 +46,16 @@ class RegisteredUserController extends Controller
             'date_of_birth' => 'nullable|date',
             'department' => 'nullable|string|max:255',
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'civil_status' => ['nullable', 'string', 'in:single,married,separated,widowed'],
+            'height' => ['nullable', 'numeric', 'min:0'],
+            'weight' => ['nullable', 'numeric', 'min:0'],
+            'blood_type' => ['nullable', 'string', 'max:255'],
+            'sss_id_no' => ['nullable', 'string', 'max:255'],
+            'pag_ibig_id_no' => ['nullable', 'string', 'max:255'],
+            'philhealth_no' => ['nullable', 'string', 'max:255'],
+            'tin_no' => ['nullable', 'string', 'max:255'],
+            'mdc_id' => ['nullable', 'string', 'max:255'],
+            'place_of_birth' => ['nullable', 'string', 'max:255'],
         ]);
 
         $imagePath = $request->hasFile('profile_picture')
@@ -52,9 +63,10 @@ class RegisteredUserController extends Controller
             : null;
 
         $user = User::create([
-            'surname' => $data['surname'],
-            'first_name' => $data['first_name'],
-            'middle_name' => $data['middle_name'],
+            'username' => $request->username,
+            'surname' => $request->surname,
+            'first_name' => $request->first_name,
+            'middle_name' => $request->middle_name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'role' => $request->role,
@@ -63,6 +75,16 @@ class RegisteredUserController extends Controller
             'date_of_birth' => $request->date_of_birth,
             'department' => $request->department,
             'profile_picture' => $imagePath,
+            'civil_status' => $request->civil_status,
+            'height' => $request->height,
+            'weight' => $request->weight,
+            'blood_type' => $request->blood_type,
+            'sss_id_no' => $request->sss_id_no,
+            'pag_ibig_id_no' => $request->pag_ibig_id_no,
+            'philhealth_no' => $request->philhealth_no,
+            'tin_no' => $request->tin_no,
+            'mdc_id' => $request->mdc_id,
+            'place_of_birth' => $request->place_of_birth,
         ]);
 
         event(new Registered($user));
@@ -106,6 +128,16 @@ public function update(Request $request, User $user)
         'date_of_birth' => 'nullable|date',
         'department' => 'nullable|string|max:255',
         'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the validation rules as needed.
+        'civil_status' => ['nullable', 'string', 'in:single,married,separated,widowed'],
+        'height' => ['nullable', 'numeric', 'min:0', 'max:999.99'],
+        'weight' => ['nullable', 'numeric', 'min:0', 'max:999.99'],
+        'blood_type' => ['nullable', 'string', 'max:255'],
+        'sss_id_no' => ['nullable', 'string', 'max:255'],
+        'pag_ibig_id_no' => ['nullable', 'string', 'max:255'],
+        'philhealth_no' => ['nullable', 'string', 'max:255'],
+        'tin_no' => ['nullable', 'string', 'max:255'],
+        'mdc_id' => ['nullable', 'string', 'max:255'],
+        'place_of_birth' => ['nullable', 'string', 'max:255'],
     ]);
 
     // Handle profile picture upload.
