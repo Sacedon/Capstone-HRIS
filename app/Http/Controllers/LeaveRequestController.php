@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\LeaveRequest;
+use App\Models\User;
+use App\Notifications\LeaveRequestAccepted;
+use Illuminate\Support\Facades\Notification;
 
 class LeaveRequestController extends Controller
 {
@@ -38,7 +41,7 @@ class LeaveRequestController extends Controller
             'status' => $request->input('status'),
         ]);
 
-        return redirect()->route('leave-requests.index')->with('success', 'Leave request submitted successfully.');
+        return redirect()->route('dashboard')->with('success', 'Leave request submitted successfully.');
     }
 
     public function show(LeaveRequest $leaveRequest)
@@ -48,11 +51,14 @@ class LeaveRequestController extends Controller
 
 public function accept(Request $request, LeaveRequest $leaveRequest)
 {
+
     // Check if the leave request status is pending before accepting
     if ($leaveRequest->status === 'pending') {
         $leaveRequest->update([
             'status' => 'accepted',
         ]);
+
+
 
         return redirect()->route('leave-requests.index', $leaveRequest)->with('success', 'Leave request accepted.');
     }
@@ -62,11 +68,14 @@ public function accept(Request $request, LeaveRequest $leaveRequest)
 
 public function reject(LeaveRequest $leaveRequest)
 {
+
     // Check if the leave request status is pending before rejecting
     if ($leaveRequest->status === 'pending') {
         $leaveRequest->update([
             'status' => 'rejected',
         ]);
+
+
 
         return redirect()->route('leave-requests.index', $leaveRequest)->with('success', 'Leave request rejected.');
     }
@@ -93,6 +102,16 @@ public function destroy(LeaveRequest $leaveRequest)
 
     // Return the view with filtered leave requests
     return view('leave_requests.index', compact('leaveRequests'));
+}
+
+public function dashboard()
+{
+    $totalUsers = User::count();
+    $totalAcceptedRequests = LeaveRequest::where('status', 'accepted')->count();
+    $totalPendingRequests = LeaveRequest::where('status', 'pending')->count();
+    $totalRejectedRequests = LeaveRequest::where('status', 'rejected')->count();
+
+    return view('dashboard', compact('totalUsers', 'totalAcceptedRequests', 'totalPendingRequests', 'totalRejectedRequests'));
 }
 
 }

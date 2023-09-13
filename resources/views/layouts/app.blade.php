@@ -12,7 +12,20 @@
         href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet" />
 
+        <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha384-ezFwdf5z5s5p9jk7c8F78xi4B7H5u1bF5eKfMGcaLq1fo2w5kgZt6i3GkL8jG5ts"
+        crossorigin="anonymous"
+    />
+
+
+
+
+
+
     <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <style>
         [x-cloak] {
             display: none;
@@ -20,16 +33,21 @@
     </style>
 
     <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.x.x/dist/alpine.min.js" defer></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="font-sans antialiased">
+
     <div
         x-data="mainState"
         :class="{ dark: isDarkMode }"
         x-on:resize.window="handleWindowResize"
         x-cloak
+
     >
+
+
         <div class="min-h-screen text-gray-900 bg-gray-100 dark:bg-dark-eval-0 dark:text-gray-200">
             <!-- Sidebar -->
             <x-sidebar.sidebar />

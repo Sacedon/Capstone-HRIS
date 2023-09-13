@@ -52,6 +52,13 @@
             />
         </x-button>
 
+
+        <x-notification-dropdown />
+
+
+
+
+
         <x-dropdown align="right" width="48">
             <x-slot name="trigger">
                 <button

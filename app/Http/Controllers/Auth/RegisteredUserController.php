@@ -95,13 +95,28 @@ class RegisteredUserController extends Controller
             ->with('success', 'User created successfully.');
     }
 
-    public function index()
+    public function index(Request $request)
 {
+    $search = $request->input('search');
 
-    $users = User::all();
+    $users = User::query();
+
+    if ($search) {
+        $users->where('surname', 'like', '%' . $search . '%'); // Search by surname
+    }
+
+    $users = $users->get();
+
     $header = 'Users'; // Set the header title
+
+    // Check if no users were found
+    if ($users->isEmpty()) {
+        return redirect()->route('users.index')->withErrors('No users found for the given search criteria.');
+    }
+
     return view('users.index', compact('users', 'header'));
 }
+
 
 public function show(User $user)
     {
