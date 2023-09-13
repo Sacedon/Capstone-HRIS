@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\LeaveRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Session;
 use App\Notifications\LeaveRequestAccepted;
 use Illuminate\Support\Facades\Notification;
+use App\Notifications\LeaveRequestRejected;
 
 class LeaveRequestController extends Controller
 {
@@ -58,6 +60,8 @@ public function accept(Request $request, LeaveRequest $leaveRequest)
             'status' => 'accepted',
         ]);
 
+        $leaveRequest->user->notify(new LeaveRequestAccepted($leaveRequest));
+
 
 
         return redirect()->route('leave-requests.index', $leaveRequest)->with('success', 'Leave request accepted.');
@@ -76,6 +80,7 @@ public function reject(LeaveRequest $leaveRequest)
         ]);
 
 
+        $leaveRequest->user->notify(new LeaveRequestRejected($leaveRequest));
 
         return redirect()->route('leave-requests.index', $leaveRequest)->with('success', 'Leave request rejected.');
     }

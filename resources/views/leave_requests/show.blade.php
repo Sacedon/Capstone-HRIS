@@ -32,7 +32,7 @@
 
                 <!-- Actions Buttons (if pending) -->
                 @if ($leaveRequest->status === 'pending')
-                    <form method="POST" action="{{ route('leave-requests.accept', $leaveRequest) }}" class="inline">
+                    <form method="POST" action="{{ route('leave-requests.accept', ['leaveRequest' => $leaveRequest->id]) }}" class="inline">
                         @csrf
                         <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full mt-4 mr-2">
                             Accept Leave Request

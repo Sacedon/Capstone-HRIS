@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class LeaveRequestAccepted extends Notification
+class LeaveRequestRejected extends Notification
 {
     use Queueable;
 
@@ -27,20 +27,20 @@ class LeaveRequestAccepted extends Notification
      *
      * @return array<int, string>
      */
-    public function via($notifiable)
+    public function via(object $notifiable): array
     {
-        return ['mail', 'database']; // You can send notifications through multiple channels
+        return ['mail', 'database'];
     }
 
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail($notifiable)
+    public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->line('Your leave request has been accepted.') // Updated message
-            ->line('Status: ' . $this->leaveRequest->status)
-            ->action('View Leave Request', route('leave-requests.show', $this->leaveRequest->id));
+        ->line('Your leave request has been rejected.') // Updated message
+        ->line('Status: ' . $this->leaveRequest->status)
+        ->action('View Leave Request', route('leave-requests.show', $this->leaveRequest->id));
     }
 
     /**
@@ -48,10 +48,10 @@ class LeaveRequestAccepted extends Notification
      *
      * @return array<string, mixed>
      */
-    public function toArray($notifiable)
+    public function toArray(object $notifiable): array
     {
         return [
-            'message' => 'Your leave request has been accepted.', // Customize the message as needed
+            'message' => 'Your leave request has been rejected.', // Customize the message as needed
             'link' => '/leave-requests/' . $this->leaveRequest->id,
         ];
     }
