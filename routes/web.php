@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 });
+
+Route::middleware('auth')->group(function () {
+    Route::post('/notifications/mark-as-read/{notification}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+    Route::delete('/notifications/remove/{notification}', [NotificationController::class, 'remove'])->name('notifications.remove');
+
+
+
+});
+
 
 
 Route::middleware('auth')->group(function () {

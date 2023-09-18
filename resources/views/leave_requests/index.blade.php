@@ -28,7 +28,6 @@
             });
         </script>
 
-
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 bg-white border-b border-gray-200">
                 <div class="overflow-x-auto">
@@ -51,7 +50,17 @@
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ $leaveRequest->end_date }}</td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ $leaveRequest->reason }}</td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                        <span class="px-2 py-1 text-xs font-semibold leading-5 text-white bg-{{ $leaveRequest->status === 'pending' ? 'yellow' : 'green' }}-500 rounded-full">{{ $leaveRequest->status }}</span>
+                                        <span class="px-2 py-1 text-xs font-semibold leading-5 text-white
+                                            @if ($leaveRequest->status === 'pending')
+                                                bg-yellow-500
+                                            @elseif ($leaveRequest->status === 'rejected')
+                                                bg-red-500 text-white
+                                            @else
+                                                bg-green-500
+                                            @endif
+                                            rounded-full">
+                                            {{ $leaveRequest->status }}
+                                        </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                         <a href="{{ route('leave-requests.show', $leaveRequest->id) }}" class="text-indigo-600 hover:text-indigo-900">View</a>

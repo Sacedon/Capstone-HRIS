@@ -1,14 +1,14 @@
-<div class="relative">
+<div class="relative" x-data="{ open: false }">
     <button
         type="button"
         class="relative p-2 text-gray-500 rounded-full hover:text-gray-700 focus:outline-none focus:ring focus:ring-purple-500 focus:ring-offset-1 focus:ring-offset-white dark:focus:ring-offset-dark-eval-1 dark:text-gray-400 dark:hover:text-gray-200"
         aria-label="Notifications"
         x-on:click="open = !open"
     >
-        @if (auth()->user()->unreadNotifications->isNotEmpty())
-            <!-- Add a red badge with the number of unread notifications -->
+        @if (auth()->user()->notifications->isNotEmpty())
+            <!-- Add a red badge with the number of notifications -->
             <span class="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                {{ auth()->user()->unreadNotifications->count() }}
+                {{ auth()->user()->notifications->count() }}
             </span>
         @endif
         <div class="ml-1">
@@ -24,14 +24,28 @@
         <!-- Replace this with your notification items -->
         <div class="p-4">
             <div class="font-semibold mb-2">Notifications</div>
-            @foreach(auth()->user()->unreadNotifications as $notification)
-                <a href="{{ $notification->data['link'] }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
-                    {{ $notification->data['message'] }}
-                </a>
-                <!-- Mark the notification as read -->
-                {{ $notification->markAsRead() }}
+            @foreach(auth()->user()->notifications as $notification)
+                <div class="flex justify-between items-center border-b border-gray-300 py-2">
+                    <div>
+                        <span class="text-gray-800">{{ $notification->data['message'] }}</span>
+                        <br>
+                        <small class="text-gray-500">{{ $notification->created_at->format('M d, Y H:i A') }}</small>
+                    </div>
+                    <div>
+                        <form method="POST" action="{{ route('notifications.remove', $notification->id) }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-gray-500 hover:text-red-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                    <path d="M4.293 4.293a1 1 0 0 1 1.414 0L8 6.586l2.293-2.293a1 1 0 1 1 1.414 1.414L9.414 8l2.293 2.293a1 1 0 1 1-1.414 1.414L8 9.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L6.586 8 4.293 5.707a1 1 0 0 1 0-1.414z"/>
+                                </svg>
+
+                            </button>
+                        </form>
+                    </div>
+                </div>
             @endforeach
-            @if (auth()->user()->unreadNotifications->isEmpty())
+            @if (auth()->user()->notifications->isEmpty())
                 <p class="text-gray-500 py-2">No new notifications.</p>
             @endif
         </div>

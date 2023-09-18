@@ -39,8 +39,8 @@ class LeaveRequestAccepted extends Notification
     {
         return (new MailMessage)
             ->line('Your leave request has been accepted.') // Updated message
-            ->line('Status: ' . $this->leaveRequest->status)
-            ->action('View Leave Request', route('leave-requests.show', $this->leaveRequest->id));
+            ->line('Status: ' . $this->leaveRequest->status);
+
     }
 
     /**
