@@ -7,6 +7,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\DepartmentController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +28,17 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+});
+
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
+    Route::get('/departments/create', [DepartmentController::class, 'create'])->name('departments.create');
+    Route::post('/departments', [DepartmentController::class, 'store'])->name('departments.store');
+    Route::get('/departments/{department}/edit', [DepartmentController::class, 'edit'])->name('departments.edit');
+    Route::put('/departments/{department}', [DepartmentController::class, 'update'])->name('departments.update');
+    Route::delete('/departments/{department}', [DepartmentController::class, 'destroy'])->name('departments.destroy');
 });
 
 Route::middleware('auth')->group(function () {

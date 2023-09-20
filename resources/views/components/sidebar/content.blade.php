@@ -24,6 +24,7 @@
     </x-sidebar.link>
 
 
+
     <x-sidebar.dropdown
         title="Manage Users"
         :active="Str::startsWith(request()->route()->uri(), 'index')"
@@ -38,9 +39,9 @@
             :active="request()->routeIs('users.index.*')"
         />
         <x-sidebar.sublink
-            title="Icon button"
-            href="{{ route('buttons.icon') }}"
-            :active="request()->routeIs('buttons.icon')"
+            title="Departments"
+            href="{{ route('departments.index') }}"
+            :active="request()->routeIs('departments.index')"
         />
         <x-sidebar.sublink
             title="Text with icon"

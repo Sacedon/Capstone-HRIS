@@ -8,6 +8,8 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+                <h1 class="text-2xl font-semibold mb-4">Create User</h1>
+
                 <form method="post" action="{{ route('users.store') }}" enctype="multipart/form-data">
                     @csrf
 
@@ -28,7 +30,8 @@
                     </div>
                     <div class="mb-4">
                         <label for="middle_name" class="block text-sm font-medium text-gray-700">Middle Name:</label>
-                        <input type="text" id="middle_name" name="middle_name" value="{{ old('middle_name') }}" required
+                        <input type="text" id="middle_name" name="middle_name" value="{{ old('middle_name') }}"
+                            required
                             class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                     </div>
 
@@ -57,12 +60,16 @@
                         </select>
                     </div>
 
-
                     <div class="mb-4">
                         <label for="department" class="block text-sm font-medium text-gray-700">Department:</label>
-                        <input type="text" id="department" name="department"
-                            value="{{ old('department') }}"
-                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        <select id="department" name="department"
+                            class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            @foreach ($departments as $department)
+                                <option value="{{ $department->name }}" {{ optional($user->department)->name === $department->name ? 'selected' : '' }}>
+                                    {{ $department->name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <div class="mb-4">
@@ -70,6 +77,8 @@
                         <input type="file" id="profile_picture" name="profile_picture"
                             class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                     </div>
+
+
 
                     <div class="flex items-center justify-end">
                         <button type="submit"

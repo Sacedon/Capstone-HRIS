@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Department;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -23,7 +24,9 @@ class RegisteredUserController extends Controller
     public function create(): View
     {
 
-        return view('users.create');
+        $departments = Department::all();
+        $user = new User();
+        return view('users.create', compact('departments', 'user'));
     }
 
     /**
@@ -44,7 +47,7 @@ class RegisteredUserController extends Controller
             'address' => 'nullable|string|max:255',
             'gender' => 'nullable|in:male,female,other',
             'date_of_birth' => 'nullable|date',
-            'department' => 'nullable|string|max:255',
+            'department' => 'nullable|string|in:CAST,CCJ,COE,CON,CABM-H,CABM-M',
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'civil_status' => ['nullable', 'string', 'in:single,married,separated,widowed'],
             'height' => ['nullable', 'numeric', 'min:0'],
@@ -73,7 +76,7 @@ class RegisteredUserController extends Controller
             'address' => $request->address,
             'gender' => $request->gender,
             'date_of_birth' => $request->date_of_birth,
-            'department' => $request->department,
+            'department_id' => Department::where('name', $request->input('department'))->first()->id,
             'profile_picture' => $imagePath,
             'civil_status' => $request->civil_status,
             'height' => $request->height,
@@ -126,7 +129,9 @@ public function show(User $user)
 
 public function edit(User $user)
 {
-    return view('users.edit', compact('user'));
+
+    $departments = Department::all();
+    return view('users.edit', compact('user', 'departments'));
 }
 
 public function update(Request $request, User $user)
@@ -141,7 +146,7 @@ public function update(Request $request, User $user)
         'address' => 'nullable|string|max:255',
         'gender' => 'nullable|in:male,female,other',
         'date_of_birth' => 'nullable|date',
-        'department' => 'nullable|string|max:255',
+        'department' => 'nullable|string|in:CAST,CCJ,COE,CON,CABM-H,CABM-M',
         'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the validation rules as needed.
         'civil_status' => ['nullable', 'string', 'in:single,married,separated,widowed'],
         'height' => ['nullable', 'numeric', 'min:0', 'max:999.99'],
@@ -167,8 +172,16 @@ public function update(Request $request, User $user)
         $user->profile_picture = $imagePath; // Update the user's profile_picture field.
     }
 
+    if ($request->has('department')) {
+        $department = Department::where('name', $request->input('department'))->first();
+        $user->department()->associate($department);
+    }
+
     // Update other user information.
-    $user->update($request->except('profile_picture'));
+    $user->update(array_merge(
+        $request->except('profile_picture', 'department'),
+        ['department_id' => Department::where('name', $request->input('department'))->first()->id]
+    ));
 
     return redirect()->route('users.index')->with('success', 'User updated successfully.');
 }

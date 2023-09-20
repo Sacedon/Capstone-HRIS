@@ -20,8 +20,9 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->enum('gender', ['male', 'female', 'other'])->nullable();
             $table->date('date_of_birth')->nullable();
-            $table->string('department')->nullable();
             $table->string('profile_picture')->nullable();
+            $table->unsignedBigInteger('department_id')->nullable();
+            $table->foreign('department_id')->references('id')->on('departments');
             $table->rememberToken();
             $table->timestamps();
         });
