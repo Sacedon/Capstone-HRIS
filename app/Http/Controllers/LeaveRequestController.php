@@ -31,6 +31,7 @@ class LeaveRequestController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
             'reason' => 'required|string|max:255',
+            'leave_type' => 'required|in:vacation,sick,personal',
         ]);
 
         $request->merge(['status' => 'pending']);
@@ -41,6 +42,8 @@ class LeaveRequestController extends Controller
             'end_date' => $request->input('end_date'),
             'reason' => $request->input('reason'),
             'status' => $request->input('status'),
+            'leave_type' => $request->input('leave_type')
+
         ]);
 
         return redirect()->route('dashboard')->with('success', 'Leave request submitted successfully.');

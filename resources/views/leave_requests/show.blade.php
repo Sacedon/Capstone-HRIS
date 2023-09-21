@@ -21,6 +21,10 @@
                         <dd>{{ $leaveRequest->end_date }}</dd>
                     </div>
                     <div class="mb-2">
+                        <dt class="text-gray-600">Leave Type:</dt> <!-- Add this line -->
+                        <dd>{{ $leaveRequest->leave_type }}</dd> <!-- Display leave_type here -->
+                    </div>
+                    <div class="mb-2">
                         <dt class="text-gray-600">Reason for Leave:</dt>
                         <dd>{{ $leaveRequest->reason }}</dd>
                     </div>
