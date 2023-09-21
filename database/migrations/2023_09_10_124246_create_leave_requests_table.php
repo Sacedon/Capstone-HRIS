@@ -17,6 +17,7 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->string('reason');
+            $table->string('other_reason');
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->enum('leave_type', ['vacation', 'sick', 'personal'])->default('vacation');
             $table->timestamps();

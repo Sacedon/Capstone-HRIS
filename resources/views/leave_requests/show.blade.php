@@ -21,12 +21,21 @@
                         <dd>{{ $leaveRequest->end_date }}</dd>
                     </div>
                     <div class="mb-2">
-                        <dt class="text-gray-600">Leave Type:</dt> <!-- Add this line -->
-                        <dd>{{ $leaveRequest->leave_type }}</dd> <!-- Display leave_type here -->
+                        <dt class="text-gray-600">Leave Type:</dt>
+                        <dd>{{ $leaveRequest->leave_type }}</dd>
                     </div>
                     <div class="mb-2">
-                        <dt class="text-gray-600">Reason for Leave:</dt>
-                        <dd>{{ $leaveRequest->reason }}</dd>
+                        <dt class="text-gray-600">Reason:</dt>
+                        @if ($leaveRequest->leave_type === 'sick')
+                            <dd>{{ $leaveRequest->reason }}</dd>
+                        @else
+                            <dd>{{ $leaveRequest->other_reason }}</dd>
+                        @endif
+
+                        @if ($leaveRequest->leave_type === 'sick' && !empty($leaveRequest->other_reason))
+                        <dt class="text-gray-600">Explanation of your Leave:</dt>
+                        <dd>{{ $leaveRequest->other_reason }}</dd>
+                        @endif
                     </div>
                     <div class="mb-2">
                         <dt class="text-gray-600">Status:</dt>

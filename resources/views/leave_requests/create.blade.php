@@ -24,9 +24,9 @@
 
                 <div class="mb-4" id="reason-container">
                     <!-- Initially hidden, will be shown only when "Sick" is selected -->
-                    <label for="reason" class="block text-sm font-medium text-gray-700">Reason for Leave:</label>
+                    <label for="reason" class="block text-sm font-medium text-gray-700">Specific Type of Sick:</label>
                     <select name="reason" id="reason"
-                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                         <!-- Options for "Sick" leave type reasons -->
                         <option value="Flu">Flu</option>
                         <option value="Cough">Cough</option>
@@ -35,8 +35,31 @@
                     </select>
                 </div>
 
-                <div class="mb-4 hidden" id="other-reason-container">
-                    <!-- Initially hidden, will be shown for other leave types -->
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        // Get the leave type dropdown element and reason container
+                        const leaveTypeDropdown = document.getElementById("leave_type");
+                        const reasonContainer = document.getElementById("reason-container");
+
+                        // Event listener for leave type dropdown change
+                        leaveTypeDropdown.addEventListener("change", function () {
+                            const selectedLeaveType = this.value;
+
+                            // Toggle visibility of reason container based on the selected leave type
+                            if (selectedLeaveType === "sick") {
+                                reasonContainer.style.display = "block";
+                            } else {
+                                reasonContainer.style.display = "none";
+                            }
+                        });
+
+                        // Trigger change event to set the initial state
+                        leaveTypeDropdown.dispatchEvent(new Event("change"));
+                    });
+                </script>
+
+                <div class="mb-4" id="other-reason-container">
+                    <!-- Always shown for all leave types -->
                     <label for="other_reason" class="block text-sm font-medium text-gray-700">Reason for Leave:</label>
                     <input type="text" name="other_reason" id="other_reason"
                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
@@ -63,40 +86,4 @@
             </form>
         </div>
     </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Get the leave type dropdown element
-            const leaveTypeDropdown = document.getElementById("leave_type");
-
-            // Get the reason containers
-            const sickReasonContainer = document.getElementById("reason-container");
-            const otherReasonContainer = document.getElementById("other-reason-container");
-
-            // Get the reason select and input elements
-            const reasonSelect = document.getElementById("reason");
-            const otherReasonInput = document.getElementById("other_reason");
-
-            // Event listener for leave type dropdown change
-            leaveTypeDropdown.addEventListener("change", function () {
-                const selectedLeaveType = this.value;
-
-                // Hide/show reason containers based on the selected leave type
-                if (selectedLeaveType === "sick") {
-                    sickReasonContainer.style.display = "block";
-                    otherReasonContainer.style.display = "none";
-                    reasonSelect.required = true;
-                    otherReasonInput.required = false;
-                } else {
-                    sickReasonContainer.style.display = "none";
-                    otherReasonContainer.style.display = "block";
-                    reasonSelect.required = false;
-                    otherReasonInput.required = true;
-                }
-            });
-
-            // Trigger change event to set the initial state
-            leaveTypeDropdown.dispatchEvent(new Event("change"));
-        });
-    </script>
 </x-app-layout>

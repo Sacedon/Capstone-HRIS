@@ -31,7 +31,9 @@ class LeaveRequestController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
             'reason' => 'required|string|max:255',
+            'other_reason' => 'required|string|max:255',
             'leave_type' => 'required|in:vacation,sick,personal',
+
         ]);
 
         $request->merge(['status' => 'pending']);
@@ -41,6 +43,7 @@ class LeaveRequestController extends Controller
             'start_date' => $request->input('start_date'),
             'end_date' => $request->input('end_date'),
             'reason' => $request->input('reason'),
+            'other_reason' => $request->input('other_reason'),
             'status' => $request->input('status'),
             'leave_type' => $request->input('leave_type')
 
