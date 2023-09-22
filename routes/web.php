@@ -79,6 +79,7 @@ Route::middleware('auth')->group(function () {
     Route::get('profile-show', [UserController::class, 'show'])->name('profile-show');
     Route::post('profile-show', [UserController::class, 'updateProfilePicture'])->name('profile-show');
     Route::put('profile-show', [UserController::class, 'update'])->name('profile-show');
+    Route::get('/user_report', [UserController::class, 'generate'])->name('user_report');
 });
 
 
@@ -102,6 +103,9 @@ Route::get('/users/{user}', [RegisteredUserController::class, 'show'])->name('us
 
 // Route to display a list of users
 Route::get('/users', [RegisteredUserController::class, 'index'])->name('users.index');
+
+
+
 });
 
 

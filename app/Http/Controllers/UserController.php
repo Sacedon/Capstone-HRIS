@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Department;
 use Illuminate\Support\Facades\Storage; // Import the Storage facade.
 use App\Models\User;
+use Illuminate\Support\Facades\Response;
+use PDF;
 
 class UserController extends Controller
 {
@@ -91,4 +93,20 @@ class UserController extends Controller
 
         return redirect()->route('users.index')->with('success', 'Profile information updated successfully.');
     }
+
+    public function generate()
+{
+    // Generate the report content here, for example, using Laravel PDF.
+    // Replace this with your report generation logic.
+
+    $users = User::all();
+
+    $pdf = PDF::loadView('reports.user_report', compact('users'));
+
+    // Save the generated PDF to storage.
+    Storage::disk('public')->put('reports/user_report.pdf', $pdf->output());
+
+    // Provide a link to download the generated report.
+    return response()->download(storage_path('app/public/reports/user_report.pdf'))->deleteFileAfterSend(true);
+}
 }
