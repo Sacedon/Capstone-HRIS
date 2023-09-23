@@ -158,6 +158,23 @@ public function update(Request $request, User $user)
         'tin_no' => ['nullable', 'string', 'max:255'],
         'mdc_id' => ['nullable', 'string', 'max:255'],
         'place_of_birth' => ['nullable', 'string', 'max:255'],
+        'residential_house_no' => 'nullable|string|max:255',
+        'residential_street' => 'nullable|string|max:255',
+        'residential_subdivision' => 'nullable|string|max:255',
+        'residential_barangay' => 'nullable|string|max:255',
+        'residential_city' => 'nullable|string|max:255',
+        'residential_province' => 'nullable|string|max:255',
+        'residential_zip_code' => 'nullable|string|max:10',
+        'permanent_house_no' => 'nullable|string|max:255',
+        'permanent_street' => 'nullable|string|max:255',
+        'permanent_subdivision' => 'nullable|string|max:255',
+        'permanent_barangay' => 'nullable|string|max:255',
+        'permanent_city' => 'nullable|string|max:255',
+        'permanent_province' => 'nullable|string|max:255',
+        'permanent_zip_code' => 'nullable|string|max:10',
+        'telephone_number' => 'nullable|string|max:20',
+        'mobile_number' => 'nullable|string|max:20',
+        'messenger_account' => 'nullable|string|max:255',
     ]);
 
     // Handle profile picture upload.

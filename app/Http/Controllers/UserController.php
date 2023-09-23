@@ -91,7 +91,7 @@ class UserController extends Controller
         // Update other user information.
         $user->update($request->except('profile_picture'));
 
-        return redirect()->route('users.index')->with('success', 'Profile information updated successfully.');
+        return redirect()->route('additional_fields')->with('success', 'Profile information updated successfully.');
     }
 
     public function generate()
@@ -108,5 +108,40 @@ class UserController extends Controller
 
     // Provide a link to download the generated report.
     return response()->download(storage_path('app/public/reports/user_report.pdf'))->deleteFileAfterSend(true);
+}
+
+public function showAdditionalFields()
+{
+    $user = auth()->user(); // Get the authenticated user.
+    return view('additional_fields', compact('user'));
+}
+
+public function updateAdditionalFields(Request $request)
+{
+    $user = auth()->user();
+
+    $validatedData = $request->validate([
+        'residential_house_no' => 'nullable|string|max:255',
+        'residential_street' => 'nullable|string|max:255',
+        'residential_subdivision' => 'nullable|string|max:255',
+        'residential_barangay' => 'nullable|string|max:255',
+        'residential_city' => 'nullable|string|max:255',
+        'residential_province' => 'nullable|string|max:255',
+        'residential_zip_code' => 'nullable|string|max:255',
+        'permanent_house_no' => 'nullable|string|max:255',
+        'permanent_street' => 'nullable|string|max:255',
+        'permanent_subdivision' => 'nullable|string|max:255',
+        'permanent_barangay' => 'nullable|string|max:255',
+        'permanent_city' => 'nullable|string|max:255',
+        'permanent_province' => 'nullable|string|max:255',
+        'permanent_zip_code' => 'nullable|string|max:255',
+        'telephone_number' => 'nullable|string|max:255',
+        'mobile_number' => 'nullable|string|max:255',
+        'messenger_account' => 'nullable|string|max:255',
+    ]);
+
+    $user->update($validatedData);
+
+    return redirect()->route('dashboard')->with('success', 'Additional fields updated successfully');
 }
 }

@@ -88,6 +88,8 @@ Route::middleware('auth')->group(function () {
     Route::post('profile-show', [UserController::class, 'updateProfilePicture'])->name('profile-show');
     Route::put('profile-show', [UserController::class, 'update'])->name('profile-show');
     Route::get('/user_report', [UserController::class, 'generate'])->name('user_report');
+    Route::get('/additional_fields', [UserController::class, 'showAdditionalFields'])->name('additional_fields');
+    Route::post('/update-additional-fields', [UserController::class, 'updateAdditionalFields'])->name('update-additional-fields');
 });
 
 

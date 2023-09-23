@@ -40,6 +40,23 @@ class User extends Authenticatable
         'tin_no',
         'mdc_id',
         'place_of_birth',
+        'residential_house_no',
+        'residential_street',
+        'residential_subdivision',
+        'residential_barangay',
+        'residential_city',
+        'residential_province',
+        'residential_zip_code',
+        'permanent_house_no',
+        'permanent_street',
+        'permanent_subdivision',
+        'permanent_barangay',
+        'permanent_city',
+        'permanent_province',
+        'permanent_zip_code',
+        'telephone_number',
+        'mobile_number',
+        'messenger_account',
     ];
 
     /**
