@@ -62,7 +62,7 @@
 
                     <div class="mb-4">
                         <label for="department" class="block text-sm font-medium text-gray-700">Department:</label>
-                        <select id="department" name="department"
+                        <select id="department" name="department" required
                             class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             @foreach ($departments as $department)
                                 <option value="{{ $department->name }}" {{ optional($user->department)->name === $department->name ? 'selected' : '' }}>

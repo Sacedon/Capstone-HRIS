@@ -8,6 +8,7 @@ use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\EvaluationController;
 
 
 /*
@@ -27,6 +28,12 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/evaluations', [EvaluationController::class, 'showForm'])->name('evaluations.showForm');
+    Route::post('/evaluations', [EvaluationController::class, 'submitEvaluation'])->name('evaluations.submit');
 
 });
 
