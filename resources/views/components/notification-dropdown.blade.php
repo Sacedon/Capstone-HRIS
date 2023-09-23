@@ -29,7 +29,8 @@
                     <div>
                         <span class="text-gray-800">{{ $notification->data['message'] }}</span>
                         <br>
-                        <small class="text-gray-500">{{ $notification->created_at->format('M d, Y H:i A') }}</small>
+                        <small class="text-gray-500">{{ $notification->created_at->diffInMinutes(now()) }} minutes ago</small>
+
                     </div>
                     <div>
                         <form method="POST" action="{{ route('notifications.remove', $notification->id) }}">

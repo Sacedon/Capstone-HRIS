@@ -32,7 +32,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/evaluations', [EvaluationController::class, 'showForm'])->name('evaluations.showForm');
+    Route::get('/evaluations', [EvaluationController::class, 'index'])->name('evaluations.index');
+    Route::get('/evaluations/form{user_id}', [EvaluationController::class, 'showForm'])->name('evaluations.form');
     Route::post('/evaluations', [EvaluationController::class, 'submitEvaluation'])->name('evaluations.submit');
 
 });

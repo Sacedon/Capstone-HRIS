@@ -67,8 +67,8 @@
 
     <x-sidebar.link
         title="Evaluation"
-        href="{{ route('evaluations.showForm') }}"
-        :isActive="request()->routeIs('evaluations.showForm')"
+        href="{{ route('evaluations.index') }}"
+        :isActive="request()->routeIs('evaluations.index')"
     >
         <x-slot name="icon">
             <x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />

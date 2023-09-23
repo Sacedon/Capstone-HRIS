@@ -66,8 +66,16 @@ class User extends Authenticatable
 {
     return $this->belongsTo(Department::class);
 }
-public function evaluations()
+
+public function hasEvaluated($evaluator)
     {
-        return $this->hasMany(Evaluation::class);
+        return $this->evaluations()
+            ->where('evaluator_id', $evaluator->id)
+            ->exists();
+    }
+
+    public function evaluations()
+    {
+        return $this->hasMany(Evaluation::class, 'user_id');
     }
 }

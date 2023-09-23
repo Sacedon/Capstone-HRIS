@@ -1,42 +1,40 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Evaluations') }}
+            {{ __('Evaluate Employee') }}
         </h2>
     </x-slot>
 
-    <div class="container">
-        <h2>Submit an Evaluation</h2>
+    <div class="container mx-auto p-6 bg-white rounded-lg shadow-lg">
+        <h2 class="text-2xl font-semibold mb-4">Evaluation Form for {{ $user->first_name }} {{ $user->last_name }}</h2>
 
         @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
+            <div class="bg-green-200 text-green-800 border-l-4 border-green-500 p-3 mb-4">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if(session('error'))
+            <div class="bg-green-200 text-green-800 border-l-4 border-green-500 p-3 mb-4">
+                {{ session('error') }}
+            </div>
         @endif
 
         <form action="{{ route('evaluations.submit') }}" method="POST">
             @csrf
-            <div class="form-group">
-                <label for="user_id">Select User to Evaluate:</label>
-                <select name="user_id" id="user_id" class="form-control">
-                    @foreach($users as $user)
-                    <option value="{{ $user->id }}">
-                        {{ $user->first_name }} {{ $user->middle_name }} {{ $user->surname }}
-                    </option>
-                    @endforeach
-                </select>
+            <input type="hidden" name="user_id" value="{{ $user->id }}">
+            <div class="mb-4">
+                <label for="criteria" class="block text-gray-700 font-semibold">Criteria:</label>
+                <input type="text" name="criteria" id="criteria" class="form-input mt-1 block w-full rounded-md border-gray-300" required>
             </div>
-            <div class="form-group">
-                <label for="criteria">Criteria:</label>
-                <input type="text" name="criteria" id="criteria" class="form-control" required>
+            <div class="mb-4">
+                <label for="comments" class="block text-gray-700 font-semibold">Comments:</label>
+                <textarea name="comments" id="comments" class="form-textarea mt-1 block w-full rounded-md border-gray-300"></textarea>
             </div>
-            <div class="form-group">
-                <label for="comments">Comments:</label>
-                <textarea name="comments" id="comments" class="form-control"></textarea>
+            <div class="mb-4">
+                <label for="rating" class="block text-gray-700 font-semibold">Rating:</label>
+                <input type="number" name="rating" id="rating" class="form-input mt-1 block w-full rounded-md border-gray-300" required min="1" max="5">
             </div>
-            <div class="form-group">
-                <label for="rating">Rating:</label>
-                <input type="number" name="rating" id="rating" class="form-control" required min="1" max="5">
-            </div>
-            <button type="submit" class="btn btn-primary">Submit Evaluation</button>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md">Submit Evaluation</button>
         </form>
     </div>
 </x-app-layout>
