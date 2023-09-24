@@ -1,5 +1,10 @@
 <x-guest-layout>
     <x-auth-card>
+
+        <div class="mb-6 text-center">
+            <img src="{{ asset('images/mdc-logo.png') }}" alt="Your Logo" class="w-32 h-32 mx-auto mb-4" />
+            <h1 class="text-3xl font-extrabold mb-4 text-gray-700">MDC Human Resources Information System</h1>
+        </div>
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
 

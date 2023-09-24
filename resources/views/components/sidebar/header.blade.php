@@ -1,55 +1,13 @@
-<div class="flex items-center justify-between flex-shrink-0 px-3">
+<div class="flex flex-col items-center justify-center flex-shrink-0 px-3 w-full border-b border-white mb-4">
     <!-- Profile Link -->
-    <a href="{{ route('profile-show') }}" class="profile-link">
+    <a href="{{ route('profile-show') }}" class="profile-link flex flex-col items-center space-x-2">
         <div class="profile-picture">
-            <img src="{{ Auth::user()->profile_picture ? Storage::url(Auth::user()->profile_picture) : asset('images/default-profile.jpeg') }}"
-                alt="{{ Auth::user()->name }} Profile Picture" class="profile-image" />
+            <img src="{{ Auth::user()->profile_picture ? Storage::url(Auth::user()->profile_picture) : asset('images/mdc-logo.jpg') }}"
+                alt="Profile Picture" class="w-28 h-28 rounded-full object-cover" />
         </div>
         <div class="user-details">
-            <h1 class="user-name">{{ Auth::user()->surname }}, {{ Auth::user()->first_name }}</h1>
+            <h1 class="text-lg text-white font-semibold mt-4 mb-3 mr-3">MDC-HRIS</h1>
         </div>
     </a>
-
-    <!-- Toggle Button -->
-
+    <!-- Line -->
 </div>
-
-<style scoped>
-
-    /* Define styles for the profile link */
-.profile-link {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    text-align: center;
-    text-decoration: none;
-    color: #333; /* Set your desired text color */
-}
-
-/* Define styles for the profile picture container */
-.profile-picture {
-    width: 120px; /* Adjust the width as needed */
-    height: 120px; /* Adjust the height as needed */
-    border-radius: 50%;
-    overflow: hidden;
-    background-color: #ddd; /* Fallback background color */
-}
-
-/* Define styles for the profile image */
-.profile-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: inherit; /* Match the parent's border-radius */
-}
-
-/* Define styles for the user's name */
-.user-name {
-    font-size: 1.5rem; /* Adjust the font size as needed */
-    font-weight: 600; /* Adjust the font weight as needed */
-    margin-top: 0.5rem; /* Adjust the margin-top as needed */
-}
-
-
-</style>

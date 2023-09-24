@@ -16,17 +16,7 @@
             sr-text="Toggle dark mode"
             x-on:click="toggleTheme"
         >
-            <x-heroicon-o-moon
-                x-show="!isDarkMode"
-                aria-hidden="true"
-                class="w-6 h-6"
-            />
 
-            <x-heroicon-o-sun
-                x-show="isDarkMode"
-                aria-hidden="true"
-                class="w-6 h-6"
-            />
         </x-button>
     </div>
 
@@ -39,17 +29,7 @@
             sr-text="Toggle dark mode"
             x-on:click="toggleTheme"
         >
-            <x-heroicon-o-moon
-                x-show="!isDarkMode"
-                aria-hidden="true"
-                class="w-6 h-6"
-            />
 
-            <x-heroicon-o-sun
-                x-show="isDarkMode"
-                aria-hidden="true"
-                class="w-6 h-6"
-            />
         </x-button>
 
 
