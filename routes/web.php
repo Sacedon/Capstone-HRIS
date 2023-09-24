@@ -94,7 +94,6 @@ Route::middleware('auth')->group(function () {
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/users/create', [RegisteredUserController::class, 'create'])->name('users.create');
 
 // Route to store a new user
 Route::post('/users', [RegisteredUserController::class, 'store'])->name('users.store');

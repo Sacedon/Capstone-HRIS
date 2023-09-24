@@ -42,7 +42,9 @@
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-2xl font-semibold text-gray-800">Users</h3>
                     <div class="space-x-4">
-                        <a href="{{ route('users.create') }}"  class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Create User</a>
+                        <a href="#" id="openCreateUserModal"
+                        class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Create User</a>
+
                         <a href="{{ route('user_report') }}" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Generate Report</a>
                     </div>
                 </div>
@@ -130,6 +132,113 @@
             </div>
         </div>
     </div>
+
+    <!-- Create User Modal -->
+<div id="createUserModal" class="fixed inset-0 z-50 hidden overflow-auto bg-gray-800 bg-opacity-50">
+    <div class="relative w-full max-w-md p-4 mx-auto mt-10">
+        <div class="bg-white rounded-lg shadow-lg">
+            <!-- Modal Header -->
+            <div class="px-4 py-2 bg-gray-200 rounded-t-lg">
+                <h2 class="text-xl font-semibold text-gray-800">Create User</h2>
+            </div>
+            <!-- Modal Body -->
+            <div class="p-4">
+                <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <!-- Add your form fields here -->
+                    <div class="mb-4">
+                        <label for="username" class="block text-sm font-medium text-gray-700">Username:</label>
+                        <input type="text" id="username" name="username" value="{{ old('username') }}" required
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </div>
+                    <div class="mb-4">
+                        <label for="first_name" class="block text-sm font-medium text-gray-700">First Name:</label>
+                        <input type="text" id="first_name" name="first_name" value="{{ old('first_name') }}" required
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </div>
+                    <div class="mb-4">
+                        <label for="surname" class="block text-sm font-medium text-gray-700">Surname:</label>
+                        <input type="text" id="surname" name="surname" value="{{ old('surname') }}" required
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </div>
+                    <div class="mb-4">
+                        <label for="middle_name" class="block text-sm font-medium text-gray-700">Middle Name:</label>
+                        <input type="text" id="middle_name" name="middle_name" value="{{ old('middle_name') }}"
+                            required
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
+                        <input type="email" id="email" name="email" value="{{ old('email') }}" required
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </div>
+                    <div class="mb-4">
+                        <label for="password" class="block text-sm font-medium text-gray-700">Password:</label>
+                        <input type="password" id="password" name="password" required
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </div>
+                    <div class="mb-4">
+                        <label for="password_confirmation"
+                            class="block text-sm font-medium text-gray-700">Confirm Password:</label>
+                        <input type="password" id="password_confirmation" name="password_confirmation" required
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </div>
+                    <div class="mb-4">
+                        <label for="role" class="block text-sm font-medium text-gray-700">Role:</label>
+                        <select id="role" name="role"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="department" class="block text-sm font-medium text-gray-700">Department:</label>
+                        <select id="department" name="department" required
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            @foreach ($departments as $department)
+                            <option value="{{ $department->name }}" {{ optional($user->department)->name === $department->name ? 'selected' : '' }}>
+                                {{ $department->name }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="profile_picture" class="block text-sm font-medium text-gray-700">Profile Picture:</label>
+                        <input type="file" id="profile_picture" name="profile_picture"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </div>
+                    <div class="flex justify-end mt-4">
+                        <button type="button" id="closeCreateUserModal"
+                            class="px-4 py-2 text-gray-600 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none mr-3">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                            class="px-4 py-2 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none">
+                            Create
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const createUserModal = document.getElementById('createUserModal');
+        const openCreateUserModalButton = document.querySelector('#openCreateUserModal');
+        const closeCreateUserModalButton = document.getElementById('closeCreateUserModal');
+
+        openCreateUserModalButton.addEventListener('click', function () {
+            createUserModal.classList.remove('hidden');
+        });
+
+        closeCreateUserModalButton.addEventListener('click', function () {
+            createUserModal.classList.add('hidden');
+        });
+    });
+</script>
+
 
     <!-- Delete User Confirmation Modal -->
     <div id="deleteUserModal" class="fixed z-10 inset-0 overflow-y-auto hidden">

@@ -99,26 +99,28 @@ class RegisteredUserController extends Controller
     }
 
     public function index(Request $request)
-{
-    $search = $request->input('search');
+    {
+        $departments = Department::all();
+        $search = $request->input('search');
 
-    $users = User::query();
+        $users = User::query();
 
-    if ($search) {
-        $users->where('surname', 'like', '%' . $search . '%'); // Search by surname
+        if ($search) {
+            $users->where('surname', 'like', '%' . $search . '%'); // Search by surname
+        }
+
+        $users = $users->get();
+
+        $header = 'Users'; // Set the header title
+
+        // Check if no users were found
+        if ($users->isEmpty()) {
+            return redirect()->route('users.index')->withErrors('No users found for the given search criteria.');
+        }
+
+        return view('users.index', compact('users', 'header', 'departments'));
     }
 
-    $users = $users->get();
-
-    $header = 'Users'; // Set the header title
-
-    // Check if no users were found
-    if ($users->isEmpty()) {
-        return redirect()->route('users.index')->withErrors('No users found for the given search criteria.');
-    }
-
-    return view('users.index', compact('users', 'header'));
-}
 
 
 public function show(User $user)
