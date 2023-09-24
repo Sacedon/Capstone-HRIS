@@ -9,16 +9,35 @@
         <h2 class="text-2xl font-semibold mb-4">Select a User for Evaluation</h2>
 
         @if(session('success'))
-            <div class="bg-green-200 text-green-800 border-l-4 border-green-500 p-3 mb-4">
+    <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
+        <div class="flex">
+            <div class="py-1">
+                <svg class="w-6 h-6 mr-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <div>
                 {{ session('success') }}
             </div>
-        @endif
+        </div>
+    </div>
+@endif
 
-        @if(session('error'))
-            <div class="bg-red-200 text-red-800 border-l-4 border-red-500 p-3 mb-4">
+@if(session('error'))
+    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4">
+        <div class="flex">
+            <div class="py-1">
+                <svg class="w-6 h-6 mr-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </div>
+            <div>
                 {{ session('error') }}
             </div>
-        @endif
+        </div>
+    </div>
+@endif
+
 
         <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             @foreach($users as $user)

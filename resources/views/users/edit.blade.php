@@ -84,7 +84,7 @@
                             <select id="civil_status" name="civil_status" class="form-select">
                                 <option value="single" {{ old('civil_status', $user->civil_status) === 'single' ? 'selected' : '' }}>Single</option>
                                 <option value="married" {{ old('civil_status', $user->civil_status) === 'married' ? 'selected' : '' }}>Married</option>
-                                <option value="divorced" {{ old('civil_status', $user->civil_status) === 'divorced' ? 'selected' : '' }}>Divorced</option>
+                                <option value="separated" {{ old('civil_status', $user->civil_status) === 'separated' ? 'selected' : '' }}>Separated</option>
                                 <option value="widowed" {{ old('civil_status', $user->civil_status) === 'widowed' ? 'selected' : '' }}>Widowed</option>
                             </select>
                         </div>

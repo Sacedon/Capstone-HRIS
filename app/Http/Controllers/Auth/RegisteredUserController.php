@@ -208,7 +208,7 @@ public function update(Request $request, User $user)
 public function destroy(User $user)
 {
     $user->delete();
-    return redirect()->route('users.index');
+    return redirect()->route('users.index')->with('error', 'User deleted successfully.');
 }
 
 

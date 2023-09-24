@@ -39,6 +39,8 @@
 
 
 
+
+
         <x-dropdown align="right" width="48">
             <x-slot name="trigger">
                 <button
@@ -83,6 +85,7 @@
                 </form>
             </x-slot>
         </x-dropdown>
+        <x-header/>
     </div>
 </nav>
 

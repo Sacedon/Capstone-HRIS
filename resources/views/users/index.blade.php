@@ -5,6 +5,36 @@
         </h2>
     </x-slot>
 
+    @if(session('success'))
+    <div id="successMessage" class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
+        <div class="flex">
+            <div class="py-1">
+                <svg class="w-6 h-6 mr-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <div>
+                {{ session('success') }}
+            </div>
+        </div>
+    </div>
+@endif
+
+@if(session('error'))
+    <div id="errorMessage" class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4">
+        <div class="flex">
+            <div class="py-1">
+                <svg class="w-6 h-6 mr-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <div>
+                {{ session('error') }}
+            </div>
+        </div>
+    </div>
+@endif
+
 
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -29,11 +59,7 @@
                         </div>
                     </form>
                 </div>
-                @if(session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                @endif
+
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
@@ -163,4 +189,23 @@
             deleteUserModal.classList.add('hidden');
         });
     });
+    function hideMessages() {
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+
+        if (successMessage) {
+            setTimeout(function() {
+                successMessage.style.display = 'none';
+            }, 3000); // 3 seconds
+        }
+
+        if (errorMessage) {
+            setTimeout(function() {
+                errorMessage.style.display = 'none';
+            }, 3000); // 3 seconds
+        }
+    }
+
+    // Call the hideMessages function when the page loads
+    window.addEventListener('load', hideMessages);
 </script>

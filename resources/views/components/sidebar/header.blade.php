@@ -1,8 +1,8 @@
 <div class="flex flex-col items-center justify-center flex-shrink-0 px-3 w-full border-b border-white mb-4">
     <!-- Profile Link -->
-    <a href="{{ route('profile-show') }}" class="profile-link flex flex-col items-center space-x-2">
+    <a href="{{ route('dashboard') }}" class="profile-link flex flex-col items-center space-x-2">
         <div class="profile-picture">
-            <img src="{{ Auth::user()->profile_picture ? Storage::url(Auth::user()->profile_picture) : asset('images/mdc-logo.jpg') }}"
+            <img src="{{ asset('images/mdc-logo.jpg') }}"
                 alt="Profile Picture" class="w-28 h-28 rounded-full object-cover" />
         </div>
         <div class="user-details">
@@ -11,3 +11,4 @@
     </a>
     <!-- Line -->
 </div>
+

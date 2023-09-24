@@ -8,8 +8,8 @@
 $classes = 'transition-colors hover:text-white dark:hover:text-gray-100';
 
 $active
-    ? $classes .= ' text-gray-900 dark:text-gray-200'
-    : $classes .= ' text-gray-500 dark:text-gray-400';
+    ? $classes .= ' text-white dark:text-gray-200'
+    : $classes .= ' text-gray-400 dark:text-gray-400';
 
 @endphp
 

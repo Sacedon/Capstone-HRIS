@@ -7,16 +7,12 @@ use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-    public function markAsRead(Request $request, $notificationId)
-    {
-        $notification = Auth::user()->notifications->find($notificationId);
+    public function markAsRead()
+{
+    Auth::user()->unreadNotifications->markAsRead();
 
-        if ($notification && !$notification->read_at) {
-            $notification->markAsRead();
-        }
-
-        return back();
-    }
+    return response()->json(['message' => 'Notifications marked as read']);
+}
 
     public function remove(Request $request, $notificationId)
     {

@@ -5,8 +5,9 @@
         </h2>
     </x-slot>
 
-    <div class="container">
-        <div class="py-6">
+    <div class="container mx-auto mt-6">
+        <!-- Card Container -->
+        <div class="bg-white shadow-md rounded-lg p-6">
             <h2 class="text-2xl font-semibold mb-4">Create Leave Request</h2>
 
             <form method="POST" action="{{ route('leave-requests.store') }}">
@@ -22,7 +23,7 @@
                     </select>
                 </div>
 
-                <div class="mb-4" id="reason-container">
+                <div class="mb-4" id="reason-container" style="display: none;">
                     <!-- Initially hidden, will be shown only when "Sick" is selected -->
                     <label for="reason" class="block text-sm font-medium text-gray-700">Specific Type of Sick:</label>
                     <select name="reason" id="reason"
@@ -58,28 +59,28 @@
                     });
                 </script>
 
-                <div class="mb-4" id="other-reason-container">
-                    <!-- Always shown for all leave types -->
+                <div class="mb-4">
                     <label for="other_reason" class="block text-sm font-medium text-gray-700">Reason for Leave:</label>
                     <input type="text" name="other_reason" id="other_reason"
                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                 </div>
 
-                <div class="mb-4">
-                    <label for="start_date" class="block text-sm font-medium text-gray-700">Start Date:</label>
-                    <input type="date" name="start_date" id="start_date"
-                           class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
-                </div>
-
-                <div class="mb-4">
-                    <label for="end_date" class="block text-sm font-medium text-gray-700">End Date:</label>
-                    <input type="date" name="end_date" id="end_date"
-                           class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label for="start_date" class="block text-sm font-medium text-gray-700">Start Date:</label>
+                        <input type="date" name="start_date" id="start_date"
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                    </div>
+                    <div>
+                        <label for="end_date" class="block text-sm font-medium text-gray-700">End Date:</label>
+                        <input type="date" name="end_date" id="end_date"
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                    </div>
                 </div>
 
                 <div class="flex items-center justify-end">
                     <button type="submit"
-                            class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         Submit Leave Request
                     </button>
                 </div>
