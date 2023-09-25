@@ -11,6 +11,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EvaluationController;
 
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,10 +27,22 @@ Route::get('/', function () {
     return view('/auth/login');
 });
 
+
+// routes/web.php
+
+
+
+
+// Login Routes
+
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 });
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/evaluations', [EvaluationController::class, 'index'])->name('evaluations.index');
@@ -113,11 +126,20 @@ Route::get('/users/{user}', [RegisteredUserController::class, 'show'])->name('us
 // Route to display a list of users
 Route::get('/users', [RegisteredUserController::class, 'index'])->name('users.index');
 
+Route::get('/logs', [RegisteredUserController::class, 'showLogs'])->name('logs.index');
+
 
 
 });
 
 
+
+// Routes for login and logout
+// routes/web.php
+
+
+
+// The rest of your routes...
 
 
 

@@ -6,7 +6,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Log;
 
 class User extends Authenticatable
 {
@@ -94,5 +96,10 @@ public function hasEvaluated($evaluator)
     public function evaluations()
     {
         return $this->hasMany(Evaluation::class, 'user_id');
+    }
+
+    public function logs(): HasMany
+    {
+        return $this->hasMany(Log::class);
     }
 }

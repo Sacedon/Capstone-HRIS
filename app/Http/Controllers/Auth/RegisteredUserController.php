@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Log;
 use App\Models\Department;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -18,6 +19,30 @@ use Illuminate\Validation\ValidationException;
 
 class RegisteredUserController extends Controller
 {
+
+    public function showLogs(Request $request)
+{
+    $date = $request->input('date');
+    $firstName = $request->input('first_name');
+
+    $query = Log::query();
+
+    if ($date) {
+        $query->whereDate('login_time', $date)
+              ->orWhereDate('logout_time', $date);
+    }
+
+    if ($firstName) {
+        $query->whereHas('user', function ($query) use ($firstName) {
+            $query->where('first_name', 'like', '%' . $firstName . '%');
+        });
+    }
+
+    $logs = $query->orderBy('created_at', 'desc')->get();
+
+    return view('logs.index', compact('logs'));
+}
+
     /**
      * Display the registration view.
      */
@@ -207,8 +232,13 @@ public function update(Request $request, User $user)
 
 
 
-public function destroy(User $user)
+public function destroy($id)
 {
+
+    $user = User::findOrFail($id);
+
+    // Delete associated log records (this will trigger cascading delete)
+    $user->logs()->delete();
     $user->delete();
     return redirect()->route('users.index')->with('error', 'User deleted successfully.');
 }
