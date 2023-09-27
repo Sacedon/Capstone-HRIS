@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile User') }}
+            {{ __('Employee Profile') }}
         </h2>
     </x-slot>
 
@@ -35,17 +35,11 @@
 
                     <!-- Email -->
                     <div class="mb-4">
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
-                        <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}" required
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email Address:</label>
+                        <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}"
                             class="input-field">
                     </div>
 
-                    <!-- Address -->
-                    <div class="mb-4">
-                        <label for="address" class="block text-sm font-medium text-gray-700">Address:</label>
-                        <input type="text" id="address" name="address" value="{{ old('address', $user->address) }}"
-                            class="input-field">
-                    </div>
 
                     <!-- Gender -->
                     <div class="mb-4">
@@ -156,7 +150,7 @@
                         <input type="file" id="profile_picture" name="profile_picture" accept="image/*">
                     </div>
 
-                    <div class="flex items-center justify-end">
+                    <div class="btn-container">
                         <button type="submit"
                             class="btn-save">
                             Next
@@ -196,5 +190,6 @@
         border: none;
         border-radius: 0.25rem;
         cursor: pointer;
+
     }
 </style>

@@ -76,10 +76,6 @@
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Email
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Role
                                 </th>
                                 <th scope="col"
@@ -104,9 +100,6 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         {{ $user->surname }}, {{ $user->middle_name }} {{ $user->first_name }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        {{ $user->email }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         {{ $user->role }}
@@ -168,11 +161,6 @@
                             class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     </div>
                     <div class="mb-4">
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
-                        <input type="email" id="email" name="email" value="{{ old('email') }}" required
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    </div>
-                    <div class="mb-4">
                         <label for="password" class="block text-sm font-medium text-gray-700">Password:</label>
                         <input type="password" id="password" name="password" required
                             class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
@@ -193,8 +181,9 @@
                     </div>
                     <div class="mb-4">
                         <label for="department" class="block text-sm font-medium text-gray-700">Department:</label>
-                        <select id="department" name="department" required
+                        <select id="department" name="department"
                             class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="">Select Department</option> <!-- Add a default option -->
                             @foreach ($departments as $department)
                             <option value="{{ $department->name }}" {{ optional($user->department)->name === $department->name ? 'selected' : '' }}>
                                 {{ $department->name }}

@@ -54,18 +54,17 @@ class UserController extends Controller
         return redirect()->route('profile.show')->with('success', 'Profile picture updated successfully.');
     }
 
-    public function update(Request $request)
+    public function update(Request $request, User $user)
     {
         // Validate the form data
         $request->validate([
             'surname' => ['required', 'string', 'max:255'],
             'first_name' => ['required', 'string', 'max:255'],
             'middle_name' => ['nullable', 'string', 'max:255'],
-            'email' => 'required|string|email|max:255|unique:users,email,' . Auth::id(),
-            'address' => 'nullable|string|max:255',
+            'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'gender' => 'nullable|in:male,female,other',
             'date_of_birth' => 'nullable|date',
-            'department' => 'nullable|string|in:CAST,CCJ,COE,CON,CABM-H,CABM-M',
+            'department' => ['nullable', 'string', 'max:255'],
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 

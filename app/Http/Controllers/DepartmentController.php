@@ -58,6 +58,11 @@ class DepartmentController extends Controller
 
     public function destroy(Department $department)
     {
+
+        if ($department->users()->exists()) {
+            return redirect()->route('departments.index')->with('error', 'Cannot delete the department because it is associated with employees.');
+        }
+
         $department->delete();
         return redirect()->route('departments.index')->with('success', 'Department deleted successfully.');
     }

@@ -32,8 +32,8 @@
                         </div>
                         <!-- Email -->
                         <div>
-                            <label for="email" class="form-label">Email:</label>
-                            <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}" required
+                            <label for="email" class="form-label">Email Address:</label>
+                            <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}"
                                 class="form-input">
                         </div>
                         <!-- Role -->
@@ -43,13 +43,6 @@
                                 <option value="user" {{ old('role', $user->role) === 'user' ? 'selected' : '' }}>User</option>
                                 <option value="admin" {{ old('role', $user->role) === 'admin' ? 'selected' : '' }}>Admin</option>
                             </select>
-                        </div>
-                        <!-- Address -->
-                        <div>
-                            <label for="address" class="form-label">Address:</label>
-                            <input type="text" id="address" name="address"
-                                value="{{ old('address', $user->address) }}"
-                                class="form-input">
                         </div>
                         <!-- Gender -->
                         <div>
