@@ -58,6 +58,21 @@ class User extends Authenticatable
         'telephone_number',
         'mobile_number',
         'messenger_account',
+        'spouse_surname',
+        'spouse_first_name',
+        'spouse_name_extension',
+        'spouse_middle_name',
+        'spouse_occupation',
+        'spouse_employer',
+        'spouse_business_address',
+        'spouse_telephone',
+        'father_surname',
+        'father_first_name',
+        'father_name_extension',
+        'father_middle_name',
+        'mother_maiden_surname',
+        'mother_first_name',
+        'mother_middle_name',
     ];
 
     /**
@@ -100,5 +115,10 @@ public function hasEvaluated($evaluator)
     public function logs(): HasMany
     {
         return $this->hasMany(Log::class);
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Child::class);
     }
 }

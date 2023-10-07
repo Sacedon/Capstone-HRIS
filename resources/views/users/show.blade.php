@@ -5,28 +5,34 @@
         </h2>
     </x-slot>
 
-    <style>
+    <style scoped>
         /* Custom CSS for User Details */
+        .user-details-container {
+            background-color: #f9fafb;
+            padding: 20px;
+        }
+
         .user-details-table {
             width: 100%;
             border-collapse: collapse;
+            background-color: white;
             border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 20px;
         }
 
         .user-details-table th,
         .user-details-table td {
             border: 1px solid #e5e7eb;
-            padding: 10px;
+            padding: 12px;
+            text-align: left;
         }
 
         .user-details-table th {
             background-color: #f3f4f6;
             font-weight: 600;
-            text-align: left;
-        }
-
-        .user-details-table td {
-            text-align: left;
+            width: 30%;
         }
 
         .user-details-table img {
@@ -34,20 +40,11 @@
             max-height: 150px;
             display: block;
             margin: 0 auto;
-        }
-
-        .user-details-table th,
-        .user-details-table td:first-child {
-            width: 30%;
-        }
-
-        .user-details-table th:first-child,
-        .user-details-table td:first-child {
-            font-weight: 600;
+            border-radius: 50%;
         }
     </style>
 
-    <div class="py-6">
+    <div class="py-6 user-details-container">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <table class="user-details-table">
                 <tbody>
@@ -75,17 +72,14 @@
                         <th>Middle Name</th>
                         <td>{{ $user->middle_name }}</td>
                     </tr>
-                    <tr>
-                        <th>Email</th>
-                        <td>{{ $user->email }}</td>
-                    </tr>
+
                     <tr>
                         <th>Role</th>
                         <td>{{ $user->role }}</td>
                     </tr>
                     <tr>
                         <th>Email Address</th>
-                        <td>{{ $user->address }}</td>
+                        <td>{{ $user->email }}</td>
                     </tr>
                     <tr>
                         <th>Gender</th>
@@ -174,6 +168,64 @@
                     <tr>
                         <th>Messenger Account</th>
                         <td>{{ $user->messenger_account }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Spouse Surname</th>
+                        <td>{{ $user->spouse_surname }}</td>
+                    </tr>
+                    <tr>
+                        <th>Spouse First Name</th>
+                        <td>{{ $user->spouse_first_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Spouse Name Extension</th>
+                        <td>{{ $user->spouse_name_extension }}</td>
+                    </tr>
+                    <tr>
+                        <th>Spouse Middle Name</th>
+                        <td>{{ $user->spouse_middle_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Spouse Occupation</th>
+                        <td>{{ $user->spouse_occupation }}</td>
+                    </tr>
+                    <tr>
+                        <th>Spouse Employer</th>
+                        <td>{{ $user->spouse_employer }}</td>
+                    </tr>
+                    <tr>
+                        <th>Spouse Business Address</th>
+                        <td>{{ $user->spouse_business_address }}</td>
+                    </tr>
+                    <tr>
+                        <th>Spouse Telephone</th>
+                        <td>{{ $user->spouse_telephone }}</td>
+                    </tr>
+                    <tr>
+                        <th>Father Surname</th>
+                        <td>{{ $user->father_surname }}</td>
+                    </tr>
+                    <tr>
+                        <th>Father First Name</th>
+                        <td>{{ $user->father_first_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Father Name Extension</th>
+                        <td>{{ $user->father_name_extension }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Mother Maiden Surname</th>
+                        <td>{{ $user->mother_maiden_surname }}</td>
+                    </tr>
+                    <tr>
+                        <th>Mother First Name</th>
+                        <td>{{ $user->mother_first_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Mother Middle Name</th>
+                        <td>{{ $user->mother_middle_name }}</td>
                     </tr>
                 </tbody>
             </table>

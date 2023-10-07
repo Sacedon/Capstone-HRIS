@@ -44,21 +44,41 @@
                 </dl>
 
                 <!-- Actions Buttons (if pending) -->
-                @if ($leaveRequest->status === 'pending')
-                    <form method="POST" action="{{ route('leave-requests.accept', ['leaveRequest' => $leaveRequest->id]) }}" class="inline">
-                        @csrf
-                        <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full mt-4 mr-2">
-                            Accept Leave Request
-                        </button>
-                    </form>
+                <!-- Actions Buttons (if pending) -->
+@if ($leaveRequest->status === 'pending_supervisor' && auth()->user()->role === 'supervisor')
+<form method="POST" action="{{ route('leave-requests.accept', ['leaveRequest' => $leaveRequest->id]) }}" class="inline">
+    @csrf
+    <input type="hidden" name="approval_type" value="supervisor">
+    <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full mt-4 mr-2">
+        Accept Leave Request
+    </button>
+</form>
 
-                    <form method="POST" action="{{ route('leave-requests.reject', $leaveRequest) }}" class="inline">
-                        @csrf
-                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mt-4">
-                            Reject Leave Request
-                        </button>
-                    </form>
-                @endif
+<form method="POST" action="{{ route('leave-requests.reject', $leaveRequest) }}" class="inline">
+    @csrf
+    <input type="hidden" name="rejection_type" value="supervisor">
+    <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mt-4">
+        Reject Leave Request
+    </button>
+</form>
+@elseif ($leaveRequest->status === 'pending_admin' && auth()->user()->role === 'admin')
+<form method="POST" action="{{ route('leave-requests.accept', ['leaveRequest' => $leaveRequest->id]) }}" class="inline">
+    @csrf
+    <input type="hidden" name="approval_type" value="admin">
+    <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full mt-4 mr-2">
+        Accept Leave Request
+    </button>
+</form>
+
+<form method="POST" action="{{ route('leave-requests.reject', $leaveRequest) }}" class="inline">
+    @csrf
+    <input type="hidden" name="rejection_type" value="admin">
+    <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mt-4">
+        Reject Leave Request
+    </button>
+</form>
+@endif
+
             </div>
         </div>
 

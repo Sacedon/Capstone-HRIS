@@ -38,7 +38,7 @@ class RegisteredUserController extends Controller
         });
     }
 
-    $logs = $query->orderBy('created_at', 'desc')->get();
+    $logs = $query->orderBy('created_at', 'desc')->paginate(5);
 
     return view('logs.index', compact('logs'));
 }
@@ -68,7 +68,7 @@ class RegisteredUserController extends Controller
             'middle_name' => ['nullable', 'string', 'max:255'],
             'email' => ['nullable', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|string|in:user,admin',
+            'role' => 'required|string|in:admin,supervisor,employee',
             'gender' => 'nullable|in:male,female,other',
             'date_of_birth' => 'nullable|date',
             'department' => ['nullable', 'string', 'max:255'],
@@ -134,7 +134,7 @@ class RegisteredUserController extends Controller
             $users->where('surname', 'like', '%' . $search . '%'); // Search by surname
         }
 
-        $users = $users->get();
+        $users = $users->paginate(1);
 
         $header = 'Users'; // Set the header title
 
@@ -168,8 +168,8 @@ public function update(Request $request, User $user)
         'surname' => ['required', 'string', 'max:255'],
         'first_name' => ['required', 'string', 'max:255'],
         'middle_name' => ['nullable', 'string', 'max:255'],
-        'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users'] . $user->id,
-        'role' => 'required|string|in:user,admin',
+        'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
+        'role' => 'required|string|in:admin,employee,supervisor',
         'gender' => 'nullable|in:male,female,other',
         'date_of_birth' => 'nullable|date',
         'department' => ['nullable', 'string', 'max:255'],
@@ -231,10 +231,11 @@ public function update(Request $request, User $user)
 
 
 
-public function destroy($id)
+public function destroy($user_id)
 {
 
-    $user = User::findOrFail($id);
+
+    $user = User::findOrFail($user_id);
 
     // Delete associated log records (this will trigger cascading delete)
     $user->logs()->delete();

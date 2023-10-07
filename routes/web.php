@@ -9,6 +9,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EvaluationController;
+use App\Http\Controllers\ChildController;
+
 
 
 
@@ -30,8 +32,12 @@ Route::get('/', function () {
 
 // routes/web.php
 
+Route::middleware('auth')->group(function () {
+    Route::post('/additonal_fields', [ChildController::class, 'store'])->name('additional_fields.store');
+    Route::delete('/additonal_fields/{id}', [ChildController::class, 'destroy'])->name('additional_fields.destroy');
 
 
+});
 
 // Login Routes
 
@@ -45,15 +51,15 @@ Route::middleware('auth')->group(function () {
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/evaluations', [EvaluationController::class, 'index'])->name('evaluations.index');
-    Route::get('/evaluations/form{user_id}', [EvaluationController::class, 'showForm'])->name('evaluations.form');
+    Route::get('/evaluations', [EvaluationController::class, 'index'])->middleware('role:admin,supervisor')->name('evaluations.index');
+    Route::get('/evaluations/form{user_id}', [EvaluationController::class, 'showForm'])->middleware('supervisor')->name('evaluations.form');
     Route::post('/evaluations', [EvaluationController::class, 'submitEvaluation'])->name('evaluations.submit');
 
 });
 
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
     Route::get('/departments/create', [DepartmentController::class, 'create'])->name('departments.create');
     Route::post('/departments', [DepartmentController::class, 'store'])->name('departments.store');
@@ -73,13 +79,17 @@ Route::middleware('auth')->group(function () {
 
 
 Route::middleware('auth')->group(function () {
-    Route::resource('leave-requests', LeaveRequestController::class);
+    Route::get('/leave-requests', [LeaveRequestController::class, 'index'])->middleware('role:admin,supervisor')->name('leave-requests.index');
+    Route::get('/leave-requests/create', [LeaveRequestController::class, 'create'])->name('leave-requests.create');
+    Route::post('/leave-requests', [LeaveRequestController::class, 'store'])->name('leave-requests.store');
+    Route::get('/leave-requests/{leaveRequest}', [LeaveRequestController::class, 'show'])->name('leave-requests.show');
     Route::post('/leave-requests/{leaveRequest}/accept', [LeaveRequestController::class, 'accept'])
     ->name('leave-requests.accept');
     Route::delete('/leave-requests/{leaveRequest}', [LeaveRequestController::class, 'destroy'])
         ->name('leave-requests.destroy');
     Route::post('/leave-requests/{leaveRequest}/reject', [LeaveRequestController::class, 'reject'])->name('leave-requests.reject');
     Route::get('leave-requests/filtered/{status}', [LeaveRequestController::class, 'filtered'])->name('leave-requests.filtered');
+
 
 
 
@@ -96,7 +106,7 @@ Route::middleware('auth')->group(function () {
 
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth',)->group(function () {
     Route::get('profile-show', [UserController::class, 'show'])->name('profile-show');
     Route::post('profile-show', [UserController::class, 'updateProfilePicture'])->name('profile-show');
     Route::put('profile-show', [UserController::class, 'update'])->name('profile-show');
@@ -106,7 +116,7 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'admin'])->group(function () {
 
 // Route to store a new user
 Route::post('/users', [RegisteredUserController::class, 'store'])->name('users.store');

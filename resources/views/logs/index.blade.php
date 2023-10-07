@@ -59,6 +59,10 @@
                         @endforelse
                     </tbody>
                 </table>
+
+                <div class="mt-4">
+                    {{ $logs->links() }}
+                </div>
             </div>
         </div>
     </div>

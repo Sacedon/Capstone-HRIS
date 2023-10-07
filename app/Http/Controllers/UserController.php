@@ -115,6 +115,9 @@ public function showAdditionalFields()
     return view('additional_fields', compact('user'));
 }
 
+
+
+
 public function updateAdditionalFields(Request $request)
 {
     $user = auth()->user();
@@ -137,6 +140,21 @@ public function updateAdditionalFields(Request $request)
         'telephone_number' => 'nullable|string|max:255',
         'mobile_number' => 'nullable|string|max:255',
         'messenger_account' => 'nullable|string|max:255',
+        'spouse_surname' => 'nullable|string|max:255',
+        'spouse_first_name' => 'nullable|string|max:255',
+        'spouse_name_extension' => 'nullable|string|max:10',
+        'spouse_middle_name' => 'nullable|string|max:255',
+        'spouse_occupation' => 'nullable|string|max:255',
+        'spouse_employer' => 'nullable|string|max:255',
+        'spouse_business_address' => 'nullable|string|max:255',
+        'spouse_telephone' => 'nullable|string|max:20',
+        'father_surname' => 'nullable|string|max:255',
+        'father_first_name' => 'nullable|string|max:255',
+        'father_name_extension' => 'nullable|string|max:10',
+        'father_middle_name' => 'nullable|string|max:255',
+        'mother_maiden_surname' => 'nullable|string|max:255',
+        'mother_first_name' => 'nullable|string|max:255',
+        'mother_middle_name' => 'nullable|string|max:255',
     ]);
 
     $user->update($validatedData);

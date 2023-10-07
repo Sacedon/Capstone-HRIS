@@ -73,6 +73,7 @@ window.addEventListener('load', hideMessages);
                         <thead>
                             <tr>
                                 <th class="px-6 py-3 bg-indigo-500 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">ID</th>
+                                <th class="px-6 py-3 bg-indigo-500 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">Name</th>
                                 <th class="px-6 py-3 bg-indigo-500 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">Start Date</th>
                                 <th class="px-6 py-3 bg-indigo-500 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">End Date</th>
                                 <th class="px-6 py-3 bg-indigo-500 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">Leave Type</th>
@@ -84,6 +85,7 @@ window.addEventListener('load', hideMessages);
                             @foreach($leaveRequests as $leaveRequest)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ $leaveRequest->id }}</td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ $leaveRequest->user->first_name }} {{ $leaveRequest->user->surname }}</td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ $leaveRequest->start_date }}</td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ $leaveRequest->end_date }}</td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ $leaveRequest->leave_type }}</td>
@@ -112,6 +114,9 @@ window.addEventListener('load', hideMessages);
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="mt-4">
+                        {{ $leaveRequests->links() }}
+                    </div>
                 </div>
             </div>
         </div>

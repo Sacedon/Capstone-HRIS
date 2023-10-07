@@ -43,12 +43,9 @@
             href="{{ route('departments.index') }}"
             :active="request()->routeIs('departments.index')"
         />
-        <x-sidebar.sublink
-            title="Text with icon"
-            href="{{ route('buttons.text-icon') }}"
-            :active="request()->routeIs('buttons.text-icon')"
-        />
     </x-sidebar.dropdown>
+
+
 
 
     <x-sidebar.link
@@ -70,6 +67,12 @@
             <x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
     </x-sidebar.link>
+
+    @php
+    $user = auth()->user();
+    @endphp
+
+    @if ($user && $user->role === 'admin')
     <x-sidebar.link
         title="Login/Logout Records"
         href="{{ route('logs.index') }}"
@@ -79,6 +82,9 @@
             <x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
     </x-sidebar.link>
+    @endif
+
+
 
 
 </x-perfect-scrollbar>

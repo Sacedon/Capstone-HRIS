@@ -9,13 +9,27 @@ use Illuminate\Support\Facades\Session;
 use App\Notifications\LeaveRequestAccepted;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\LeaveRequestRejected;
+use App\Notifications\LeaveRequestCreated;
+use App\Notifications\SupervisorApprovedLeaveRequest;
+
 
 class LeaveRequestController extends Controller
 {
     public function index()
     {
         // Fetch and display leave requests
-        $leaveRequests = LeaveRequest::all();
+        $user = auth()->user();
+        $query = LeaveRequest::query();
+        $leaveRequests = LeaveRequest::where(function ($query) use ($user) {
+            if ($user->role === 'supervisor') {
+                $query->whereIn('status', ['pending_supervisor', 'pending_admin', 'rejected', 'approved']);
+            } elseif ($user->role === 'admin') {
+                $query->whereIn('status', ['pending_admin', 'approved', 'rejected']);
+            }
+        })->get();
+
+        $leaveRequests = $query->paginate(1);
+
         return view('leave_requests.index', compact('leaveRequests'));
     }
 
@@ -25,7 +39,7 @@ class LeaveRequestController extends Controller
         return view('leave_requests.create');
     }
 
-    public function store(Request $request)
+    public function store(Request $request, LeaveRequest $leaveRequest)
     {
         $request->validate([
             'start_date' => 'required|date',
@@ -36,7 +50,6 @@ class LeaveRequestController extends Controller
 
         ]);
 
-        $request->merge(['status' => 'pending']);
 
         LeaveRequest::create([
             'user_id' => auth()->id(),
@@ -44,55 +57,113 @@ class LeaveRequestController extends Controller
             'end_date' => $request->input('end_date'),
             'reason' => $request->input('reason'),
             'other_reason' => $request->input('other_reason'),
-            'status' => $request->input('status'),
+            'status' => 'pending_supervisor',
             'leave_type' => $request->input('leave_type')
 
         ]);
+
+        $supervisor = User::where('role', 'supervisor')->first();
+        if ($supervisor) {
+            $supervisor->notify(new LeaveRequestCreated($leaveRequest, auth()->user()));
+        }
 
         return redirect()->route('dashboard')->with('success', 'Leave request submitted successfully.');
     }
 
     public function show(LeaveRequest $leaveRequest)
 {
-    return view('leave_requests.show', compact('leaveRequest'));
+    $leaveRequests = LeaveRequest::all(); // You can modify this query to fetch the relevant leave requests.
+
+    if ($leaveRequest->status === 'pending_supervisor' && auth()->user()->role === 'supervisor') {
+        // Show supervisor approval form
+        return view('leave_requests.show', compact('leaveRequest', 'leaveRequests'));
+    } elseif ($leaveRequest->status === 'pending_admin' && auth()->user()->role === 'admin') {
+        // Show admin approval form
+        return view('leave_requests.show', compact('leaveRequest', 'leaveRequests'));
+    } else {
+        // Show leave request details for others
+        return view('leave_requests.show', compact('leaveRequest', 'leaveRequests'));
+    }
 }
+
+
 
 public function accept(Request $request, LeaveRequest $leaveRequest)
 {
 
     // Check if the leave request status is pending before accepting
-    if ($leaveRequest->status === 'pending') {
-        $leaveRequest->update([
-            'status' => 'accepted',
-        ]);
+    $approvalType = $request->input('approval_type');
 
-        $leaveRequest->user->notify(new LeaveRequestAccepted($leaveRequest));
+        if ($approvalType === 'supervisor') {
+            // Check if the leave request status is pending_supervisor before supervisor's approval
+            if ($leaveRequest->status === 'pending_supervisor') {
+                $leaveRequest->update([
+                    'status' => 'pending_admin', // Move to admin approval status
+                    'supervisor_approval' => true, // Mark as supervisor approved
+                ]);
 
+                // Notify the user about supervisor's approval
+                $admin = User::where('role', 'admin')->first();
+                if ($admin) {
+                    $admin->notify(new SupervisorApprovedLeaveRequest($leaveRequest, $admin));
+                }
 
+                return redirect()->route('leave-requests.show', $leaveRequest)->with('success', 'Supervisor approved the leave request.');
+            }
+        } elseif ($approvalType === 'admin') {
+            // Check if the leave request status is pending_admin before admin's approval
+            if ($leaveRequest->status === 'pending_admin') {
+                $leaveRequest->update([
+                    'status' => 'approved', // Final approval
+                    'admin_approval' => true, // Mark as admin approved
+                ]);
 
-        return redirect()->route('leave-requests.index', $leaveRequest)->with('success', 'Leave request accepted.');
-    }
+                // Notify the user about admin's approval
+                $leaveRequest->user->notify(new LeaveRequestAccepted($leaveRequest));
 
-    return back()->with('error', 'Leave request cannot be accepted.');
+                return redirect()->route('leave-requests.index')->with('success', 'Leave request approved.');
+            }
+        }
+
+        return back()->with('error', 'Leave request cannot be approved.');
 }
 
-public function reject(LeaveRequest $leaveRequest)
+public function reject(Request $request, LeaveRequest $leaveRequest)
 {
-
     // Check if the leave request status is pending before rejecting
-    if ($leaveRequest->status === 'pending') {
-        $leaveRequest->update([
-            'status' => 'rejected',
-        ]);
+    $rejectionType = $request->input('rejection_type');
 
+    if ($rejectionType === 'supervisor') {
+        // Check if the leave request status is pending_supervisor before supervisor's rejection
+        if ($leaveRequest->status === 'pending_supervisor') {
+            $leaveRequest->update([
+                'status' => 'rejected', // Mark as rejected
+                'supervisor_approval' => false, // Mark as supervisor rejection
+            ]);
 
-        $leaveRequest->user->notify(new LeaveRequestRejected($leaveRequest));
+            // Notify the user about supervisor's rejection
+            $leaveRequest->user->notify(new LeaveRequestRejected($leaveRequest));
 
-        return redirect()->route('leave-requests.index', $leaveRequest)->with('success', 'Leave request rejected.');
+            return redirect()->route('leave-requests.show', $leaveRequest)->with('success', 'Supervisor rejected the leave request.');
+        }
+    } elseif ($rejectionType === 'admin') {
+        // Check if the leave request status is pending_admin before admin's rejection
+        if ($leaveRequest->status === 'pending_admin') {
+            $leaveRequest->update([
+                'status' => 'rejected', // Mark as rejected
+                'admin_approval' => false, // Mark as admin rejection
+            ]);
+
+            // Notify the user about admin's rejection
+            $leaveRequest->user->notify(new LeaveRequestRejected($leaveRequest));
+
+            return redirect()->route('leave-requests.show', $leaveRequest)->with('success', 'Admin rejected the leave request.');
+        }
     }
 
     return back()->with('error', 'Leave request cannot be rejected.');
 }
+
 
 
 public function destroy(LeaveRequest $leaveRequest)

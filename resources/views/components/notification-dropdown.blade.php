@@ -27,10 +27,10 @@
         <!-- Replace this with your notification items -->
         <div class="p-4">
             <div class="font-semibold mb-2">Notifications</div>
-            @foreach(auth()->user()->notifications as $notification)
+            @foreach(auth()->user()->notifications->take(4) as $notification)
                 <div class="flex justify-between items-center border-b border-gray-300 py-2">
                     <div>
-                        <span class="text-gray-800">{{ $notification->data['message'] }}</span>
+                        <span class="text-gray-800">{{ $notification->data['message'] ?? '' }}</span>
                         <br>
                         <small class="text-gray-500" data-timestamp="{{ $notification->created_at->timestamp }}">{{ $notification->created_at->diffInSeconds(now()) }} </small>
 

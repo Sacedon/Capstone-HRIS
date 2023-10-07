@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         User::create([
             'username' => 'admin',
-            'surname' => 'Sacedon',
-            'first_name' => 'Christian',
+            'surname' => 'HR',
+            'first_name' => 'Administrator',
             'password' => bcrypt('password'), // Hash the password using Bcrypt
             'role' => 'admin',
         ]);

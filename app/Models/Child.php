@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class LeaveRequest extends Model
+class Child extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'start_date', 'end_date', 'reason', 'other_reason', 'status', 'leave_type', 'supervisor_approval',
-    'admin_approval',];
+    protected $fillable = ['name', 'birthdate', 'user_id'];
+
+
 
     public function user()
     {

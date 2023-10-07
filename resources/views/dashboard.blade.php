@@ -21,6 +21,20 @@
         </div>
     </div>
 @endif
+@if(session('error'))
+    <div id="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded relative" role="alert">
+        <strong class="font-bold">Access Denied:</strong>
+        <span class="block sm:inline">{{ session('error') }}</span>
+        <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+            <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <title>Close</title>
+                <path d="M6.293 6.293a1 1 0 011.414 0L10 10.586l2.293-2.293a1 1 0 111.414 1.414L11.414 12l2.293 2.293a1 1 0 01-1.414 1.414L10 13.414l-2.293 2.293a1 1 0 01-1.414-1.414L8.586 12 6.293 9.707a1 1 0 010-1.414z"></path>
+            </svg>
+        </span>
+    </div>
+@endif
+
+
 
 <script>
     function hideMessages() {

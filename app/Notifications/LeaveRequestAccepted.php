@@ -38,7 +38,7 @@ class LeaveRequestAccepted extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('Your leave request has been accepted.') // Updated message
+            ->line('Your leave request has been accepted by the Supervisor and Admin.') // Updated message
             ->line('Status: ' . $this->leaveRequest->status);
 
     }
@@ -51,7 +51,7 @@ class LeaveRequestAccepted extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => 'Your leave request has been accepted.', // Customize the message as needed
+            'message' => 'Your leave request has been accepted by the Supervisor and Admin.', // Customize the message as needed
             'link' => '/leave-requests/' . $this->leaveRequest->id,
         ];
     }

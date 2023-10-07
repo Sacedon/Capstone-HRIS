@@ -18,8 +18,10 @@ return new class extends Migration
             $table->date('end_date');
             $table->string('reason');
             $table->string('other_reason');
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
-            $table->enum('leave_type', ['vacation', 'sick', 'personal'])->default('vacation');
+            $table->string('leave_type');
+            $table->enum('status', ['pending_supervisor', 'pending_admin', 'approved', 'rejected']);
+            $table->boolean('supervisor_approval')->default(false);
+            $table->boolean('admin_approval')->default(false);
             $table->timestamps();
         });
     }
