@@ -49,7 +49,7 @@ window.addEventListener('load', hideMessages);
             <select id="filterDropdown" class="block appearance-none bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                 <option disabled selected value="">Select Status</option>
                 <option value="{{ route('leave-requests.index') }}">All Requests</option>
-                <option value="{{ route('leave-requests.filtered', 'accepted') }}">Accepted</option>
+                <option value="{{ route('leave-requests.filtered', 'approved') }}">Approved</option>
                 <option value="{{ route('leave-requests.filtered', 'rejected') }}">Rejected</option>
                 <option value="{{ route('leave-requests.filtered', 'pending') }}">Pending</option>
             </select>
@@ -58,13 +58,17 @@ window.addEventListener('load', hideMessages);
             </div>
         </div>
 
-
         <script>
             document.getElementById('filterDropdown').addEventListener('change', function() {
                 var selectedOption = this.value;
-                window.location = selectedOption;
+                if (selectedOption === "{{ route('leave-requests.filtered', 'pending_supervisor') }}" || selectedOption === "{{ route('leave-requests.filtered', 'pending_admin') }}") {
+                    window.location = "{{ route('leave-requests.filtered', 'pending') }}";
+                } else {
+                    window.location = selectedOption;
+                }
             });
         </script>
+
 
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 bg-white border-b border-gray-200">
@@ -78,6 +82,7 @@ window.addEventListener('load', hideMessages);
                                 <th class="px-6 py-3 bg-indigo-500 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">End Date</th>
                                 <th class="px-6 py-3 bg-indigo-500 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">Leave Type</th>
                                 <th class="px-6 py-3 bg-indigo-500 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 bg-indigo-500 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">Department</th>
                                 <th class="px-6 py-3 bg-indigo-500 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
@@ -102,6 +107,7 @@ window.addEventListener('load', hideMessages);
                                             {{ $leaveRequest->status }}
                                         </span>
                                     </td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ $leaveRequest->user->department->name }}</td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                         <a href="{{ route('leave-requests.show', $leaveRequest->id) }}" class="text-indigo-600 hover:text-indigo-900">View</a>
                                         <form method="POST" action="{{ route('leave-requests.destroy', $leaveRequest) }}" class="inline">

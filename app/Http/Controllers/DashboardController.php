@@ -11,8 +11,8 @@ class DashboardController extends Controller
     public function index()
 {
     $totalUsers = User::count();
-    $totalAcceptedRequests = LeaveRequest::where('status', 'accepted')->count();
-    $totalPendingRequests = LeaveRequest::where('status', 'pending')->count();
+    $totalAcceptedRequests = LeaveRequest::where('status', 'approved')->count();
+    $totalPendingRequests = LeaveRequest::whereIn('status', ['pending_supervisor', 'pending_admin'])->count();
     $totalRejectedRequests = LeaveRequest::where('status', 'rejected')->count();
 
     return view('dashboard', compact('totalUsers', 'totalAcceptedRequests', 'totalPendingRequests', 'totalRejectedRequests'));

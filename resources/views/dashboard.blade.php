@@ -8,6 +8,7 @@
     </x-slot>
 
     @if(session('success'))
+    <!-- Success Message -->
     <div id="successMessage" class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
         <div class="flex">
             <div class="py-1">
@@ -20,8 +21,10 @@
             </div>
         </div>
     </div>
-@endif
-@if(session('error'))
+    @endif
+
+    @if(session('error'))
+    <!-- Error Message -->
     <div id="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded relative" role="alert">
         <strong class="font-bold">Access Denied:</strong>
         <span class="block sm:inline">{{ session('error') }}</span>
@@ -32,31 +35,29 @@
             </svg>
         </span>
     </div>
-@endif
+    @endif
 
+    <script>
+        function hideMessages() {
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
 
+            if (successMessage) {
+                setTimeout(function() {
+                    successMessage.style.display = 'none';
+                }, 3000); // 3 seconds
+            }
 
-<script>
-    function hideMessages() {
-    const successMessage = document.getElementById('successMessage');
-    const errorMessage = document.getElementById('errorMessage');
+            if (errorMessage) {
+                setTimeout(function() {
+                    errorMessage.style.display = 'none';
+                }, 3000); // 3 seconds
+            }
+        }
 
-    if (successMessage) {
-        setTimeout(function() {
-            successMessage.style.display = 'none';
-        }, 3000); // 3 seconds
-    }
-
-    if (errorMessage) {
-        setTimeout(function() {
-            errorMessage.style.display = 'none';
-        }, 3000); // 3 seconds
-    }
-}
-
-// Call the hideMessages function when the page loads
-window.addEventListener('load', hideMessages);
-</script>
+        // Call the hideMessages function when the page loads
+        window.addEventListener('load', hideMessages);
+    </script>
 
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         <!-- Total Users Card -->
@@ -83,6 +84,4 @@ window.addEventListener('load', hideMessages);
             <p class="text-3xl font-bold text-red-500">{{ $totalRejectedRequests }}</p>
         </div>
     </div>
-
-
 </x-app-layout>

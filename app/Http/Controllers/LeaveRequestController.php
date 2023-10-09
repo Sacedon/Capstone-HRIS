@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\LeaveRequest;
 use App\Models\User;
+use App\Models\Department;
 use Illuminate\Support\Facades\Session;
 use App\Notifications\LeaveRequestAccepted;
 use Illuminate\Support\Facades\Notification;
@@ -28,7 +29,7 @@ class LeaveRequestController extends Controller
             }
         })->get();
 
-        $leaveRequests = $query->paginate(1);
+        $leaveRequests = $query->paginate(10);
 
         return view('leave_requests.index', compact('leaveRequests'));
     }
@@ -178,22 +179,23 @@ public function destroy(LeaveRequest $leaveRequest)
     }
 
     public function filtered($status)
-{
-    // Retrieve leave requests based on the status
-    $leaveRequests = LeaveRequest::where('status', $status)->get();
+    {
+        // Query leave requests based on the status
+        $query = LeaveRequest::query();
 
-    // Return the view with filtered leave requests
-    return view('leave_requests.index', compact('leaveRequests'));
-}
+        if ($status === 'pending') {
+            $query->whereIn('status', ['pending_supervisor', 'pending_admin']);
+        } else {
+            $query->where('status', $status);
+        }
 
-public function dashboard()
-{
-    $totalUsers = User::count();
-    $totalAcceptedRequests = LeaveRequest::where('status', 'accepted')->count();
-    $totalPendingRequests = LeaveRequest::where('status', 'pending')->count();
-    $totalRejectedRequests = LeaveRequest::where('status', 'rejected')->count();
+        $leaveRequests = $query->paginate(10); // Adjust the number of items per page as needed.
 
-    return view('dashboard', compact('totalUsers', 'totalAcceptedRequests', 'totalPendingRequests', 'totalRejectedRequests'));
-}
+        return view('leave_requests.index', compact('leaveRequests'));
+    }
+
+
+
+
 
 }
