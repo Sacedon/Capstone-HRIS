@@ -13,10 +13,24 @@
             <x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
     </x-sidebar.link>
+
+
+
+
     <x-sidebar.link
         title="Request Leave"
         href="{{ route('leave-requests.create') }}"
         :isActive="request()->routeIs('leave-requests.create')"
+    >
+        <x-slot name="icon">
+            <x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+        </x-slot>
+    </x-sidebar.link>
+
+    <x-sidebar.link
+        title="List of Employees"
+        href="{{ route('employee-users.index') }}"
+        :isActive="request()->routeIs('employee-users.index')"
     >
         <x-slot name="icon">
             <x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />

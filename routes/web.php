@@ -10,6 +10,9 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\ChildController;
+use App\Http\Controllers\EmployeeController;
+
+
 
 
 
@@ -47,6 +50,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 });
+
+Route::middleware('auth', 'role:admin,supervisor')->group(function () {
+    Route::get('/employee-users', [EmployeeController::class, 'showEmployeeDepartmentUsers'])->name('employee-users.index');
+    Route::delete('/user/delete/{id}', [EmployeeController::class, 'deleteUser'])->name('user.delete');
+
+
+});
+
+
+
+
 
 
 

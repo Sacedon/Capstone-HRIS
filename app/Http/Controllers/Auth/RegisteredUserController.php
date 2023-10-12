@@ -134,7 +134,7 @@ class RegisteredUserController extends Controller
             $users->where('surname', 'like', '%' . $search . '%'); // Search by surname
         }
 
-        $users = $users->paginate(1);
+        $users = $users->paginate(10);
 
         $header = 'Users'; // Set the header title
 
