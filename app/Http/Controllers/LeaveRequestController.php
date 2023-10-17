@@ -41,35 +41,44 @@ class LeaveRequestController extends Controller
     }
 
     public function store(Request $request, LeaveRequest $leaveRequest)
-    {
-        $request->validate([
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after:start_date',
-            'reason' => 'required|string|max:255',
-            'other_reason' => 'required|string|max:255',
-            'leave_type' => 'required|in:vacation,sick,personal',
+{
+    $request->validate([
+        'start_date' => 'required|date',
+        'end_date' => 'required|date|after:start_date',
+        'reason' => 'required|string|max:255',
+        'other_reason' => 'required|string|max:255',
+        'leave_type' => 'required|in:vacation,sick,personal',
+    ]);
 
-        ]);
+    $user = auth()->user();
 
+    LeaveRequest::create([
+        'user_id' => $user->id,
+        'start_date' => $request->input('start_date'),
+        'end_date' => $request->input('end_date'),
+        'reason' => $request->input('reason'),
+        'other_reason' => $request->input('other_reason'),
+        'status' => 'pending_supervisor',
+        'leave_type' => $request->input('leave_type')
+    ]);
 
-        LeaveRequest::create([
-            'user_id' => auth()->id(),
-            'start_date' => $request->input('start_date'),
-            'end_date' => $request->input('end_date'),
-            'reason' => $request->input('reason'),
-            'other_reason' => $request->input('other_reason'),
-            'status' => 'pending_supervisor',
-            'leave_type' => $request->input('leave_type')
+    $department = $user->department;
 
-        ]);
+    if ($department) {
+        $supervisor = User::where('role', 'supervisor')
+            ->where('department_id', $department->id)
+            ->first();
 
-        $supervisor = User::where('role', 'supervisor')->first();
         if ($supervisor) {
-            $supervisor->notify(new LeaveRequestCreated($leaveRequest, auth()->user()));
+            $supervisor->notify(new LeaveRequestCreated($leaveRequest, $user));
         }
-
-        return redirect()->route('dashboard')->with('success', 'Leave request submitted successfully.');
     }
+
+    return redirect()->route('dashboard')->with('success', 'Leave request submitted successfully.');
+}
+
+
+
 
     public function show(LeaveRequest $leaveRequest)
 {
