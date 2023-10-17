@@ -63,29 +63,7 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                 <h1 class="text-2xl font-semibold mb-4">List of Department Employees</h1>
 
-                <!-- Department Selection Dropdown -->
-                @if (auth()->user()->role === 'admin')
-                <form action="{{ route('employee-users.index') }}" method="GET" class="mb-4">
-                    <div class="flex items-center space-x-4">
-                        <label for="department_id" class="text-sm font-medium text-gray-700">Select Department:</label>
-                        <div class="relative">
-                            <select name="department_id" id="department_id" class="w-48 border rounded px-3 py-2">
-                                <option value="">All Departments</option>
-                                @foreach ($departments as $dept)
-                                    <option value="{{ $dept->id }}" @if($selectedDepartment && $selectedDepartment->id == $dept->id) selected @endif>{{ $dept->name }}</option>
-                                @endforeach
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M13.293 7.293a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                    <path fill-rule="evenodd" d="M3.293 9.293a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                </svg>
-                            </div>
-                        </div>
-                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover-bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Filter</button>
-                    </div>
-                </form>
-                @endif
+
 
                 @if ($users->isEmpty())
                     <p class="text-gray-500">No users found in the department.</p>

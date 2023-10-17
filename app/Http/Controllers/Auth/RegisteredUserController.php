@@ -124,27 +124,39 @@ class RegisteredUserController extends Controller
     }
 
     public function index(Request $request)
-    {
-        $departments = Department::all();
-        $search = $request->input('search');
+{
+    $departments = Department::all();
+    $search = $request->input('search');
+    $selectedDepartmentId = $request->input('department_id'); // Get the selected department ID
 
-        $users = User::query();
+    $users = User::query();
 
-        if ($search) {
-            $users->where('surname', 'like', '%' . $search . '%'); // Search by surname
-        }
-
-        $users = $users->paginate(10);
-
-        $header = 'Users'; // Set the header title
-
-        // Check if no users were found
-        if ($users->isEmpty()) {
-            return redirect()->route('users.index')->withErrors('No users found for the given search criteria.');
-        }
-
-        return view('users.index', compact('users', 'header', 'departments'));
+    if ($search) {
+        $users->where(function ($query) use ($search) {
+            $query->where('surname', 'like', '%' . $search . '%')
+                  ->orWhere('first_name', 'like', '%' . $search . '%');
+        });
     }
+
+    if ($selectedDepartmentId) {
+        $users->where('department_id', $selectedDepartmentId); // Filter by selected department
+    }
+
+    $users = $users->paginate(10);
+
+    $header = 'Users'; // Set the header title
+
+    // Check if no users were found
+    if ($users->isEmpty()) {
+        return redirect()->route('users.index')->withErrors('No users found for the given search criteria.');
+    }
+
+    // Retrieve the selected department (if it exists)
+    $selectedDepartment = Department::find($selectedDepartmentId);
+
+    return view('users.index', compact('users', 'header', 'departments', 'selectedDepartment'));
+}
+
 
 
 

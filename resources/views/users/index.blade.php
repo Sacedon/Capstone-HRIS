@@ -49,18 +49,52 @@
                     </div>
                 </div>
 
-                <div class="mb-4">
-                    <form action="{{ route('users.index') }}" method="GET" class="flex items-center">
-                        @csrf
+                <div class="mb-4 flex items-center space-x-4">
+                    <div class="relative">
+                        <form action="{{ route('users.index') }}" method="GET" class="flex items-center">
+                            @csrf
 
-                        <div class="relative">
-                            <input type="text" id="search" name="search" value="{{ request('search') }}" placeholder="Search users..." class="px-3 py-2 border rounded w-full">
-                            <button type="submit" class="absolute inset-y-0 right-0 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                                Search
-                            </button>
-                        </div>
-                    </form>
+                            <div class="relative">
+                                <input
+                                    type="text"
+                                    id="search"
+                                    name="search"
+                                    value="{{ request('search') }}"
+                                    placeholder="Search users..."
+                                    class="input-field"
+                                >
+                                <button
+                                    type="submit"
+                                    class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                >
+                                    Search
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+
+                    @if (auth()->user()->role === 'admin')
+                        <form action="{{ route('users.index') }}" method="GET" class="flex items-center">
+                            @csrf
+                            <div class="relative">
+                                <select
+                                    name="department_id"
+                                    id="department_id"
+                                    class="dropdown"
+                                >
+                                    <option value="">All Departments</option>
+                                    @foreach ($departments as $dept)
+                                        <option value="{{ $dept->id }}" @if($selectedDepartment && $selectedDepartment->id == $dept->id) selected @endif>{{ $dept->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <button type="submit" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ml-3">Filter</button>
+                        </form>
+                    @endif
                 </div>
+
+
 
                 <div class="overflow-x-auto mt-6">
                     <table class="min-w-full divide-y divide-gray-200">
@@ -77,6 +111,10 @@
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Role
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Department
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -103,6 +141,13 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         {{ $user->role }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        @if ($user->department)
+                                            {{ $user->department->name }}
+                                        @else
+                                            No Department
+                                        @endif
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex space-x-2">

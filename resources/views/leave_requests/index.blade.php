@@ -107,7 +107,13 @@ window.addEventListener('load', hideMessages);
                                             {{ $leaveRequest->status }}
                                         </span>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ $leaveRequest->user->department->name }}</td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                        @if ($leaveRequest->user && $leaveRequest->user->department)
+                                            {{ $leaveRequest->user->department->name }}
+                                        @else
+                                            Department not found
+                                        @endif
+                                    </td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                         <a href="{{ route('leave-requests.show', $leaveRequest->id) }}" class="text-indigo-600 hover:text-indigo-900">View</a>
                                         <form method="POST" action="{{ route('leave-requests.destroy', $leaveRequest) }}" class="inline">
