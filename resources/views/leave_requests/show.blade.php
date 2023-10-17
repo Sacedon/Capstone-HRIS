@@ -63,8 +63,8 @@
                         </form>
                     @endif
                 @elseif ($leaveRequest->status === 'pending_admin' && auth()->user()->role === 'admin')
-                    @if (auth()->user()->department_id === $leaveRequest->user->department_id)
-                        <form method="POST" action="{{ route('leave-requests.accept', ['leaveRequest' => $leaveRequest->id]) }}" class="inline">
+                    @if (auth()->user())
+                        <form method="POST" action="{{ route('leave-requests.accept', $leaveRequest) }}" class="inline">
                             @csrf
                             <input type="hidden" name="approval_type" value="admin">
                             <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full mt-4 mr-2">
@@ -72,7 +72,7 @@
                             </button>
                         </form>
 
-                        <form method POST" action="{{ route('leave-requests.reject', $leaveRequest) }}" class="inline">
+                        <form method="POST" action="{{ route('leave-requests.reject', ['leaveRequest' => $leaveRequest->id]) }}" class="inline">
                             @csrf
                             <input type="hidden" name="rejection_type" value="admin">
                             <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mt-4">

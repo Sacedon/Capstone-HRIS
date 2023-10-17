@@ -55,7 +55,7 @@ class LeaveRequestCreated extends Notification
     {
         return [
             'message' => 'A new leave request has been requested by ' . $this->user->first_name,
-            // Add other data you want to include in the notification
+            'link' => '/leave-requests/' . $this->leaveRequest->id,
         ];
     }
 
@@ -63,7 +63,7 @@ class LeaveRequestCreated extends Notification
 {
     return [
         'message' => 'A new leave request has been requested by ' . $this->user->surname,
-        // Add other data you want to include in the notification
+        'link' => '/leave-requests/' . $this->leaveRequest->id,
     ];
 }
 }

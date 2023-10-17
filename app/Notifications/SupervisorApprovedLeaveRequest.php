@@ -54,15 +54,16 @@ class SupervisorApprovedLeaveRequest extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'message' => 'A Supervisor Request for approval for employee leave request'
+            'message' => 'A Supervisor Request for approval for employee leave request',
+            'link' => '/leave-requests/' . $this->leaveRequest->id,
         ];
     }
 
     public function toDatabase($notifiable)
     {
         return [
-            'message' => 'A Supervisor Request for approval for employee leave request'
-            // Add other data you want to include in the notification
+            'message' => 'A Supervisor Request for approval for employee leave request',
+            'link' => '/leave-requests/' . $this->leaveRequest->id,
         ];
     }
 }
