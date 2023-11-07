@@ -45,10 +45,12 @@ class LeaveRequestController extends Controller
     $request->validate([
         'start_date' => 'required|date',
         'end_date' => 'required|date|after:start_date',
-        'reason' => 'required|string|max:255',
+        'reason' => 'required|array',
         'other_reason' => 'required|string|max:255',
         'leave_type' => 'required|in:vacation,sick,personal',
     ]);
+
+    $reason = implode(', ', $request->input('reason'));
 
     $user = auth()->user();
 
@@ -56,7 +58,7 @@ class LeaveRequestController extends Controller
         'user_id' => $user->id,
         'start_date' => $request->input('start_date'),
         'end_date' => $request->input('end_date'),
-        'reason' => $request->input('reason'),
+        'reason' => $reason,
         'other_reason' => $request->input('other_reason'),
         'status' => 'pending_supervisor',
         'leave_type' => $request->input('leave_type')
@@ -203,7 +205,15 @@ public function destroy(LeaveRequest $leaveRequest)
         return view('leave_requests.index', compact('leaveRequests'));
     }
 
+    public function filterByMonth(Request $request, $month)
+    {
+        $leaveRequests = LeaveRequest::whereMonth('start_date', $month)
+            ->paginate(10);
 
+        return view('leave_requests.index', [
+            'leaveRequests' => $leaveRequests,
+        ]);
+    }
 
 
 

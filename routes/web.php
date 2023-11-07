@@ -103,7 +103,8 @@ Route::middleware('auth')->group(function () {
         ->name('leave-requests.destroy');
     Route::post('/leave-requests/{leaveRequest}/reject', [LeaveRequestController::class, 'reject'])->name('leave-requests.reject');
     Route::get('leave-requests/filtered/{status}', [LeaveRequestController::class, 'filtered'])->name('leave-requests.filtered');
-
+    Route::get('/leave-requests/filter-by-month/{month}', [LeaveRequestController::class, 'filterByMonth'])
+    ->name('leave-requests.filter-by-month');
 
 
 

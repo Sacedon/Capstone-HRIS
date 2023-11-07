@@ -26,14 +26,30 @@
                 <div class="mb-4" id="reason-container" style="display: none;">
                     <!-- Initially hidden, will be shown only when "Sick" is selected -->
                     <label for="reason" class="block text-sm font-medium text-gray-700">Specific Type of Sick:</label>
-                    <select name="reason" id="reason"
-                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                        <!-- Options for "Sick" leave type reasons -->
-                        <option value="Flu">Flu</option>
-                        <option value="Cough">Cough</option>
-                        <option value="Diarrhea">Diarrhea</option>
-                        <option value="Headache">Headache</option>
-                    </select>
+                    <div class="mt-1">
+                        <input type="checkbox" name="reason[]" id="flu" value="Flu" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                        <label for="flu" class="ml-2 text-sm text-gray-700">Flu</label>
+                    </div>
+                    <div class="mt-1">
+                        <input type="checkbox" name="reason[]" id="cough" value="Cough" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                        <label for="cough" class="ml-2 text-sm text-gray-700">Cough</label>
+                    </div>
+                    <div class="mt-1">
+                        <input type="checkbox" name="reason[]" id="diarrhea" value="Diarrhea" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                        <label for="diarrhea" class="ml-2 text-sm text-gray-700">Diarrhea</label>
+                    </div>
+                    <div class="mt-1">
+                        <input type="checkbox" name="reason[]" id="headache" value="Headache" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                        <label for="headache" class="ml-2 text-sm text-gray-700">Headache</label>
+                    </div>
+                    <div class="mt-1">
+                        <input type="checkbox" name="reason" id="other" value="other" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                        <label for="other" class="ml-2 text-sm text-gray-700">other</label>
+                    </div>
+                    <div class="mt-1" id="custom-reason-container" style="display: none;">
+                        <label for="custom_reason" class="block text-sm font-medium text-gray-700">Custom Reason:</label>
+                        <input type="text" name="reason[]" id="custom_reason" class="form-input rounded-md shadow-sm mt-1 block w-full" />
+                    </div>
                 </div>
 
                 <script>
@@ -41,6 +57,7 @@
                         // Get the leave type dropdown element and reason container
                         const leaveTypeDropdown = document.getElementById("leave_type");
                         const reasonContainer = document.getElementById("reason-container");
+                        const customReasonContainer = document.getElementById("custom-reason-container");
 
                         // Event listener for leave type dropdown change
                         leaveTypeDropdown.addEventListener("change", function () {
@@ -49,15 +66,29 @@
                             // Toggle visibility of reason container based on the selected leave type
                             if (selectedLeaveType === "sick") {
                                 reasonContainer.style.display = "block";
+                                customReasonContainer.style.display = "none"; // Hide custom reason field
                             } else {
                                 reasonContainer.style.display = "none";
+                                customReasonContainer.style.display = "block"; // Show custom reason field
+                            }
+                        });
+
+                        // Event listener for the "Other" checkbox
+                        const otherCheckbox = document.getElementById("other");
+                        otherCheckbox.addEventListener("change", function () {
+                            customReasonContainer.style.display = this.checked ? "block" : "none";
+                            if (!this.checked) {
+                                document.getElementById("custom_reason").value = ""; // Clear custom reason input
                             }
                         });
 
                         // Trigger change event to set the initial state
                         leaveTypeDropdown.dispatchEvent(new Event("change"));
+                        otherCheckbox.dispatchEvent(new Event("change"));
                     });
                 </script>
+
+
 
                 <div class="mb-4">
                     <label for="other_reason" class="block text-sm font-medium text-gray-700">Reason for Leave:</label>
