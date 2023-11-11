@@ -121,4 +121,9 @@ public function hasEvaluated($evaluator)
     {
         return $this->hasMany(Child::class);
     }
+
+    public function leaveRequests()
+{
+    return $this->hasMany(LeaveRequest::class);
+}
 }

@@ -161,4 +161,6 @@ public function updateAdditionalFields(Request $request)
 
     return redirect()->route('dashboard')->with('success', 'Additional fields updated successfully');
 }
+
+
 }

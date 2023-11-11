@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\LeaveRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Department;
 use Illuminate\Support\Facades\Session;
 use App\Notifications\LeaveRequestAccepted;
@@ -216,5 +217,11 @@ public function destroy(LeaveRequest $leaveRequest)
     }
 
 
+    public function showUserLeaveRequests(User $user)
+{
+    $user = Auth::user();
+    $leaveRequests = $user->leaveRequests; // Assuming you have set up the relationship in User model
 
+    return view('users.records', compact('user', 'leaveRequests'));
+}
 }

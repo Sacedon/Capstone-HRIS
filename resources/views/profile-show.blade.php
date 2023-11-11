@@ -58,6 +58,7 @@
                             class="input-field">
                     </div>
 
+                    @if ($user && $user->role === 'admin')
                     <!-- Department -->
                     <div class="mb-4">
                         <label for="department" class="block text-sm font-medium text-gray-700">Department:</label>
@@ -69,6 +70,8 @@
                             @endforeach
                         </select>
                     </div>
+                @endif
+
 
                     <!-- Civil Status -->
                     <div class="mb-4">

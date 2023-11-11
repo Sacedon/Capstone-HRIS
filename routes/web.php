@@ -105,6 +105,7 @@ Route::middleware('auth')->group(function () {
     Route::get('leave-requests/filtered/{status}', [LeaveRequestController::class, 'filtered'])->name('leave-requests.filtered');
     Route::get('/leave-requests/filter-by-month/{month}', [LeaveRequestController::class, 'filterByMonth'])
     ->name('leave-requests.filter-by-month');
+    Route::get('/users/{user}/leave-requests', [LeaveRequestController::class, 'showUserLeaveRequests'])->name('users.records');
 
 
 
@@ -138,6 +139,8 @@ Route::post('/users', [RegisteredUserController::class, 'store'])->name('users.s
 
 // Route to display the user edit form
 Route::get('/users/{user}/edit', [RegisteredUserController::class, 'edit'])->name('users.edit');
+
+
 
 // Route to update a user
 Route::put('/users/{user}', [RegisteredUserController::class, 'update'])->name('users.update');

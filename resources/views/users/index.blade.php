@@ -133,9 +133,14 @@
                                                     class="w-12 h-12 rounded-full object-cover">
                                             </a>
                                         @else
-                                            <span class="text-gray-400">No Picture</span>
+                                            <a href="{{ route('users.show', $user) }}">
+                                                <img src="{{ asset('images/default-profile.jpeg') }}"
+                                                    alt="{{ $user->name }} Profile Picture"
+                                                    class="w-12 h-12 rounded-full object-cover">
+                                            </a>
                                         @endif
                                     </td>
+
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         {{ $user->surname }}, {{ $user->middle_name }} {{ $user->first_name }}
                                     </td>
@@ -151,6 +156,8 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex space-x-2">
+                                            <a href="{{ route('users.records', $user) }}">Records</a>
+
                                             <a href="{{ route('users.edit', $user) }}"
                                                 class="text-indigo-600 hover:text-indigo-900">Edit</a>
 
@@ -202,7 +209,7 @@
                     <div class="mb-4">
                         <label for="middle_name" class="block text-sm font-medium text-gray-700">Middle Name:</label>
                         <input type="text" id="middle_name" name="middle_name" value="{{ old('middle_name') }}"
-                            required
+
                             class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     </div>
                     <div class="mb-4">

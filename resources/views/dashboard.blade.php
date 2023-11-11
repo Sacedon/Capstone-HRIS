@@ -83,5 +83,16 @@
             <h3 class="text-lg font-semibold mb-2">Total Rejected Requests</h3>
             <p class="text-3xl font-bold text-red-500">{{ $totalRejectedRequests }}</p>
         </div>
+
+        @if($departments->isNotEmpty())
+        @foreach($departments as $department)
+            <div class="bg-white rounded-lg shadow-md dark:bg-dark-eval-1 p-4">
+                <h3 class="text-lg font-semibold mb-2">{{ $department->name }}</h3>
+                <p class="text-3xl font-bold">{{ $department->users_count }}</p>
+            </div>
+        @endforeach
+        @else
+          <p>No departments found.</p>
+        @endif
     </div>
 </x-app-layout>
