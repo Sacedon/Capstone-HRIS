@@ -42,6 +42,20 @@
             margin: 0 auto;
             border-radius: 50%;
         }
+
+        .children-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .children-list li {
+            margin-bottom: 10px;
+        }
+
+        .children-list li strong {
+            display: block;
+            margin-bottom: 5px;
+        }
     </style>
 
     <div class="py-6 user-details-container">
@@ -226,6 +240,23 @@
                     <tr>
                         <th>Mother Middle Name</th>
                         <td>{{ $user->mother_middle_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Children</th>
+                        <td>
+                            @if ($user->children->isNotEmpty())
+                                <ul class="children-list">
+                                    @foreach ($user->children as $child)
+                                        <li>
+                                            <strong>Name:</strong> {{ $child->name }},
+                                            <strong>Birthdate:</strong> {{ $child->birthdate }}
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @else
+                                No Children
+                            @endif
+                        </td>
                     </tr>
                 </tbody>
             </table>

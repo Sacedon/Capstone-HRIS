@@ -219,7 +219,7 @@ public function destroy(LeaveRequest $leaveRequest)
 
     public function showUserLeaveRequests(User $user)
 {
-    $user = Auth::user();
+
     $leaveRequests = $user->leaveRequests; // Assuming you have set up the relationship in User model
 
     return view('users.records', compact('user', 'leaveRequests'));
