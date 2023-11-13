@@ -21,9 +21,10 @@
             </div>
 
             <!-- Back Button -->
-            <a href="{{ url()->previous() }}" class="text-indigo-600 hover:underline mb-4 inline-block">
+            <a href="{{ route('users.index') }}" class="text-indigo-600 hover:underline mb-4 inline-block">
                 &larr; Back
             </a>
+
 
             @if($leaveRequests && $leaveRequests->count() > 0)
                 <div class="bg-gray-100 p-6 rounded-md mb-6">
