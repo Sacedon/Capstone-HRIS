@@ -217,11 +217,17 @@ public function destroy(LeaveRequest $leaveRequest)
     }
 
 
-    public function showUserLeaveRequests(User $user)
+    public function showUserLeaveRequests(User $user, Request $request)
 {
+    $leaveRequests = $user->leaveRequests;
 
-    $leaveRequests = $user->leaveRequests; // Assuming you have set up the relationship in User model
+    // Get the selected leave type from the request, default to 'all'
+    $filterLeaveType = $request->input('leaveTypeFilter', 'all');
 
-    return view('users.records', compact('user', 'leaveRequests'));
+    $filteredLeaveRequests = LeaveRequest::where('user_id', $user->id)
+        ->filterByLeaveType($filterLeaveType)
+        ->get();
+
+    return view('users.records', compact('user', 'leaveRequests', 'filterLeaveType', 'filteredLeaveRequests'));
 }
 }

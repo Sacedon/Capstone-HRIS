@@ -16,4 +16,11 @@ class LeaveRequest extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function scopeFilterByLeaveType($query, $leaveType)
+    {
+        if ($leaveType !== 'all') {
+            $query->where('leave_type', $leaveType);
+        }
+    }
 }
