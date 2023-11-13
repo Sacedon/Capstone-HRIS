@@ -105,8 +105,9 @@
                     </tr>
                     <tr>
                         <th>Department</th>
-                        <td>{{ $user->department->name }}</td>
+                        <td>{{ $user->department ? $user->department->name : 'N/A' }}</td>
                     </tr>
+
                     <tr>
                         <th>Civil Status</th>
                         <td>{{ $user->civil_status }}</td>

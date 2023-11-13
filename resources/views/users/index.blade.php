@@ -156,7 +156,8 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex space-x-2">
-                                            <a href="{{ route('users.records', $user) }}">Records</a>
+                                            <a href="{{ route('users.records', $user) }}"
+                                            class="text-green-600 hover:text-green-900">Records</a>
 
                                             <a href="{{ route('users.edit', $user) }}"
                                                 class="text-indigo-600 hover:text-indigo-900">Edit</a>
