@@ -13,27 +13,41 @@ use Illuminate\Support\Facades\Notification;
 use App\Notifications\LeaveRequestRejected;
 use App\Notifications\LeaveRequestCreated;
 use App\Notifications\SupervisorApprovedLeaveRequest;
+use App\Notifications\LeaveRequestEndedNotification;
 
 
 class LeaveRequestController extends Controller
 {
     public function index()
-    {
-        // Fetch and display leave requests
-        $user = auth()->user();
-        $query = LeaveRequest::query();
-        $leaveRequests = LeaveRequest::where(function ($query) use ($user) {
-            if ($user->role === 'supervisor') {
-                $query->whereIn('status', ['pending_supervisor', 'pending_admin', 'rejected', 'approved']);
-            } elseif ($user->role === 'admin') {
-                $query->whereIn('status', ['pending_admin', 'approved', 'rejected']);
-            }
-        })->get();
+{
+    // Fetch and display leave requests
+    $user = auth()->user();
+    $query = LeaveRequest::query();
 
-        $leaveRequests = $query->paginate(10);
+    $leaveRequests = LeaveRequest::where(function ($query) use ($user) {
+        if ($user->role === 'supervisor') {
+            $query->whereIn('status', ['pending_supervisor', 'pending_admin', 'rejected', 'approved', 'ended']);
+        } elseif ($user->role === 'admin') {
+            $query->whereIn('status', ['pending_admin', 'approved', 'rejected', 'ended']);
+        }
+    })->get();
 
-        return view('leave_requests.index', compact('leaveRequests'));
+    // Check and update status for approved leave requests with end date passed
+    foreach ($leaveRequests as $leaveRequest) {
+        if ($leaveRequest->status === 'approved' && now() > $leaveRequest->end_date && $leaveRequest->status !== 'ended') {
+            $leaveRequest->status = 'ended';
+            $leaveRequest->save();
+
+             // Notify the employee
+             $leaveRequest->user->notify(new LeaveRequestEndedNotification($leaveRequest));
+        }
     }
+
+    // Paginate the results
+    $leaveRequests = $query->paginate(10);
+
+    return view('leave_requests.index', compact('leaveRequests'));
+}
 
     public function create()
     {
@@ -43,6 +57,16 @@ class LeaveRequestController extends Controller
 
     public function store(Request $request, LeaveRequest $leaveRequest)
 {
+
+    $user = auth()->user();
+
+    // Check if the user has any pending leave requests
+    $pendingRequest = $user->leaveRequests()->whereIn('status', ['pending_supervisor', 'pending_admin'])->exists();
+
+    if ($pendingRequest) {
+        return redirect()->route('dashboard')->with('error', 'You have a pending or approved leave request. You cannot submit another one until it is resolved.');
+    }
+
     $request->validate([
         'start_date' => 'required|date',
         'end_date' => 'required|date|after:start_date',
@@ -53,7 +77,6 @@ class LeaveRequestController extends Controller
 
     $reason = implode(', ', $request->input('reason'));
 
-    $user = auth()->user();
 
     LeaveRequest::create([
         'user_id' => $user->id,

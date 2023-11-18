@@ -208,12 +208,6 @@
                             class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     </div>
                     <div class="mb-4">
-                        <label for="middle_name" class="block text-sm font-medium text-gray-700">Middle Name:</label>
-                        <input type="text" id="middle_name" name="middle_name" value="{{ old('middle_name') }}"
-
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    </div>
-                    <div class="mb-4">
                         <label for="password" class="block text-sm font-medium text-gray-700">Password:</label>
                         <input type="password" id="password" name="password" required
                             class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">

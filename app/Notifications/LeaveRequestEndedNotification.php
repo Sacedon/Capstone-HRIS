@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class LeaveRequestRejected extends Notification
+class LeaveRequestEndedNotification extends Notification
 {
     use Queueable;
 
@@ -17,7 +17,7 @@ class LeaveRequestRejected extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct(LeaveRequest $leaveRequest)
+    public function __construct($leaveRequest)
     {
         $this->leaveRequest = $leaveRequest;
     }
@@ -35,12 +35,13 @@ class LeaveRequestRejected extends Notification
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(object $notifiable): MailMessage
+    public function toMail($notifiable)
     {
+        // Customize the email notification
         return (new MailMessage)
-        ->line('Your leave request has been rejected.') // Updated message
-        ->action('View Leave Request', route('leave-requests.show', $this->leaveRequest->id))
-        ->line('Status: ' . $this->leaveRequest->status);
+            ->line('Your leave request has been ended.')
+            ->action('View Leave Request', url('/leave-requests/'.$this->leaveRequest->id))
+            ->line('Status: ' . $this->leaveRequest->status);
 
     }
 
@@ -52,7 +53,7 @@ class LeaveRequestRejected extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'message' => 'Your leave request has been rejected.', // Customize the message as needed
+            'message' => 'Your leave request has been Ended.', // Customize the message as needed
             'link' => '/leave-requests/' . $this->leaveRequest->id,
         ];
     }
