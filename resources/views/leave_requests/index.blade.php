@@ -52,6 +52,7 @@ window.addEventListener('load', hideMessages);
                 <option value="{{ route('leave-requests.filtered', 'approved') }}">Approved</option>
                 <option value="{{ route('leave-requests.filtered', 'rejected') }}">Rejected</option>
                 <option value="{{ route('leave-requests.filtered', 'pending') }}">Pending</option>
+                <option value="{{ route('leave-requests.filtered', 'ended') }}">Ended</option>
             </select>
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.293a1 1 0 011.414 0L12 13.586l1.293-1.293a1 1 0 111.414 1.414l-2 2a1 1 0 01-1.414 0l-2-2a1 1 0 010-1.414 1 1 0 011.414 0z"/></svg>
@@ -144,11 +145,15 @@ window.addEventListener('load', hideMessages);
                                     </td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                         <a href="{{ route('leave-requests.show', $leaveRequest->id) }}" class="text-indigo-600 hover:text-indigo-900">View</a>
-                                        <form method="POST" action="{{ route('leave-requests.destroy', $leaveRequest) }}" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:text-red-900 ml-2">Delete</button>
-                                        </form>
+                                        @if (auth()->user()->role === 'admin')
+    <form method="POST" action="{{ route('leave-requests.destroy', $leaveRequest) }}" class="inline">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="text-red-600 hover:text-red-900 ml-2">Delete</button>
+    </form>
+@endif
+
+
                                     </td>
                                 </tr>
                             @endforeach

@@ -19,35 +19,35 @@ use App\Notifications\LeaveRequestEndedNotification;
 class LeaveRequestController extends Controller
 {
     public function index()
-{
-    // Fetch and display leave requests
-    $user = auth()->user();
-    $query = LeaveRequest::query();
+    {
+        // Fetch and display leave requests
+        $user = auth()->user();
 
-    $leaveRequests = LeaveRequest::where(function ($query) use ($user) {
-        if ($user->role === 'supervisor') {
-            $query->whereIn('status', ['pending_supervisor', 'pending_admin', 'rejected', 'approved', 'ended']);
-        } elseif ($user->role === 'admin') {
-            $query->whereIn('status', ['pending_admin', 'approved', 'rejected', 'ended']);
+        $leaveRequests = LeaveRequest::where(function ($query) use ($user) {
+            if ($user->role === 'supervisor') {
+                $query->whereIn('status', ['pending_supervisor', 'pending_admin', 'rejected', 'approved', 'ended']);
+            } elseif ($user->role === 'admin') {
+                $query->whereIn('status', ['pending_admin', 'approved', 'rejected', 'ended']);
+            }
+        })
+        ->orderBy('created_at', 'desc') // Order by creation date in descending order
+        ->get();
+
+        // Check and update status for approved leave requests with end date passed
+        foreach ($leaveRequests as $leaveRequest) {
+            if ($leaveRequest->status === 'approved' && now() > $leaveRequest->end_date && $leaveRequest->status !== 'ended') {
+                $leaveRequest->update(['status' => 'ended']);
+
+                // Notify the employee
+                $leaveRequest->user->notify(new LeaveRequestEndedNotification($leaveRequest));
+            }
         }
-    })->get();
 
-    // Check and update status for approved leave requests with end date passed
-    foreach ($leaveRequests as $leaveRequest) {
-        if ($leaveRequest->status === 'approved' && now() > $leaveRequest->end_date && $leaveRequest->status !== 'ended') {
-            $leaveRequest->status = 'ended';
-            $leaveRequest->save();
+        // Paginate the results
+        $leaveRequests = LeaveRequest::orderBy('created_at', 'desc')->paginate(10);
 
-             // Notify the employee
-             $leaveRequest->user->notify(new LeaveRequestEndedNotification($leaveRequest));
-        }
+        return view('leave_requests.index', compact('leaveRequests'));
     }
-
-    // Paginate the results
-    $leaveRequests = $query->paginate(10);
-
-    return view('leave_requests.index', compact('leaveRequests'));
-}
 
     public function create()
     {

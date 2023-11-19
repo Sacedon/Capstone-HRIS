@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth', 'supervisor')->group(function () {
     Route::get('/employee-users', [EmployeeController::class, 'showEmployeeDepartmentUsers'])->name('employee-users.index');
-    Route::delete('/user/delete/{id}', [EmployeeController::class, 'deleteUser'])->name('user.delete');
+    Route::delete('/user/delete/{id}', [EmployeeController::class, 'deleteUser'])->middleware('role:admin')->name('user.delete');
 
 
 });
