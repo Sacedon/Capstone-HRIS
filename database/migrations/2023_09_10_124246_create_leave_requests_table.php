@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('reason');
             $table->string('other_reason');
             $table->string('leave_type');
-            $table->enum('status', ['pending_supervisor', 'pending_admin', 'approved', 'rejected', 'ended']);
+            $table->enum('status', ['recommend_for_approval', 'pending_admin', 'approved', 'rejected', 'ended']);
             $table->boolean('supervisor_approval')->default(false);
             $table->boolean('admin_approval')->default(false);
             $table->timestamps();

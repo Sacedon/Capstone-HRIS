@@ -23,7 +23,7 @@
         :isActive="request()->routeIs('leave-requests.create')"
     >
         <x-slot name="icon">
-            <x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+            <x-icons.airplane class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
     </x-sidebar.link>
 
@@ -33,7 +33,7 @@
         :isActive="request()->routeIs('employee-users.index')"
     >
         <x-slot name="icon">
-            <x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+            <x-icons.list class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
     </x-sidebar.link>
 
@@ -68,11 +68,11 @@
     :isActive="request()->routeIs('leave-requests.index')"
 >
     <x-slot name="icon">
-        <x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+        <x-icons.leave class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
     </x-slot>
     </x-sidebar.link>
 
-    <x-sidebar.link
+    {{-- <x-sidebar.link
         title="Evaluation"
         href="{{ route('evaluations.index') }}"
         :isActive="request()->routeIs('evaluations.index')"
@@ -80,7 +80,7 @@
         <x-slot name="icon">
             <x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
-    </x-sidebar.link>
+    </x-sidebar.link> --}}
 
     @php
     $user = auth()->user();
@@ -93,7 +93,7 @@
         :isActive="request()->routeIs('logs.index')"
     >
         <x-slot name="icon">
-            <x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+            <x-icons.records class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
     </x-sidebar.link>
     @endif

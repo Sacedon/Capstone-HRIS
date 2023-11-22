@@ -25,7 +25,7 @@ class LeaveRequestController extends Controller
 
         $leaveRequests = LeaveRequest::where(function ($query) use ($user) {
             if ($user->role === 'supervisor') {
-                $query->whereIn('status', ['pending_supervisor', 'pending_admin', 'rejected', 'approved', 'ended']);
+                $query->whereIn('status', ['recommend_for_approval', 'pending_admin', 'rejected', 'approved', 'ended']);
             } elseif ($user->role === 'admin') {
                 $query->whereIn('status', ['pending_admin', 'approved', 'rejected', 'ended']);
             }
@@ -61,7 +61,7 @@ class LeaveRequestController extends Controller
     $user = auth()->user();
 
     // Check if the user has any pending leave requests
-    $pendingRequest = $user->leaveRequests()->whereIn('status', ['pending_supervisor', 'pending_admin'])->exists();
+    $pendingRequest = $user->leaveRequests()->whereIn('status', ['recommend_for_approval', 'pending_admin'])->exists();
 
     if ($pendingRequest) {
         return redirect()->route('dashboard')->with('error', 'You have a pending or approved leave request. You cannot submit another one until it is resolved.');
@@ -84,7 +84,7 @@ class LeaveRequestController extends Controller
         'end_date' => $request->input('end_date'),
         'reason' => $reason,
         'other_reason' => $request->input('other_reason'),
-        'status' => 'pending_supervisor',
+        'status' => 'recommend_for_approval',
         'leave_type' => $request->input('leave_type')
     ]);
 
@@ -110,7 +110,7 @@ class LeaveRequestController extends Controller
 {
     $leaveRequests = LeaveRequest::all(); // You can modify this query to fetch the relevant leave requests.
 
-    if ($leaveRequest->status === 'pending_supervisor' && auth()->user()->role === 'supervisor') {
+    if ($leaveRequest->status === 'recommend_for_approval' && auth()->user()->role === 'supervisor') {
         // Show supervisor approval form
         return view('leave_requests.show', compact('leaveRequest', 'leaveRequests'));
     } elseif ($leaveRequest->status === 'pending_admin' && auth()->user()->role === 'admin') {
@@ -131,8 +131,8 @@ public function accept(Request $request, LeaveRequest $leaveRequest)
     $approvalType = $request->input('approval_type');
 
         if ($approvalType === 'supervisor') {
-            // Check if the leave request status is pending_supervisor before supervisor's approval
-            if ($leaveRequest->status === 'pending_supervisor') {
+            // Check if the leave request status is recommend_for_approval before supervisor's approval
+            if ($leaveRequest->status === 'recommend_for_approval') {
                 $leaveRequest->update([
                     'status' => 'pending_admin', // Move to admin approval status
                     'supervisor_approval' => true, // Mark as supervisor approved
@@ -170,8 +170,8 @@ public function reject(Request $request, LeaveRequest $leaveRequest)
     $rejectionType = $request->input('rejection_type');
 
     if ($rejectionType === 'supervisor') {
-        // Check if the leave request status is pending_supervisor before supervisor's rejection
-        if ($leaveRequest->status === 'pending_supervisor') {
+        // Check if the leave request status is recommend_for_approval before supervisor's rejection
+        if ($leaveRequest->status === 'recommend_for_approval') {
             $leaveRequest->update([
                 'status' => 'rejected', // Mark as rejected
                 'supervisor_approval' => false, // Mark as supervisor rejection
@@ -219,7 +219,7 @@ public function destroy(LeaveRequest $leaveRequest)
         $query = LeaveRequest::query();
 
         if ($status === 'pending') {
-            $query->whereIn('status', ['pending_supervisor', 'pending_admin']);
+            $query->whereIn('status', ['recommend_for_approval', 'pending_admin']);
         } else {
             $query->where('status', $status);
         }

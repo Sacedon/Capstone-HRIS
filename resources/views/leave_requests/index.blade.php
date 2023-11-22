@@ -85,7 +85,7 @@ window.addEventListener('load', hideMessages);
         <script>
             document.getElementById('filterDropdown').addEventListener('change', function() {
                 var selectedOption = this.value;
-                if (selectedOption === "{{ route('leave-requests.filtered', 'pending_supervisor') }}" || selectedOption === "{{ route('leave-requests.filtered', 'pending_admin') }}") {
+                if (selectedOption === "{{ route('leave-requests.filtered', 'recommend_for_approval') }}" || selectedOption === "{{ route('leave-requests.filtered', 'pending_admin') }}") {
                     window.location = "{{ route('leave-requests.filtered', 'pending') }}";
                 } else {
                     window.location = selectedOption;

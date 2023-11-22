@@ -41,7 +41,7 @@ class SupervisorApprovedLeaveRequest extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-        ->line('A Supervisor Request for approval for employee leave request')
+        ->line('A Department Head Request for approval for employee leave request')
         ->action('View Leave Request', route('leave-requests.show', $this->leaveRequest->id))
         ->line('Thank you for using our application!');
 }
@@ -54,7 +54,7 @@ class SupervisorApprovedLeaveRequest extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'message' => 'A Supervisor Request for approval for employee leave request',
+            'message' => 'A Department Head Request for approval for employee leave request',
             'link' => '/leave-requests/' . $this->leaveRequest->id,
         ];
     }
@@ -62,7 +62,7 @@ class SupervisorApprovedLeaveRequest extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'message' => 'A Supervisor Request for approval for employee leave request',
+            'message' => 'A Department Head Request for approval for employee leave request',
             'link' => '/leave-requests/' . $this->leaveRequest->id,
         ];
     }
