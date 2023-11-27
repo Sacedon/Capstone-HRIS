@@ -43,6 +43,13 @@
                     </div>
                 </dl>
 
+                @if ($leaveRequest->status === 'rejected' && $leaveRequest->rejection_reason)
+                   <div class="mt-4">
+                   <strong>Rejected Reason:</strong>
+                   <p>{{ $leaveRequest->rejection_reason }}</p>
+                   </div>
+                @endif
+
                 <!-- Actions Buttons (if pending) -->
                 @if ($leaveRequest->status === 'pending_supervisor' && auth()->user()->role === 'supervisor')
                     @if (auth()->user()->department_id === $leaveRequest->user->department_id)
@@ -54,13 +61,31 @@
                             </button>
                         </form>
 
-                        <form method="POST" action="{{ route('leave-requests.reject', $leaveRequest) }}" class="inline">
-                            @csrf
-                            <input type="hidden" name="rejection_type" value="supervisor">
-                            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mt-4">
-                                Reject Leave Request
-                            </button>
-                        </form>
+                        <button type="button" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mt-4" data-bs-toggle="modal" data-bs-target="#rejectionModal">
+                            Reject Leave Request
+                        </button>
+
+                        <div class="modal fade" id="rejectionModal" tabindex="-1" aria-labelledby="rejectionModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="rejectionModalLabel">Provide Rejection Reason</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST" action="{{ route('leave-requests.reject', $leaveRequest) }}">
+                                            @csrf
+                                            <input type="hidden" name="rejection_type" value="supervisor">
+                                            <div class="mb-3">
+                                                <label for="rejectionReason" class="form-label">Rejection Reason:</label>
+                                                <textarea class="form-control" id="rejectionReason" name="rejected_reason" rows="3" placeholder="Enter rejection reason"></textarea>
+                                            </div>
+                                            <button type="submit" class="btn btn-danger">Reject Leave Request</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     @endif
                 @elseif ($leaveRequest->status === 'recommend_for_approval' && auth()->user()->role === 'admin')
                     @if (auth()->user())
@@ -72,13 +97,32 @@
                             </button>
                         </form>
 
-                        <form method="POST" action="{{ route('leave-requests.reject', ['leaveRequest' => $leaveRequest->id]) }}" class="inline">
+                        <button type="button" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mt-4" data-bs-toggle="modal" data-bs-target="#adminRejectionModal">
+                            Reject Leave Request
+                        </button>
+
+                        <!-- Admin Rejection Reason Modal -->
+        <div class="modal fade" id="adminRejectionModal" tabindex="-1" aria-labelledby="adminRejectionModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="adminRejectionModalLabel">Provide Rejection Reason</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" action="{{ route('leave-requests.reject', ['leaveRequest' => $leaveRequest->id]) }}">
                             @csrf
                             <input type="hidden" name="rejection_type" value="admin">
-                            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mt-4">
-                                Reject Leave Request
-                            </button>
+                            <div class="mb-3">
+                                <label for="adminRejectionReason" class="form-label">Rejection Reason:</label>
+                                <textarea class="form-control" id="adminRejectionReason" name="rejected_reason" rows="3" placeholder="Enter rejection reason"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-danger">Reject Leave Request</button>
                         </form>
+                    </div>
+                </div>
+            </div>
+        </div>
                     @endif
                 @endif
 

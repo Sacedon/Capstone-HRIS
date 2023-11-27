@@ -168,6 +168,7 @@ public function reject(Request $request, LeaveRequest $leaveRequest)
 {
     // Check if the leave request status is pending before rejecting
     $rejectionType = $request->input('rejection_type');
+    $rejectedReason = $request->input('rejected_reason');
 
     if ($rejectionType === 'supervisor') {
         // Check if the leave request status is pending_supervisor before supervisor's rejection
@@ -175,10 +176,11 @@ public function reject(Request $request, LeaveRequest $leaveRequest)
             $leaveRequest->update([
                 'status' => 'rejected', // Mark as rejected
                 'supervisor_approval' => false, // Mark as supervisor rejection
+                'rejection_reason' => $rejectedReason,
             ]);
 
             // Notify the user about supervisor's rejection
-            $leaveRequest->user->notify(new LeaveRequestRejected($leaveRequest));
+            $leaveRequest->user->notify(new LeaveRequestRejected($leaveRequest, $rejectedReason));
 
             return redirect()->route('leave-requests.show', $leaveRequest)->with('success', 'Supervisor rejected the leave request.');
         }
@@ -188,10 +190,11 @@ public function reject(Request $request, LeaveRequest $leaveRequest)
             $leaveRequest->update([
                 'status' => 'rejected', // Mark as rejected
                 'admin_approval' => false, // Mark as admin rejection
+                'rejection_reason' => $rejectedReason,
             ]);
 
             // Notify the user about admin's rejection
-            $leaveRequest->user->notify(new LeaveRequestRejected($leaveRequest));
+            $leaveRequest->user->notify(new LeaveRequestRejected($leaveRequest, $rejectedReason));
 
             return redirect()->route('leave-requests.show', $leaveRequest)->with('success', 'Admin rejected the leave request.');
         }
