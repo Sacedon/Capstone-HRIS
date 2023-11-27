@@ -55,6 +55,15 @@
                         <tr class="bg-white">
                             <td colspan="7" class="text-right italic py-4 px-6 border-t">
                                 <div class="mt-4 flex justify-between items-center">
+
+                                    <div>
+                                        <label for="signature" class="block text-sm font-medium text-gray-600">Signature:</label>
+                                        <div id="signature-pad" class="signature-pad border border-gray-300 p-4">
+                                            <canvas class="border border-gray-300 rounded-md" style="width: 100%; height: 150px;"></canvas>
+                                            <input type="hidden" name="signature" id="signature-input">
+                                            <button type="button" id="clear-button" class="mt-2 px-4 py-2 bg-red-500 text-white rounded-md">Clear</button>
+                                        </div>
+                                    </div>
                                     <div>
                                         <label for="date" class="block text-sm font-medium text-gray-600">Date</label>
                                         <input type="date" name="date" id="date" class="form-input border border-gray-300 rounded-md shadow-sm mt-1 block w-full" value="{{ old('date', $user->date) }}">
@@ -69,10 +78,20 @@
                     </tbody>
                 </table>
             </form>
+            <script>
+                var canvas = document.querySelector("canvas");
+                var signaturePad = new SignaturePad(canvas);
 
+                // Add an event listener to update the hidden input with the signature data
+                signaturePad.onEnd = function() {
+                    document.getElementById('signature-input').value = signaturePad.toDataURL();
+                };
 
-
-
+                document.getElementById('clear-button').addEventListener('click', function () {
+                    signaturePad.clear();
+                 document.getElementById('signature-input').value = '';
+                });
+            </script>
         </div>
     </div>
 </x-app-layout>

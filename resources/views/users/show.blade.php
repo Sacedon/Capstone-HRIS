@@ -299,6 +299,17 @@
                                             <label for="date" class="block text-sm font-medium text-gray-600">Date</label>
                                             {{ $user->date }}
                                         </div>
+
+                                        <div>
+                                            <label for="signature" class="block text-sm font-medium text-gray-600">Signature</label>
+                                            @if ($user->signature)
+                                                <!-- Display the image if a signature exists -->
+                                                <img src="{{ asset('storage/signatures/' . $user->signature) }}" alt="Signature">
+                                            @else
+                                                <!-- Display the signature value if no image exists -->
+                                                {{ $user->signature }}
+                                            @endif
+                                        </div>
                                     </div>
                                 </td>
                             </tr>

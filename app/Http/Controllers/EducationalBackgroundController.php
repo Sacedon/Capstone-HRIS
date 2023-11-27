@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
@@ -64,25 +65,16 @@ class EducationalBackgroundController extends Controller
             'date' => 'nullable|date',
         ]);
 
-        if ($request->filled('signature')) {
-            // Remove the data:image part
-            $imageData = substr($request->input('signature'), strpos($request->input('signature'), ',') + 1);
+        if ($request->has('signature')) {
+            $signatureData = $validatedData['signature'];
+            $signatureFile = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $signatureData));
 
-            // Decode the base64 image data
-            $decodedImage = base64_decode($imageData);
+            // Save the signature image
+            $signatureFileName = 'signature_' . Str::random(10) . '.png';
+            Storage::disk('public')->put('signatures/' . $signatureFileName, $signatureFile);
 
-            // Ensure the storage directory exists
-            $directory = 'public/signatures/';
-            Storage::makeDirectory($directory);
-
-            // Generate a random filename
-            $filename = Str::random(10) . '.png';
-
-            // Store the image
-            Storage::disk('public')->put($directory . $filename, $decodedImage);
-
-            // Save the URL in the validated data
-            $validatedData['signature'] = Storage::url($directory . $filename);
+            // Update the user model with the signature file name
+            $validatedData['signature'] = $signatureFileName;
         }
 
         $user->update($validatedData);
