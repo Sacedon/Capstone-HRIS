@@ -78,11 +78,41 @@
             <option value="sick" {{ $filterLeaveType === 'sick' ? 'selected' : '' }}>Sick</option>
             <option value="vacation" {{ $filterLeaveType === 'vacation' ? 'selected' : '' }}>Vacation</option>
             <option value="personal" {{ $filterLeaveType === 'personal' ? 'selected' : '' }}>Personal</option>
+            <option value="fiesta" {{ $filterLeaveType === 'fiesta' ? 'selected' : '' }}>Fiesta</option>
+            <option value="birthday" {{ $filterLeaveType === 'birthday' ? 'selected' : '' }}>Birthday</option>
         </select>
         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.293a1 1 0 011.414 0L12 13.586l1.293-1.293a1 1 0 111.414 1.414l-2 2a1 1 0 01-1.414 0l-2-2a1 1 0 010-1.414 1 1 0 011.414 0z"/></svg>
         </div>
     </form>
+
+    <div class="mb-4 relative">
+        <select id="filterMonthDropdown" class="block appearance-none bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+            <option disabled selected value="">Select Month</option>
+            <option value="{{ route('users.records', ['user' => $user]) }}">All Requests</option>
+            <option value="{{ route('leave-requests.filter-by-month-record', ['user' => $user, 'month' => '01']) }}">January</option>
+            <option value="{{ route('leave-requests.filter-by-month-record', ['user' => $user, 'month' => '02']) }}">February</option>
+            <option value="{{ route('leave-requests.filter-by-month-record', ['user' => $user, 'month' => '03']) }}">March</option>
+            <option value="{{ route('leave-requests.filter-by-month-record', ['user' => $user, 'month' => '04']) }}">April</option>
+            <option value="{{ route('leave-requests.filter-by-month-record', ['user' => $user, 'month' => '05']) }}">May</option>
+            <option value="{{ route('leave-requests.filter-by-month-record', ['user' => $user, 'month' => '06']) }}">June</option>
+            <option value="{{ route('leave-requests.filter-by-month-record', ['user' => $user, 'month' => '07']) }}">July</option>
+            <option value="{{ route('leave-requests.filter-by-month-record', ['user' => $user, 'month' => '08']) }}">August</option>
+            <option value="{{ route('leave-requests.filter-by-month-record', ['user' => $user, 'month' => '09']) }}">September</option>
+            <option value="{{ route('leave-requests.filter-by-month-record', ['user' => $user, 'month' => '10']) }}">October</option>
+            <option value="{{ route('leave-requests.filter-by-month-record', ['user' => $user, 'month' => '11']) }}">November</option>
+            <option value="{{ route('leave-requests.filter-by-month-record', ['user' => $user, 'month' => '12']) }}">December</option>
+        </select>
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.293a1 1 0 011.414 0L12 13.586l1.293-1.293a1 1 0 111.414 1.414l-2 2a1 1 0 01-1.414 0l-2-2a1 1 0 010-1.414 1 1 0 011.414 0z"/></svg>
+        </div>
+    </div>
+    <script>
+    document.getElementById('filterMonthDropdown').addEventListener('change', function() {
+        var selectedOption = this.value;
+        window.location = selectedOption;
+    });
+   </script>
 </div>
 
 <table class="w-full border border-gray-300 rounded-lg overflow-hidden">

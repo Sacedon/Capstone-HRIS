@@ -74,6 +74,48 @@ class UserFactory extends Factory
             'mother_maiden_surname' => $this->faker->lastName,
             'mother_first_name' => $this->faker->firstName,
             'mother_middle_name' => $this->faker->firstName,
+            'elementary_school' => $this->faker->sentence,
+            'elementary_degree' => $this->faker->sentence,
+            'elementary_attendance_from' => $this->faker->date,
+            'elementary_attendance_to' => $this->faker->date,
+            'elementary_highest_level' => $this->faker->sentence,
+            'elementary_year_graduated' => $this->faker->date,
+            'elementary_honors' => $this->faker->sentence,
+
+            'secondary_school' => $this->faker->sentence,
+            'secondary_degree' => $this->faker->sentence,
+            'secondary_attendance_from' => $this->faker->date,
+            'secondary_attendance_to' => $this->faker->date,
+            'secondary_highest_level' => $this->faker->sentence,
+            'secondary_year_graduated' => $this->faker->date,
+            'secondary_honors' => $this->faker->sentence,
+
+            'vocational_school' => $this->faker->sentence,
+            'vocational_degree' => $this->faker->sentence,
+            'vocational_attendance_from' => $this->faker->date,
+            'vocational_attendance_to' => $this->faker->date,
+            'vocational_highest_level' => $this->faker->sentence,
+            'vocational_year_graduated' => $this->faker->date,
+            'vocational_honors' => $this->faker->sentence,
+
+            'college_school' => $this->faker->sentence,
+            'college_degree' => $this->faker->sentence,
+            'college_attendance_from' => $this->faker->date,
+            'college_attendance_to' => $this->faker->date,
+            'college_highest_level' => $this->faker->sentence,
+            'college_year_graduated' => $this->faker->date,
+            'college_honors' => $this->faker->sentence,
+
+            'graduate_school' => $this->faker->sentence,
+            'graduate_degree' => $this->faker->sentence,
+            'graduate_attendance_from' => $this->faker->date,
+            'graduate_attendance_to' => $this->faker->date,
+            'graduate_highest_level' => $this->faker->sentence,
+            'graduate_year_graduated' => $this->faker->date,
+            'graduate_honors' => $this->faker->sentence,
+
+
+            'date' => $this->faker->date,
         ];
     }
 

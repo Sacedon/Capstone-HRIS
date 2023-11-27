@@ -261,6 +261,51 @@
                     </tr>
                 </tbody>
             </table>
+
+            <div class="py-6 user-details-container">
+                <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
+                    <table class="w-full text-sm text-gray-500 border border-gray-300 user-details-table">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                                <th scope="col" class="py-3 px-6 border-b">LEVEL</th>
+                                <th scope="col" class="py-3 px-6 border-b">NAME OF SCHOOL (Write in full)</th>
+                                <th scope="col" class="py-3 px-6 border-b">BASIC EDUCATION/DEGREE/COURSE (Write in full)</th>
+                                <th scope="col" class="py-3 px-6 border-b">PERIOD OF ATTENDANCE</th>
+                                <th scope="col" class="py-3 px-6 border-b">HIGHEST LEVEL/UNITS EARNED (if not graduated)</th>
+                                <th scope="col" class="py-3 px-6 border-b">YEAR GRADUATED</th>
+                                <th scope="col" class="py-3 px-6 border-b">SCHOLARSHIP/ACADEMIC HONORS RECEIVED</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(['elementary', 'secondary', 'vocational', 'college', 'graduate'] as $level)
+                                <tr class="bg-white border-b">
+                                    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">{{ strtoupper($level) }}</th>
+                                    <td class="py-4 px-2">{{ $user->{$level . '_school'} }}</td>
+                                    <td class="py-4 px-6">{{ $user->{$level . '_degree'} }}</td>
+                                    <td class="py-4 px-6">
+                                        <div class="flex">
+                                            {{ $user->{$level . '_attendance_from'} }} - {{ $user->{$level . '_attendance_to'} }}
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-6">{{ $user->{$level . '_highest_level'} }}</td>
+                                    <td class="py-4 px-6">{{ $user->{$level . '_year_graduated'} }}</td>
+                                    <td class="py-4 px-6">{{ $user->{$level . '_honors'} }}</td>
+                                </tr>
+                            @endforeach
+                            <tr class="bg-white">
+                                <td colspan="7" class="text-right italic py-4 px-6 border-t">
+                                    <div class="mt-4 flex justify-between items-center">
+                                        <div>
+                                            <label for="date" class="block text-sm font-medium text-gray-600">Date</label>
+                                            {{ $user->date }}
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </x-app-layout>

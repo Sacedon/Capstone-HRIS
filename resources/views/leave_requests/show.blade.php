@@ -62,7 +62,7 @@
                             </button>
                         </form>
                     @endif
-                @elseif ($leaveRequest->status === 'pending_admin' && auth()->user()->role === 'admin')
+                @elseif ($leaveRequest->status === 'recommend_for_approval' && auth()->user()->role === 'admin')
                     @if (auth()->user())
                         <form method="POST" action="{{ route('leave-requests.accept', $leaveRequest) }}" class="inline">
                             @csrf

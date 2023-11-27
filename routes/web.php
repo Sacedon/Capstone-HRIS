@@ -11,6 +11,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\ChildController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\EducationalBackgroundController;
 
 
 
@@ -38,6 +39,14 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function () {
     Route::post('/additonal_fields', [ChildController::class, 'store'])->name('additional_fields.store');
     Route::delete('/additonal_fields/{id}', [ChildController::class, 'destroy'])->name('additional_fields.destroy');
+
+
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/educational-background', [EducationalBackgroundController::class, 'index'])->name('educational_background');
+    Route::post('/submit-educational-background', [EducationalBackgroundController::class, 'submit'])->name('submit_educational_background');
+
 
 
 });
@@ -105,6 +114,8 @@ Route::middleware('auth')->group(function () {
     Route::get('leave-requests/filtered/{status}', [LeaveRequestController::class, 'filtered'])->name('leave-requests.filtered');
     Route::get('/leave-requests/filter-by-month/{month}', [LeaveRequestController::class, 'filterByMonth'])
     ->name('leave-requests.filter-by-month');
+    Route::get('/users/{user}/leave-requests/filter-by-month/{month}', [LeaveRequestController::class, 'filterByMonthRecords'])
+    ->name('leave-requests.filter-by-month-record');
     Route::get('/users/{user}/leave-requests', [LeaveRequestController::class, 'showUserLeaveRequests'])->name('users.records');
 
 

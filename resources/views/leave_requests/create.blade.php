@@ -20,6 +20,8 @@
                         <option value="vacation">Vacation</option>
                         <option value="sick">Sick</option>
                         <option value="personal">Personal</option>
+                        <option value="fiesta">Fiesta</option>
+                        <option value="birthday">Birthday</option>
                     </select>
                 </div>
 

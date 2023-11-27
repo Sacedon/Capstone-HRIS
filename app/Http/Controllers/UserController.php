@@ -159,7 +159,7 @@ public function updateAdditionalFields(Request $request)
 
     $user->update($validatedData);
 
-    return redirect()->route('dashboard')->with('success', 'Additional fields updated successfully');
+    return redirect()->route('educational_background')->with('success', 'Additional fields updated successfully');
 }
 
 

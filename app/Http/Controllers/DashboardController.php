@@ -13,7 +13,7 @@ class DashboardController extends Controller
 {
     $totalUsers = User::count();
     $totalAcceptedRequests = LeaveRequest::where('status', 'approved')->count();
-    $totalPendingRequests = LeaveRequest::whereIn('status', ['pending_supervisor', 'pending_admin'])->count();
+    $totalPendingRequests = LeaveRequest::whereIn('status', ['pending_supervisor', 'recommend_for_approval'])->count();
     $totalRejectedRequests = LeaveRequest::where('status', 'rejected')->count();
 
     $departments = Department::withCount('users')->get();

@@ -13,25 +13,25 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             // Spouse's Information
-            $table->string('spouse_surname')->nullable();
-            $table->string('spouse_first_name')->nullable();
-            $table->string('spouse_name_extension')->nullable();
-            $table->string('spouse_middle_name')->nullable();
-            $table->string('spouse_occupation')->nullable();
-            $table->string('spouse_employer')->nullable();
-            $table->string('spouse_business_address')->nullable();
+            $table->text('spouse_surname')->nullable();
+            $table->text('spouse_first_name')->nullable();
+            $table->text('spouse_name_extension')->nullable();
+            $table->text('spouse_middle_name')->nullable();
+            $table->text('spouse_occupation')->nullable();
+            $table->text('spouse_employer')->nullable();
+            $table->text('spouse_business_address')->nullable();
             $table->string('spouse_telephone')->nullable();
 
              // Father's Information
-             $table->string('father_surname')->nullable();
-             $table->string('father_first_name')->nullable();
-             $table->string('father_name_extension')->nullable();
-             $table->string('father_middle_name')->nullable();
+             $table->text('father_surname')->nullable();
+             $table->text('father_first_name')->nullable();
+             $table->text('father_name_extension')->nullable();
+             $table->text('father_middle_name')->nullable();
 
              // Mother's Information
-            $table->string('mother_maiden_surname')->nullable();
-            $table->string('mother_first_name')->nullable();
-            $table->string('mother_middle_name')->nullable();
+            $table->text('mother_maiden_surname')->nullable();
+            $table->text('mother_first_name')->nullable();
+            $table->text('mother_middle_name')->nullable();
         });
     }
 
