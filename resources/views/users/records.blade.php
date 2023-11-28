@@ -121,6 +121,7 @@
             <th class="py-2 px-4 border-b border-r">{{ __('Leave Type') }}</th>
             <th class="py-2 px-4 border-b border-r">{{ __('Start Date') }}</th>
             <th class="py-2 px-4 border-b border-r">{{ __('End Date') }}</th>
+            <th class="py-2 px-4 border-b border-r">{{ __('Number of Days') }}</th>
             <th class="py-2 px-4 border-b border-r">{{ __('Reason') }}</th>
         </tr>
     </thead>
@@ -131,6 +132,7 @@
                     <td class="py-2 px-4 border-b border-r">{{ $leaveRequest->leave_type }}</td>
                     <td class="py-2 px-4 border-b border-r">{{ $leaveRequest->start_date }}</td>
                     <td class="py-2 px-4 border-b border-r">{{ $leaveRequest->end_date }}</td>
+                    <td class="py-2 px-4 border-b border-r">{{ $leaveRequest->number_of_days }}</td>
                     <td class="py-2 px-4 border-b border-r">
                         @if($leaveRequest->leave_type === 'sick')
                             @if(is_array($leaveRequest->reason))

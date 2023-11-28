@@ -21,6 +21,10 @@
                         <dd>{{ $leaveRequest->end_date }}</dd>
                     </div>
                     <div class="mb-2">
+                        <dt class="text-gray-600">Number of Days:</dt>
+                        <dd>{{ $leaveRequest->number_of_days }}</dd>
+                    </div>
+                    <div class="mb-2">
                         <dt class="text-gray-600">Leave Type:</dt>
                         <dd>{{ $leaveRequest->leave_type }}</dd>
                     </div>

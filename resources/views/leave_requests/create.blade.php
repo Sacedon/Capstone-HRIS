@@ -111,6 +111,44 @@
                     </div>
                 </div>
 
+                <div class="mb-4">
+                    <label for="number_of_days" class="block text-sm font-medium text-gray-700">Number of Days:</label>
+                    <input type="text" id="number_of_days" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" readonly>
+                </div>
+
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        // Your existing JavaScript code...
+
+                        // Event listener for start date and end date change
+                        const startDateInput = document.getElementById("start_date");
+                        const endDateInput = document.getElementById("end_date");
+                        const numberOfDaysInput = document.getElementById("number_of_days");
+
+                        function updateNumberOfDays() {
+                            const startDate = new Date(startDateInput.value);
+                            const endDate = new Date(endDateInput.value);
+
+                            // Calculate the difference in days
+                            const timeDifference = endDate - startDate;
+                            const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+                            // Display the number of days
+                            numberOfDaysInput.value = daysDifference;
+                        }
+
+                        // Event listeners for date inputs
+                        startDateInput.addEventListener("change", updateNumberOfDays);
+                        endDateInput.addEventListener("change", updateNumberOfDays);
+
+                        // Trigger change event to set the initial state
+                        leaveTypeDropdown.dispatchEvent(new Event("change"));
+                        otherCheckbox.dispatchEvent(new Event("change"));
+                        startDateInput.dispatchEvent(new Event("change"));
+                        endDateInput.dispatchEvent(new Event("change"));
+                    });
+                </script>
+
                 <div class="flex items-center justify-end">
                     <button type="submit"
                         class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">

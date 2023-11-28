@@ -128,6 +128,7 @@ class RegisteredUserController extends Controller
     $departments = Department::all();
     $search = $request->input('search');
     $selectedDepartmentId = $request->input('department_id'); // Get the selected department ID
+    $selectedGender = $request->input('gender');
 
     $users = User::query();
 
@@ -142,6 +143,10 @@ class RegisteredUserController extends Controller
         $users->where('department_id', $selectedDepartmentId); // Filter by selected department
     }
 
+    if ($selectedGender) {
+        $users->where('gender', $selectedGender); // Filter by selected gender
+    }
+
     $users = $users->paginate(10);
 
     $header = 'Users'; // Set the header title
@@ -154,7 +159,7 @@ class RegisteredUserController extends Controller
     // Retrieve the selected department (if it exists)
     $selectedDepartment = Department::find($selectedDepartmentId);
 
-    return view('users.index', compact('users', 'header', 'departments', 'selectedDepartment'));
+    return view('users.index', compact('users', 'header', 'departments', 'selectedDepartment', 'selectedGender'));
 }
 
 

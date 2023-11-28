@@ -77,6 +77,11 @@ class LeaveRequestController extends Controller
 
     $reason = implode(', ', $request->input('reason'));
 
+    $startDate = new \DateTime($request->input('start_date'));
+    $endDate = new \DateTime($request->input('end_date'));
+    $interval = $startDate->diff($endDate);
+    $number_of_days = $interval->format('%a') + 1;
+
 
     LeaveRequest::create([
         'user_id' => $user->id,
@@ -85,7 +90,8 @@ class LeaveRequestController extends Controller
         'reason' => $reason,
         'other_reason' => $request->input('other_reason'),
         'status' => 'pending_supervisor',
-        'leave_type' => $request->input('leave_type')
+        'leave_type' => $request->input('leave_type'),
+        'number_of_days' => $number_of_days,
     ]);
 
     $department = $user->department;

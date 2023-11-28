@@ -23,6 +23,7 @@ return new class extends Migration
             $table->enum('status', ['pending_supervisor', 'recommend_for_approval', 'approved', 'rejected', 'ended']);
             $table->boolean('supervisor_approval')->default(false);
             $table->boolean('admin_approval')->default(false);
+            $table->integer('number_of_days')->nullable();
             $table->timestamps();
         });
     }

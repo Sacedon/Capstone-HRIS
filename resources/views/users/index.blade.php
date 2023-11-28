@@ -94,6 +94,27 @@
                     @endif
                 </div>
 
+                <form action="{{ route('users.index') }}" method="GET" class="flex items-center">
+                    @csrf
+
+                    <!-- Other search inputs -->
+
+                    <div class="relative">
+                        <select
+                            name="gender"
+                            id="gender"
+                            class="dropdown"
+                        >
+                            <option value="">All Genders</option>
+                            <option value="male" @if($selectedGender && $selectedGender == 'male') selected @endif>Male</option>
+                            <option value="female" @if($selectedGender && $selectedGender == 'female') selected @endif>Female</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ml-3">Filter</button>
+                </form>
+
+
 
 
                 <div class="overflow-x-auto mt-6">
