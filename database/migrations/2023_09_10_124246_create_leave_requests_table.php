@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('end_date');
             $table->string('reason');
             $table->string('other_reason');
+            $table->string('educational_reason');
             $table->text('rejection_reason')->nullable();
             $table->string('leave_type');
             $table->enum('status', ['pending_supervisor', 'recommend_for_approval', 'approved', 'rejected', 'ended']);

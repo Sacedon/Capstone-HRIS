@@ -72,15 +72,20 @@ class LeaveRequestController extends Controller
         'end_date' => 'required|date|after:start_date',
         'reason' => 'required|array',
         'other_reason' => 'required|string|max:255',
-        'leave_type' => 'required|in:vacation,sick,personal,fiesta,birthday',
+        'leave_type' => 'required|string|max:255',
+        'educational_reason' => 'required|string|max:255',
     ]);
 
     $reason = implode(', ', $request->input('reason'));
 
-    $startDate = new \DateTime($request->input('start_date'));
-    $endDate = new \DateTime($request->input('end_date'));
-    $interval = $startDate->diff($endDate);
-    $number_of_days = $interval->format('%a') + 1;
+    $educationalReason = $request->input('educational_reason');
+
+    if ($educationalReason === 'other') {
+        $request->validate([
+            'other_educational_reason' => 'required|string|max:255',
+        ]);
+        $educationalReason = $request->input('other_educational_reason');
+    }
 
 
     LeaveRequest::create([
@@ -88,10 +93,10 @@ class LeaveRequestController extends Controller
         'start_date' => $request->input('start_date'),
         'end_date' => $request->input('end_date'),
         'reason' => $reason,
+        'educational_reason' => $educationalReason,
         'other_reason' => $request->input('other_reason'),
         'status' => 'pending_supervisor',
-        'leave_type' => $request->input('leave_type'),
-        'number_of_days' => $number_of_days,
+        'leave_type' => $request->input('leave_type')
     ]);
 
     $department = $user->department;

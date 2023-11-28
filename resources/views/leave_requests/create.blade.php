@@ -16,14 +16,57 @@
                 <div class="mb-4">
                     <label for="leave_type" class="block text-sm font-medium text-gray-700">Leave Type:</label>
                     <select name="leave_type" id="leave_type" required
-                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                        <option value="vacation">Vacation</option>
-                        <option value="sick">Sick</option>
-                        <option value="personal">Personal</option>
-                        <option value="fiesta">Fiesta</option>
-                        <option value="birthday">Birthday</option>
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" onchange="showAdditionalOptions()">
+                        <option value="vacation">Vacation Leave</option>
+                        <option value="sick">Sick Leave</option>
+                        <option value="personal">Personal Leave</option>
+                        <option value="fiesta">Fiesta Leave</option>
+                        <option value="birthday">Birthday Leave</option>
+                        <option value="maternity">Maternity Leave</option>
+                        <option value="paternity">Paternity Leave</option>
+                        <option value="educational">Educational Leave</option>
                     </select>
                 </div>
+
+                <div id="additionalOptions" style="display: none;">
+                    <!-- Add your additional choices here -->
+                    <label for="educational_reason" class="block text-sm font-medium text-gray-700">Educational Reason:</label>
+                    <select name="educational_reason" id="educational_reason"
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" onchange="showAdditionalOptions()">
+                        <option value="Completion of Doctor's Degree">Completion of Doctor's Degree</option>
+                        <option value="Completion of Master's Degree">Completion of Master's Degree</option>
+                        <option value="Board Examination Review">Board Examination Review</option>
+                        <option value="other">Other</option> <!-- Added "Other" option -->
+                    </select>
+
+                    <!-- Additional input field for "Other" option -->
+                    <div id="otherEducationalReason" style="display: none;">
+                        <label for="other_educational_reason" class="block text-sm font-medium text-gray-700">Specify Other Reason:</label>
+                        <input type="text" id="other_educational_reason" name="other_educational_reason"
+                               class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
+                </div>
+
+                <script>
+                    function showAdditionalOptions() {
+                        var leaveType = document.getElementById('leave_type').value;
+                        var additionalOptions = document.getElementById('additionalOptions');
+                        var otherEducationalReason = document.getElementById('otherEducationalReason');
+
+                        if (leaveType === 'educational') {
+                            additionalOptions.style.display = 'block';
+                        } else {
+                            additionalOptions.style.display = 'none';
+                        }
+
+                        var educationalReason = document.getElementById('educational_reason');
+                        if (leaveType === 'educational' && educationalReason.value === 'other') {
+                            otherEducationalReason.style.display = 'block';
+                        } else {
+                            otherEducationalReason.style.display = 'none';
+                        }
+                    }
+                </script>
 
                 <div class="mb-4" id="reason-container" style="display: none;">
                     <!-- Initially hidden, will be shown only when "Sick" is selected -->

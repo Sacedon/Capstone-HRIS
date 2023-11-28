@@ -32,13 +32,20 @@
                         <dt class="text-gray-600">Reason:</dt>
                         @if ($leaveRequest->leave_type === 'sick')
                             <dd>{{ $leaveRequest->reason }}</dd>
+                        @elseif ($leaveRequest->leave_type === 'educational')
+                            <dd>{{ $leaveRequest->educational_reason }}</dd>
                         @else
                             <dd>{{ $leaveRequest->other_reason }}</dd>
                         @endif
 
                         @if ($leaveRequest->leave_type === 'sick' && !empty($leaveRequest->other_reason))
-                        <dt class="text-gray-600">Explanation of your Leave:</dt>
-                        <dd>{{ $leaveRequest->other_reason }}</dd>
+                            <dt class="text-gray-600">Explanation of your Leave:</dt>
+                            <dd>{{ $leaveRequest->other_reason }}</dd>
+                        @endif
+
+                        @if ($leaveRequest->leave_type === 'educational' && !empty($leaveRequest->other_reason))
+                            <dt class="text-gray-600">Explanation of your Leave:</dt>
+                            <dd>{{ $leaveRequest->other_reason }}</dd>
                         @endif
                     </div>
                     <div class="mb-2">
