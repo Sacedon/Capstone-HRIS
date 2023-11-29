@@ -78,6 +78,15 @@ class LeaveRequestController extends Controller
 
     $reason = implode(', ', $request->input('reason'));
 
+    $leaveType = $request->input('leave_type');
+
+    if ($leaveType === 'other_leave') {
+        $request->validate([
+            'other_leave_type' => 'required|string|max:255',
+        ]);
+        $leaveType = $request->input('other_leave_type');
+    }
+
     $educationalReason = $request->input('educational_reason');
 
     if ($educationalReason === 'other') {

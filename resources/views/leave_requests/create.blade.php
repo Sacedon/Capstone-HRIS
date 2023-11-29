@@ -25,8 +25,11 @@
                         <option value="maternity">Maternity Leave</option>
                         <option value="paternity">Paternity Leave</option>
                         <option value="educational">Educational Leave</option>
+
                     </select>
                 </div>
+
+
 
                 <div id="additionalOptions" style="display: none;">
                     <!-- Add your additional choices here -->
