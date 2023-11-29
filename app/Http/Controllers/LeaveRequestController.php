@@ -78,14 +78,6 @@ class LeaveRequestController extends Controller
 
     $reason = implode(', ', $request->input('reason'));
 
-    $leaveType = $request->input('leave_type');
-
-    if ($leaveType === 'other_leave') {
-        $request->validate([
-            'other_leave_type' => 'required|string|max:255',
-        ]);
-        $leaveType = $request->input('other_leave_type');
-    }
 
     $educationalReason = $request->input('educational_reason');
 
@@ -96,6 +88,16 @@ class LeaveRequestController extends Controller
         $educationalReason = $request->input('other_educational_reason');
     }
 
+    $leaveType = $request->input('leave_type');
+if ($leaveType === 'other') {
+    $leaveType = $request->input('other_leave_type');
+}
+
+    $startDate = new \DateTime($request->input('start_date'));
+    $endDate = new \DateTime($request->input('end_date'));
+    $interval = $startDate->diff($endDate);
+    $number_of_days = $interval->format('%a') + 1;
+
 
     LeaveRequest::create([
         'user_id' => $user->id,
@@ -105,7 +107,8 @@ class LeaveRequestController extends Controller
         'educational_reason' => $educationalReason,
         'other_reason' => $request->input('other_reason'),
         'status' => 'pending_supervisor',
-        'leave_type' => $request->input('leave_type')
+        'leave_type' => $leaveType,
+        'number_of_days' => $number_of_days,
     ]);
 
     $department = $user->department;

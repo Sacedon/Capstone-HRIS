@@ -16,7 +16,7 @@
                 <div class="mb-4">
                     <label for="leave_type" class="block text-sm font-medium text-gray-700">Leave Type:</label>
                     <select name="leave_type" id="leave_type" required
-                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" onchange="showAdditionalOptions()">
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" onchange="showAdditionalOptions(); toggleOtherInput();">
                         <option value="vacation">Vacation Leave</option>
                         <option value="sick">Sick Leave</option>
                         <option value="personal">Personal Leave</option>
@@ -25,9 +25,28 @@
                         <option value="maternity">Maternity Leave</option>
                         <option value="paternity">Paternity Leave</option>
                         <option value="educational">Educational Leave</option>
-
+                        <option value="other">Other</option>
                     </select>
                 </div>
+
+                <div id="otherInput" class="mb-4 hidden">
+                    <label for="other_leave_type" class="block text-sm font-medium text-gray-700">Other Leave Type:</label>
+                    <input type="text" id="other_leave_type" name="other_leave_type"
+                           class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                </div>
+
+                <script>
+                    function toggleOtherInput() {
+                        var leaveTypeSelect = document.getElementById('leave_type');
+                        var otherInput = document.getElementById('otherInput');
+
+                        if (leaveTypeSelect.value === 'other') {
+                            otherInput.classList.remove('hidden');
+                        } else {
+                            otherInput.classList.add('hidden');
+                        }
+                    }
+                </script>
 
 
 
