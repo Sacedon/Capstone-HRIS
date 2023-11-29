@@ -12,6 +12,7 @@ use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\ChildController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EducationalBackgroundController;
+use App\Http\Controllers\CalendarController;
 
 
 
@@ -50,6 +51,14 @@ Route::middleware('auth')->group(function () {
 
 
 });
+
+Route::middleware('auth')->group(function () {
+    Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar');
+Route::post('/createevent',[CalendarController::class, 'createEvent'])->name('createevent');
+Route::post('/deleteevent',[CalendarController::class, 'deleteEvent'])->name('deleteevent');
+
+});
+
 
 // Login Routes
 

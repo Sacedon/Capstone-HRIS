@@ -98,6 +98,15 @@
     </x-sidebar.link>
     @endif
 
+    <x-sidebar.link
+    title="Calendar of Events"
+    href="{{ route('calendar') }}" {{-- Update the route name --}}
+    :isActive="request()->routeIs('calendar')" {{-- Update the route name --}}
+>
+    <x-slot name="icon">
+        <x-icons.records class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+    </x-slot>
+</x-sidebar.link>
 
 
 
