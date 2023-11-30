@@ -56,6 +56,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar');
 Route::post('/createevent',[CalendarController::class, 'createEvent'])->name('createevent');
 Route::post('/deleteevent',[CalendarController::class, 'deleteEvent'])->name('deleteevent');
+Route::post('/addReminder', [CalendarController::class, 'addReminder'])->name('addReminder');
+Route::post('/deletereminder', [CalendarController::class, 'deleteReminder'])->name('deleteReminder');
 
 });
 

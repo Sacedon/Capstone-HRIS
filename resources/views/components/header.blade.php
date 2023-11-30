@@ -1,5 +1,5 @@
 <div class="text-white">
-    <div class="container mx-auto py-4">
+    <div class="mx-auto py-4">
         <div class="flex items-center justify-between">
             <!-- Logo and Profile Picture -->
             <div class="flex items-center">
