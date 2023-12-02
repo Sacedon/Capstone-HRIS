@@ -20,7 +20,7 @@ class CalendarController extends Controller
 
             // Get events
             $events = Event::whereDate('start', '>=', $start)->whereDate('end', '<=', $end)
-                ->get(['id', 'title', 'start', 'end']);
+                ->get(['id', 'title', 'start', 'end', 'color']);
 
 
 
@@ -40,7 +40,7 @@ class CalendarController extends Controller
     public function createEvent(Request $request)
     {
         $data = $request->except('_token');
-        $events = Event::insert($data);
+        $events = Event::create($data);
         return response()->json($events);
     }
 
