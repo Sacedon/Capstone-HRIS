@@ -24,7 +24,6 @@ class CalendarController extends Controller
 
 
 
-
             return response()->json($events);
         }
 
@@ -36,21 +35,7 @@ class CalendarController extends Controller
         return view('calendar', ['userRole' => $userRole]);
     }
 
-    protected function notifyUsersForEventDay($events)
-    {
-        $today = Carbon::now()->startOfDay();
 
-        $dayEvents = $events->filter(function ($event) use ($today) {
-            return $event->start->isToday();
-        });
-
-        if ($dayEvents->isNotEmpty()) {
-            $user = Auth::user();
-
-            // Notify the authenticated user for the event day
-            Notification::send($user, new EventNotification($dayEvents, 'Events for today'));
-        }
-    }
 
     public function createEvent(Request $request)
     {
