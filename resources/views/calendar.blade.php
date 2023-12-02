@@ -8,9 +8,6 @@
     </x-slot>
 
     <div class="">
-        <!-- Add Reminder Button -->
-        <button class="btn btn-primary mb-5" data-toggle="modal" data-target="#addReminderModal">Add Reminder</button>
-
         <!-- Calendar Panel -->
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -19,37 +16,6 @@
             <div class="panel-body">
                 <!-- Calendar Container -->
                 <div id='calendar'></div>
-
-                <!-- Add Reminder Modal -->
-                <div class="modal fade" id="addReminderModal" tabindex="-1" role="dialog" aria-labelledby="addReminderModalLabel">
-                    <!-- Modal Dialog -->
-                    <div class="modal-dialog" role="document">
-                        <!-- Modal Content -->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title" id="addReminderModalLabel">Add Reminder</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <!-- Reminder Form -->
-                                <form id="reminderForm">
-                                    <div class="form-group">
-                                        <label for="reminderTitle">Title:</label>
-                                        <input type="text" class="form-control" id="reminderTitle" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="reminderDate">Date:</label>
-                                        <input type="date" class="form-control" id="reminderDate" required>
-                                    </div>
-                                    <button type="submit" class="btn btn-success">Add Reminder</button>
-                                </form>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -106,71 +72,50 @@
                 },
                 eventClick: function (event) {
                     if (userRole === 'admin') {
-                        var deleteMsg = confirm("Do you really want to delete this Event?");
-                        if (deleteMsg) {
-                            $.ajax({
-                                type: "POST",
-                                url: "{{ URL::to('deleteevent') }}",
-                                data: "&id=" + event.id + '&_token=' + "{{ csrf_token() }}",
-                                success: function (response) {
-                                    if (parseInt(response) > 0) {
-                                        calendar.fullCalendar('removeEvents', event.id);
-                                        alert("Deleted Successfully");
+                        var action = prompt("Do you want to edit (e) or delete (d) this Event?");
+
+                        if (action === 'e') {
+                            // Edit event title
+                            var editTitle = prompt('Edit Event Title:', event.title);
+                            if (editTitle !== null) {
+                                // Update the event title
+                                event.title = editTitle;
+                                // Send the updated data to the server
+                                $.ajax({
+                                    type: "POST",
+                                    url: "{{ URL::to('updateevent') }}",
+                                    data: {
+                                        id: event.id,
+                                        title: editTitle,
+                                        _token: "{{ csrf_token() }}"
+                                    },
+                                    success: function (response) {
+                                        alert("Updated Successfully");
+                                        calendar.fullCalendar('updateEvent', event);
                                     }
-                                }
-                            });
+                                });
+                            }
+                        } else if (action === 'd') {
+                            var deleteMsg = confirm("Do you really want to delete this Event?");
+                            if (deleteMsg) {
+                                // Send the delete request to the server
+                                $.ajax({
+                                    type: "POST",
+                                    url: "{{ URL::to('deleteevent') }}",
+                                    data: "&id=" + event.id + '&_token=' + "{{ csrf_token() }}",
+                                    success: function (response) {
+                                        if (parseInt(response) > 0) {
+                                            calendar.fullCalendar('removeEvents', event.id);
+                                            alert("Deleted Successfully");
+                                        }
+                                    }
+                                });
+                            }
                         }
                     } else {
-                        alert("You do not have the necessary permissions to delete events.");
+                        alert("You do not have the necessary permissions to edit or delete events.");
                     }
                 },
-            });
-
-            // Initialize Reminder form submission
-            $('#reminderForm').submit(function (e) {
-                e.preventDefault();
-
-                // Get values from the form
-                var title = $('#reminderTitle').val();
-                var date = $('#reminderDate').val();
-
-                // Add Reminder to the calendar
-                var eventData = {
-                    title: title,
-                    start: date,
-                    allDay: true
-                };
-
-
-                // Close the modal
-                $('#addReminderModal').modal('hide');
-
-
-                // Send the data to the server
-                $.ajax({
-                    url: "{{ route('addReminder') }}",
-                    type: "post",
-                    data: {
-                        title: title,
-                        start: date,
-                        _token: "{{ csrf_token() }}"
-                    },
-                    success: function (response) {
-                        alert(response.message);
-
-                        location.reload();
-                    },
-                    error: function (error) {
-                        console.error(error);
-                        alert('An error occurred while adding the reminder.');
-                    }
-                });
-            });
-
-            // Close the modal when it is hidden
-            $('#addReminderModal').on('hidden.bs.modal', function () {
-                // Clear the form on modal close
-                $('#reminderForm')[0].reset();
             });
         });
     </script>

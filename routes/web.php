@@ -58,6 +58,7 @@ Route::post('/createevent',[CalendarController::class, 'createEvent'])->name('cr
 Route::post('/deleteevent',[CalendarController::class, 'deleteEvent'])->name('deleteevent');
 Route::post('/addReminder', [CalendarController::class, 'addReminder'])->name('addReminder');
 Route::post('/deletereminder', [CalendarController::class, 'deleteReminder'])->name('deleteReminder');
+Route::post('/updateevent', [CalendarController::class, 'updateEvent'])->name('updateevent');
 
 });
 

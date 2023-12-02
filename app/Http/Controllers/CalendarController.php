@@ -4,35 +4,53 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Event;
-use App\Models\Reminder;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\EventNotification;
+use Illuminate\Support\Facades\Notification;
+use App\Models\User;
+
 
 class CalendarController extends Controller
 {
     public function index()
-{
-    if (request()->ajax()) {
-        $start = (!empty($_GET["start"])) ? ($_GET["start"]) : ('');
-        $end = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
+    {
+        if (request()->ajax()) {
+            $start = (!empty($_GET["start"])) ? ($_GET["start"]) : ('');
+            $end = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
 
-        // Get events
-        $events = Event::whereDate('start', '>=', $start)->whereDate('end', '<=', $end)
-            ->get(['id', 'title', 'start', 'end']);
+            // Get events
+            $events = Event::whereDate('start', '>=', $start)->whereDate('end', '<=', $end)
+                ->get(['id', 'title', 'start', 'end']);
 
-        // Get reminders
-        $reminders = Reminder::whereDate('start', '>=', $start)->whereDate('start', '<=', $end)
-            ->get(['id', 'title', 'start']);
 
-        // Combine events and reminders
-        $allData = $events->concat($reminders);
 
-        return response()->json($allData);
+
+            return response()->json($events);
+        }
+
+
+
+        $userRole = Auth::user()->role;
+
+
+        return view('calendar', ['userRole' => $userRole]);
     }
 
-    $userRole = Auth::user()->role;
+    protected function notifyUsersForEventDay($events)
+    {
+        $today = Carbon::now()->startOfDay();
 
-    return view('calendar', ['userRole' => $userRole]);
-}
+        $dayEvents = $events->filter(function ($event) use ($today) {
+            return $event->start->isToday();
+        });
+
+        if ($dayEvents->isNotEmpty()) {
+            $user = Auth::user();
+
+            // Notify the authenticated user for the event day
+            Notification::send($user, new EventNotification($dayEvents, 'Events for today'));
+        }
+    }
 
     public function createEvent(Request $request)
     {
@@ -47,28 +65,25 @@ class CalendarController extends Controller
         return $event->delete();
     }
 
-    public function addReminder(Request $request)
+    public function updateEvent(Request $request)
     {
         // Validate the request
         $request->validate([
+            'id' => 'required|exists:events,id',
             'title' => 'required',
-            'start' => 'required|date',
         ]);
 
-        // Create a new reminder in your database
-        $reminder = new Reminder;
-        $reminder->title = $request->input('title');
-        $reminder->start = $request->input('start');
-        $reminder->save();
+        // Find the event
+        $event = Event::find($request->id);
+
+        // Update event details
+        $event->title = $request->title;
+        // Add more fields to update if needed
+
+        // Save the changes
+        $event->save();
 
         // You can return a response if needed
-        return response()->json(['message' => 'Reminder added successfully']);
+        return response()->json(['message' => 'Event updated successfully']);
     }
-
-    public function deleteReminder(Request $request)
-    {
-        $reminder = Reminder::find($request->id);
-        return $reminder->delete();
-    }
-
 }
