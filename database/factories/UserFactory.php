@@ -5,9 +5,11 @@ namespace Database\Factories;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use App\Models\Department;
 
 class UserFactory extends Factory
 {
+
     /**
      * The name of the factory's corresponding model.
      *
@@ -22,6 +24,7 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $department = Department::inRandomOrder()->first();
         return [
             'username' => $this->faker->userName,
             'surname' => $this->faker->lastName,
@@ -113,9 +116,8 @@ class UserFactory extends Factory
             'graduate_highest_level' => $this->faker->sentence,
             'graduate_year_graduated' => $this->faker->date,
             'graduate_honors' => $this->faker->sentence,
-
-
             'date' => $this->faker->date,
+            'department_id' => $department->id,
         ];
     }
 

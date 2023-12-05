@@ -63,7 +63,24 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                 <h1 class="text-2xl font-semibold mb-4">List of Department Employees</h1>
 
-
+                @if (auth()->user()->role === 'admin')
+                    <form action="{{ route('employee-users.index') }}" method="GET" class="flex items-center">
+                        @csrf
+                        <div class="relative">
+                            <select
+                                name="department_id"
+                                id="department_id"
+                                class="dropdown"
+                            >
+                                <option value="">All Departments</option>
+                                @foreach ($departments as $dept)
+                                    <option value="{{ $dept->id }}" @if($selectedDepartment && $selectedDepartment->id == $dept->id) selected @endif>{{ $dept->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <button type="submit" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ml-3">Filter</button>
+                    </form>
+                @endif
 
                 @if ($users->isEmpty())
                     <p class="text-gray-500">No users found in the department.</p>
@@ -79,19 +96,25 @@
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach ($users as $user)
-                                    @if ($user->role != 'admin' && $user->role != 'supervisor')
-                                        <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap">{{ $user->first_name }} {{ $user->last_name }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">{{ $user->department->name }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $user->first_name }} {{ $user->last_name }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            @if ($user->department)
+                                                {{ $user->department->name }}
+                                            @else
+                                                No Department
+                                            @endif
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+
                                                 <form method="POST" action="{{ route('user.delete', $user->id) }}">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
                                                 </form>
-                                            </td>
-                                        </tr>
-                                    @endif
+
+                                        </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>

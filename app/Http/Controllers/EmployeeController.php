@@ -13,18 +13,35 @@ class EmployeeController extends Controller
     $departments = Department::all();
     $selectedDepartment = null;
 
-    // Check if the logged-in user is a supervisor
-    if (auth()->user()->role === 'supervisor') {
-        $departmentId = auth()->user()->department_id;
-        $selectedDepartment = Department::find($departmentId);
-
-        $users = User::with('department')->where('department_id', $departmentId)->get();
+    // Check if the logged-in user is an admin
+    if (auth()->user()->role === 'admin') {
+        $query = User::with('department')->where('role', 'employee');
     } else {
-        $users = User::with('department')->get();
+        // If not an admin, check if the user is a supervisor
+        if (auth()->user()->role === 'supervisor') {
+            $departmentId = auth()->user()->department_id;
+            $selectedDepartment = Department::find($departmentId);
+
+            $query = User::with('department')
+                ->where('department_id', $departmentId)
+                ->where('role', 'employee');
+        } else {
+            // For other roles, return an error or redirect as needed
+            abort(403, 'Unauthorized action.');
+        }
     }
+
+    // Filter by department if selected
+    if ($request->has('department_id') && $request->input('department_id')) {
+        $query->where('department_id', $request->input('department_id'));
+    }
+
+    $users = $query->get();
 
     return view('employee-users.index', compact('users', 'departments', 'selectedDepartment'));
 }
+
+
 
 public function deleteUser($id)
 {

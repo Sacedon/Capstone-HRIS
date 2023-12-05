@@ -257,8 +257,6 @@ public function update(Request $request, User $user)
             'graduate_highest_level' => 'nullable|string|max:255',
             'graduate_year_graduated' => 'nullable|date',
             'graduate_honors' => 'nullable|string|max:255',
-
-            'signature' => 'nullable|string',
             'date' => 'nullable|date',
     ]);
 
